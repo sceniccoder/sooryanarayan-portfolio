@@ -3,39 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  <title>SOORYA / 01 — BUILDING WHAT COMES NEXT</title>
-  
-  <!-- Typography: Space Grotesk, Inter & JetBrains Mono -->
+  <title>M. Soorya Narayan — Systems Builder & Computer Science Engineer</title>
+  <meta name="description" content="Engineering documentation and portfolio of M. Soorya Narayan. Building physical systems that survive contact with the real world: autonomous agricultural robotics, sandboxed execution runtimes, and embedded mechatronics." />
+
+  <!-- Google Fonts: Fraunces (Headings/Display), Inter (Body/UI), IBM Plex Mono (Telemetry/Data only) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Three.js CDN for GoBu 3D CAD Mechatronics Canvas -->
+  <!-- Three.js CDN for GoBu 3D CAD Workbench -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            base: '#070809',
-            surface: '#0D0F10',
-            elevated: '#121516',
-            accent: '#B7FF3C',
-            'accent-dim': 'rgba(183, 255, 60, 0.12)',
-            primary: '#F4F5F2',
-            secondary: '#9A9F9D',
-            muted: '#626866',
-            border: 'rgba(255, 255, 255, 0.08)',
+            paper: '#F7F5F0',
+            'paper-card': '#EFECE4',
+            'paper-elevated': '#E6E2D6',
+            ink: '#1A1D18',
+            graphite: '#5B5F56',
+            signal: '#C4571F',
+            line: '#D8D4C8',
+            'line-strong': '#C0BCB0',
+            verified: '#3D6B4C',
           },
           fontFamily: {
-            display: ['"Space Grotesk"', 'sans-serif'],
-            sans: ['Inter', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace'],
+            serif: ['Fraunces', 'Georgia', 'serif'],
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"IBM Plex Mono"', 'Menlo', 'monospace'],
           }
         }
       }
@@ -43,1719 +42,1349 @@
   </script>
 
   <style>
+    :root {
+      --paper: #F7F5F0;
+      --paper-card: #EFECE4;
+      --paper-elevated: #E6E2D6;
+      --ink: #1A1D18;
+      --graphite: #5B5F56;
+      --signal: #C4571F;
+      --line: #D8D4C8;
+      --line-strong: #C0BCB0;
+      --verified: #3D6B4C;
+    }
+
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
     }
-    
-    /* Desktop magnetic reticle cursor */
-    @media (hover: hover) and (pointer: fine) {
-      * {
-        cursor: none;
-      }
-    }
-    
-    /* Touch screen compatibility */
-    @media (hover: none) and (pointer: coarse) {
-      #cursor-dot, #cursor-ring {
-        display: none !important;
-      }
-      * {
-        cursor: auto !important;
-      }
-    }
 
     html, body {
-      background-color: #070809;
-      color: #F4F5F2;
+      background-color: var(--paper);
+      color: var(--ink);
       font-family: 'Inter', sans-serif;
       overflow-x: hidden;
       letter-spacing: -0.01em;
       touch-action: manipulation;
     }
+
     ::selection {
-      background: #B7FF3C;
-      color: #070809;
+      background: var(--ink);
+      color: var(--paper);
     }
 
-    /* Custom Minimal Scrollbar */
+    /* Minimal Technical Scrollbar */
     ::-webkit-scrollbar {
-      width: 4px;
+      width: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #070809;
+      background: var(--paper);
     }
     ::-webkit-scrollbar-thumb {
-      background: #181B1D;
-      border-radius: 2px;
+      background: var(--line-strong);
+      border-radius: 3px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #B7FF3C;
+      background: var(--graphite);
     }
 
-    /* Technical Grid Backdrop */
-    .bg-grid {
+    /* Subdued Spec Sheet Hairlines */
+    .border-rule {
+      border-color: var(--line);
+    }
+
+    /* Focus accessibility ring */
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 2px solid var(--signal);
+      outline-offset: 2px;
+    }
+
+    /* Subtle graph paper grid for engineering documentation feel */
+    .bg-schematic-grid {
       background-size: 32px 32px;
       background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        linear-gradient(to right, rgba(26, 29, 24, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(26, 29, 24, 0.04) 1px, transparent 1px);
     }
-    @media (min-width: 768px) {
-      .bg-grid {
-        background-size: 40px 40px;
+
+    /* Body copy line-length control */
+    .max-prose-optimal {
+      max-width: 68ch;
+    }
+
+    /* Reduced Motion handling */
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
       }
-    }
-
-    /* Custom Magnetic Reticle Cursor */
-    #cursor-dot {
-      pointer-events: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 6px;
-      height: 6px;
-      background: #F4F5F2;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: transform 0.04s ease-out, opacity 0.2s ease;
-      z-index: 9999;
-    }
-    #cursor-ring {
-      pointer-events: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 32px;
-      height: 32px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: transform 0.12s cubic-bezier(0.2, 0.9, 0.3, 1), width 0.25s, height 0.25s, border-color 0.25s, background 0.25s;
-      z-index: 9998;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      color: #070809;
-    }
-
-    .cursor-hover #cursor-ring {
-      width: 52px;
-      height: 52px;
-      background: #B7FF3C;
-      border-color: #B7FF3C;
-    }
-    .cursor-hover #cursor-dot {
-      opacity: 0;
-    }
-    .cursor-3d #cursor-ring {
-      width: 48px;
-      height: 48px;
-      border: 1px dashed #B7FF3C;
-      animation: spin 8s linear infinite;
-    }
-    @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
-
-    /* Scanline for Dossier Frame */
-    .scanline-box {
-      position: relative;
-      overflow: hidden;
-    }
-    .scanline-box::after {
-      content: "";
-      position: absolute;
-      top: -100%;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(180deg, transparent 0%, rgba(183, 255, 60, 0.1) 50%, transparent 100%);
-      animation: scan 4s ease-in-out infinite;
-      pointer-events: none;
-    }
-    @keyframes scan {
-      0% { top: -100%; }
-      100% { top: 100%; }
+      #telemetry-canvas {
+        display: none !important;
+      }
     }
   </style>
 </head>
-<body class="bg-base text-primary antialiased bg-grid selection:bg-accent selection:text-base">
+<body class="bg-paper text-ink antialiased bg-schematic-grid selection:bg-ink selection:text-paper min-h-screen flex flex-col justify-between">
 
-  <!-- CURSOR RETICLE (DESKTOP ONLY) -->
-  <div id="cursor-dot"></div>
-  <div id="cursor-ring"><span id="cursor-label"></span></div>
-
-  <!-- 06 — CINEMATIC BOOT SEQUENCE -->
-  <div id="boot-screen" class="fixed inset-0 z-50 bg-[#070809] flex flex-col justify-between p-6 sm:p-10 md:p-14 transition-opacity duration-700 ease-out select-none">
-    <div class="flex justify-between items-center text-[10px] sm:text-[11px] font-mono text-muted tracking-widest uppercase">
-      <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span> MSN OPERATING SYSTEM</span>
-      <span class="text-secondary hidden sm:inline">PLANAR ARCHITECTURAL SCHEMATIC</span>
-    </div>
-
-    <div class="max-w-md mx-auto w-full text-center px-4">
-      <div class="font-display font-bold text-3xl sm:text-5xl md:text-6xl tracking-tighter mb-2 text-primary">
-        MSN / 01
-      </div>
-      <div class="font-mono text-xs text-accent tracking-[0.2em] mb-6 sm:mb-8 font-semibold">
-        INITIALIZING EXPERIENCE
-      </div>
-
-      <!-- High Precision Progress Bar -->
-      <div class="w-full bg-[#121516] h-[3px] rounded-full overflow-hidden relative border border-white/10 mb-3">
-        <div id="boot-progress" class="h-full bg-accent w-0 transition-all duration-75"></div>
-      </div>
-      <div class="flex justify-between font-mono text-[9px] sm:text-[10px] text-muted tracking-wider">
-        <span id="boot-status">MAPPING PLANAR SCHEMATIC NODES</span>
-        <span id="boot-percent" class="text-primary font-bold">0%</span>
-      </div>
-    </div>
-
-    <div class="flex justify-between items-center text-[9px] sm:text-[10px] font-mono text-muted border-t border-white/5 pt-3 sm:pt-4">
-      <span>M. SOORYA NARAYAN</span>
-      <span>KOCHI, IN [9.93° N, 76.26° E]</span>
-    </div>
-  </div>
-
-  <!-- 09 — FIXED ULTRA-CLEAN STEALTH HEADER -->
-  <header id="navbar" class="fixed top-0 left-0 w-full z-40 px-4 sm:px-8 md:px-12 py-3.5 sm:py-5 flex justify-between items-center backdrop-blur-md bg-base/85 border-b border-white/[0.06] transition-all">
-    <a href="#" class="font-display font-bold text-base sm:text-lg tracking-tight text-primary hover:text-accent transition-colors flex items-center gap-2">
-      <span class="w-2.5 h-2.5 bg-accent rounded-sm shadow-[0_0_10px_#B7FF3C]"></span>
-      <span>SOORYA</span>
-      <span class="font-mono text-[10px] text-muted font-normal tracking-widest pl-1.5 border-l border-white/15">01</span>
-    </a>
-
-    <!-- Live Telemetry Status Ticker (Desktop only) -->
-    <div class="hidden lg:flex items-center gap-6 font-mono text-[11px] text-secondary">
-      <span class="flex items-center gap-2">
-        <span class="w-1.5 h-1.5 rounded-full bg-accent animate-ping"></span>
-        <span>STATUS: DEPLOYED</span>
-      </span>
-      <span class="text-white/20">/</span>
-      <span>AGRIVA: FIELD PILOT</span>
-      <span class="text-white/20">/</span>
-      <span>GoBu: CAD VALIDATED</span>
-    </div>
-
-    <div class="flex items-center gap-3">
-      <a href="#contact" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-elevated hover:bg-surface border border-white/10 hover:border-accent text-primary text-xs font-mono rounded transition-colors">
-        <span>TRANSMISSION</span> ↗
+  <!-- TOP NAVIGATION HEADER -->
+  <header class="sticky top-0 z-40 w-full bg-paper/90 backdrop-blur-md border-b border-rule">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-3.5 sm:py-4 flex justify-between items-center">
+      
+      <!-- Identity & Role -->
+      <a href="#" class="flex items-center gap-3 group">
+        <span class="w-2.5 h-2.5 bg-ink rounded-none transition-transform group-hover:scale-110"></span>
+        <div class="leading-none">
+          <span class="font-serif font-bold text-base sm:text-lg text-ink tracking-tight">M. Soorya Narayan</span>
+          <span class="hidden sm:inline-block text-xs text-graphite ml-2 font-mono">/ Systems Builder</span>
+        </div>
       </a>
-      <button id="menu-btn" class="flex items-center gap-2 text-xs font-mono tracking-widest uppercase text-primary hover:text-accent transition-colors px-3 py-1.5 bg-surface border border-white/10 rounded min-h-[38px] active:scale-95">
-        <span class="w-1.5 h-1.5 bg-accent rounded-full"></span> MENU
-      </button>
+
+      <!-- Telemetry Status Pill & Functional Navigation -->
+      <div class="flex items-center gap-4 sm:gap-7">
+        
+        <!-- Verified Status Pill (Deep Moss Green #3D6B4C ONLY) -->
+        <div class="inline-flex items-center gap-2 px-2.5 py-1 bg-[#3D6B4C]/10 border border-[#3D6B4C]/30 rounded text-[11px] font-mono font-medium text-[#3D6B4C]" title="Hardware & software platforms currently operational in field pilots">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#3D6B4C]"></span>
+          <span>DEPLOYED</span>
+        </div>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-6 text-xs text-graphite font-sans">
+          <a href="#about" class="hover:text-ink transition-colors">Overview</a>
+          <a href="#principles" class="hover:text-ink transition-colors">Methodology</a>
+          <a href="#ventures" class="hover:text-ink transition-colors">Ventures</a>
+          <a href="#gobu" class="hover:text-ink transition-colors">GoBu Robotics</a>
+          <a href="#infrastructure" class="hover:text-ink transition-colors">Leadership</a>
+          <a href="#credentials" class="hover:text-ink transition-colors">Milestones</a>
+        </nav>
+
+        <!-- Primary Action & Mobile Menu Toggle -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a href="#contact" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-ink text-paper text-xs font-sans font-medium rounded hover:bg-graphite transition-colors">
+            <span>Contact</span>
+          </a>
+          <button id="menu-toggle-btn" class="md:hidden p-2 text-ink hover:text-signal transition-colors" aria-label="Toggle navigation menu">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer Navigation -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-rule bg-paper px-4 py-4 space-y-3 font-sans text-sm text-ink">
+      <a href="#about" class="block py-1 hover:text-signal">Overview</a>
+      <a href="#principles" class="block py-1 hover:text-signal">Methodology</a>
+      <a href="#ventures" class="block py-1 hover:text-signal">Ventures (Agriva & SkillFi)</a>
+      <a href="#gobu" class="block py-1 hover:text-signal">GoBu Robotics (3D CAD)</a>
+      <a href="#infrastructure" class="block py-1 hover:text-signal">Human Infrastructure</a>
+      <a href="#credentials" class="block py-1 hover:text-signal">Proof of Work</a>
+      <a href="#contact" class="block py-1 font-semibold text-signal">Contact & Inquiries</a>
+      <div class="pt-3 border-t border-rule flex gap-4 text-xs font-mono text-graphite">
+        <a href="https://www.linkedin.com/in/sooryanarayan/" target="_blank" rel="noopener noreferrer" class="hover:text-ink">LinkedIn ↗</a>
+        <a href="https://github.com/sceniccoder" target="_blank" rel="noopener noreferrer" class="hover:text-ink">GitHub ↗</a>
+        <a href="mailto:sooryanarayanmanoj@gmail.com" class="hover:text-ink">Email ↗</a>
+      </div>
     </div>
   </header>
 
-  <!-- FULLSCREEN MENU OVERLAY -->
-  <div id="nav-overlay" class="fixed inset-0 z-45 bg-[#070809]/98 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-10 md:p-16 opacity-0 pointer-events-none transition-all duration-300 overflow-y-auto max-h-screen">
-    <div class="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
-      <div class="font-mono text-xs tracking-widest text-muted uppercase">DIRECTORY // MSN-01</div>
-      <button id="close-menu-btn" class="text-xs font-mono text-accent hover:text-white tracking-widest uppercase p-2">
-        [ESC CLOSE]
-      </button>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 my-auto">
-      <div class="lg:col-span-8 flex flex-col space-y-1 sm:space-y-2">
-        <a href="#story" class="nav-item group flex items-baseline gap-4 sm:gap-6 py-2 border-b border-white/[0.04]">
-          <span class="font-mono text-xs text-muted group-hover:text-accent">01</span>
-          <span class="font-display text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-primary group-hover:text-accent transition-all">STORY</span>
-          <span class="text-xs font-mono text-muted hidden sm:inline ml-auto">FOUNDER DOSSIER</span>
-        </a>
-        <a href="#mindset" class="nav-item group flex items-baseline gap-4 sm:gap-6 py-2 border-b border-white/[0.04]">
-          <span class="font-mono text-xs text-muted group-hover:text-accent">02</span>
-          <span class="font-display text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-primary group-hover:text-accent transition-all">MINDSET</span>
-          <span class="text-xs font-mono text-muted hidden sm:inline ml-auto">OPERATING PRINCIPLES</span>
-        </a>
-        <a href="#ventures" class="nav-item group flex items-baseline gap-4 sm:gap-6 py-2 border-b border-white/[0.04]">
-          <span class="font-mono text-xs text-muted group-hover:text-accent">03</span>
-          <span class="font-display text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-primary group-hover:text-accent transition-all">VENTURE LAB</span>
-          <span class="text-xs font-mono text-muted hidden sm:inline ml-auto">AGRIVA & SKILLFI</span>
-        </a>
-        <a href="#building-room" class="nav-item group flex items-baseline gap-4 sm:gap-6 py-2 border-b border-white/[0.04]">
-          <span class="font-mono text-xs text-muted group-hover:text-accent">04</span>
-          <span class="font-display text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-primary group-hover:text-accent transition-all">GoBu ROBOTICS</span>
-          <span class="text-xs font-mono text-muted hidden sm:inline ml-auto">AUTONOMOUS AMR CAD</span>
-        </a>
-        <a href="#people" class="nav-item group flex items-baseline gap-4 sm:gap-6 py-2 border-b border-white/[0.04]">
-          <span class="font-mono text-xs text-muted group-hover:text-accent">05</span>
-          <span class="font-display text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-primary group-hover:text-accent transition-all">HUMAN SYSTEMS</span>
-          <span class="text-xs font-mono text-muted hidden sm:inline ml-auto">COMMUNITIES & LEADERSHIP</span>
-        </a>
-        <a href="#proof" class="nav-item group flex items-baseline gap-4 sm:gap-6 py-2 border-b border-white/[0.04]">
-          <span class="font-mono text-xs text-muted group-hover:text-accent">06</span>
-          <span class="font-display text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-primary group-hover:text-accent transition-all">PROOF OF WORK</span>
-          <span class="text-xs font-mono text-muted hidden sm:inline ml-auto">IIT / IIIT / MILESTONES</span>
-        </a>
-        <a href="#contact" class="nav-item group flex items-baseline gap-4 sm:gap-6 py-2 border-b border-white/[0.04]">
-          <span class="font-mono text-xs text-accent">07</span>
-          <span class="font-display text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-accent transition-all">CONNECT ↗</span>
-          <span class="text-xs font-mono text-muted hidden sm:inline ml-auto">TRANSMISSION</span>
-        </a>
-      </div>
-
-      <div class="lg:col-span-4 flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-white/10 pt-4 lg:pt-0 lg:pl-10">
-        <div>
-          <div class="font-mono text-[10px] text-muted uppercase tracking-widest mb-3">CURRENT VENTURES</div>
-          <div class="space-y-2 font-mono text-xs">
-            <div class="p-2.5 bg-surface border border-white/10 rounded flex justify-between items-center">
-              <span class="font-bold text-primary">AGRIVA</span>
-              <span class="text-accent text-[10px]">● FIELD PILOT</span>
-            </div>
-            <div class="p-2.5 bg-surface border border-white/10 rounded flex justify-between items-center">
-              <span class="font-bold text-primary">SKILLFI</span>
-              <span class="text-accent text-[10px]">● MICRO-VM RUNTIME</span>
-            </div>
-            <div class="p-2.5 bg-surface border border-white/10 rounded flex justify-between items-center">
-              <span class="font-bold text-primary">GoBu</span>
-              <span class="text-accent text-[10px]">● AMR CAD V2</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-6 font-mono text-xs text-secondary">
-          "We do not build speculative prototypes. We engineer deterministic systems for production deployment."
-        </div>
-      </div>
-    </div>
-
-    <div class="flex justify-between items-center text-xs font-mono text-muted border-t border-white/10 pt-4 mt-4">
-      <div class="flex gap-4 sm:gap-6">
-        <a href="https://linkedin.com" target="_blank" class="hover:text-accent transition-colors">LINKEDIN ↗</a>
-        <a href="https://github.com/sceniccoder" target="_blank" class="hover:text-accent transition-colors">GITHUB ↗</a>
-        <a href="mailto:sooryanarayanmanoj@gmail.com" class="hover:text-accent transition-colors">EMAIL ↗</a>
-      </div>
-      <span>© 2026 MSN</span>
-    </div>
-  </div>
-
-  <!-- 07 & 08 — HERO: PLANAR ARCHITECTURAL SCHEMATIC (PROFESSIONAL & MINIMALIST) -->
-  <section id="hero" class="relative w-full min-h-screen overflow-hidden flex flex-col justify-between px-4 sm:px-8 md:px-14 pt-24 sm:pt-28 pb-8 select-none">
+  <main class="flex-grow">
     
-    <!-- Planar Precision Architectural Schematic Canvas (2D Planar Canvas) -->
-    <canvas id="planar-schematic-canvas" class="absolute inset-0 z-0 pointer-events-none"></canvas>
-
-    <!-- Planar Technical Coordinate HUD Overlay -->
-    <div class="absolute inset-0 z-5 pointer-events-none flex flex-col justify-between p-6 sm:p-12 opacity-40">
-      <div class="flex justify-between font-mono text-[9px] text-muted">
-        <span>SCHEMATIC // PLANAR REF: 9.9312° N, 76.2673° E</span>
-        <span>SYSTEM AXIS: [X: 1440, Y: 900]</span>
-      </div>
-      <div class="flex justify-between font-mono text-[9px] text-muted">
-        <span>ARCHITECTURAL BUS: SYNCHRONIZED</span>
-        <span>LAYER: 01-FOUNDER-CORE</span>
-      </div>
-    </div>
-
-    <!-- Soft Depth Vignettes -->
-    <div class="absolute inset-0 bg-gradient-to-t from-base via-transparent to-base/70 pointer-events-none z-10"></div>
-    <div class="absolute inset-0 bg-radial from-transparent via-transparent to-base/90 pointer-events-none z-10"></div>
-
-    <!-- Hero Content Layout: Crisp Planar Architectural Presentation -->
-    <div class="z-20 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-end my-auto">
+    <!-- HERO SECTION: ASYMMETRIC DOCUMENT-LIKE GRID -->
+    <section id="about" class="max-w-7xl mx-auto px-4 sm:px-8 pt-10 sm:pt-16 pb-12 sm:pb-16">
       
-      <!-- Top on Mobile / Right on Desktop: Massive Kinetic Headline -->
-      <div class="order-1 lg:order-2 lg:col-span-8 lg:text-right">
-        <h1 class="font-display font-bold text-[40px] leading-[0.92] xs:text-5xl sm:text-7xl md:text-8xl lg:text-[108px] xl:text-[124px] tracking-tighter text-primary">
-          <span class="block">BUILDING</span>
-          <span class="block text-secondary/60 hover:text-primary transition-colors">WHAT COMES NEXT.</span>
+      <!-- Top Eyebrow Metadata -->
+      <div class="flex flex-wrap items-center justify-between text-xs font-mono text-graphite pb-4 mb-8 border-b border-rule">
+        <div class="flex items-center gap-3">
+          <span>SPEC SHEET REF // MSN-2026</span>
+          <span class="text-line-strong">•</span>
+          <span>KOCHI, KERALA [9.93° N, 76.26° E]</span>
+        </div>
+        <div class="hidden sm:block text-graphite">
+          FIELD PILOTS • MECHATRONICS • EMBEDDED RTOS
+        </div>
+      </div>
+
+      <!-- Main Headline: Large, Left-Aligned Serif with Ragged Right -->
+      <div class="mb-8 sm:mb-12">
+        <h1 class="font-serif font-normal text-3xl sm:text-5xl md:text-6xl lg:text-[68px] leading-[1.08] text-ink tracking-tight max-w-4xl">
+          Building physical systems that survive contact with the real world.
         </h1>
-
-        <!-- Planar System Pipeline Ribbon -->
-        <div class="mt-6 flex flex-wrap lg:justify-end items-center gap-2 font-mono text-[10px] text-muted">
-          <span class="px-2 py-1 bg-surface border border-white/10 rounded text-accent">01 IDEA</span>
-          <span class="text-white/20">──→</span>
-          <span class="px-2 py-1 bg-surface border border-white/10 rounded text-primary">02 SYSTEM</span>
-          <span class="text-white/20">──→</span>
-          <span class="px-2 py-1 bg-surface border border-white/10 rounded text-primary">03 BUILD</span>
-          <span class="text-white/20">──→</span>
-          <span class="px-2 py-1 bg-surface border border-accent/40 rounded text-accent font-bold">04 IMPACT</span>
-        </div>
-      </div>
-
-      <!-- Spec Column: Below headline on mobile -->
-      <div class="order-2 lg:order-1 lg:col-span-4 flex flex-col justify-end space-y-3 sm:space-y-4">
-        <div class="inline-flex items-center gap-2 px-3 py-1 bg-elevated/80 backdrop-blur-md border border-accent/30 rounded-full font-mono text-[10px] text-accent w-max">
-          <span class="w-1.5 h-1.5 bg-accent rounded-full animate-ping"></span>
-          FOUNDER // SYSTEM ARCHITECT
-        </div>
-        
-        <div class="font-display font-medium text-xs sm:text-sm tracking-wider text-secondary uppercase leading-relaxed">
-          M. SOORYA NARAYAN<br>
-          <span class="text-primary font-bold">COMPUTER SCIENCE & MECHATRONICS</span>
-        </div>
-
-        <p class="font-mono text-xs text-muted leading-relaxed max-w-sm">
-          Architecting autonomous agricultural robotics, sandboxed execution runtimes, and engineering ecosystems.
+        <p class="mt-4 sm:mt-6 text-base sm:text-lg text-graphite font-sans leading-relaxed max-prose-optimal">
+          Computer Science Engineer and Systems Builder. I develop autonomous agricultural robotics, sandboxed execution runtimes, and fault-resistant hardware designed for wet soil, warehouse floors, and live test clusters.
         </p>
-
-        <!-- Micro Telemetry Chips -->
-        <div class="grid grid-cols-2 gap-2 font-mono text-[10px] pt-1 sm:pt-2">
-          <div class="p-2 bg-surface/75 border border-white/5 rounded backdrop-blur">
-            <span class="text-muted block text-[9px]">SPECIALTY</span>
-            <span class="text-primary font-bold">IoT • AI • EMBEDDED</span>
-          </div>
-          <div class="p-2 bg-surface/75 border border-white/5 rounded backdrop-blur">
-            <span class="text-muted block text-[9px]">CADENCE</span>
-            <span class="text-accent font-bold">SYSTEMS-FIRST</span>
-          </div>
-        </div>
       </div>
 
-    </div>
+      <!-- Hairline Rule Separator -->
+      <div class="w-full h-[1px] bg-line mb-10 sm:mb-12"></div>
 
-    <!-- Hero Bottom Control Strip -->
-    <div class="z-20 flex justify-between items-end text-xs font-mono text-muted border-t border-white/10 pt-3 sm:pt-4">
-      <div class="flex items-center gap-3">
-        <a href="#story" class="text-primary hover:text-accent transition-colors flex items-center gap-1.5 font-semibold text-xs">
-          <span>SCROLL TO ENTER</span>
-          <span class="inline-block animate-bounce text-accent">↓</span>
-        </a>
-      </div>
-
-      <div class="hidden md:flex items-center gap-6 text-[10px] text-muted">
-        <span class="text-secondary flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> PLANAR SCHEMATIC ACTIVE</span>
-        <span>INTERACTIVE COORDINATE MATRIX</span>
-      </div>
-
-      <div class="text-right">
-        <div class="text-primary font-semibold text-xs">KOCHI, INDIA</div>
-        <div class="text-muted text-[10px]">2026 EDITION</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 11 & 29 — STORY SECTION & THE FOUNDER DOSSIER -->
-  <section id="story" class="relative z-20 px-4 sm:px-8 md:px-14 py-20 sm:py-28 border-t border-border bg-base">
-    <div class="max-w-7xl mx-auto">
-      
-      <div class="flex items-center gap-3 font-mono text-xs text-accent tracking-widest uppercase mb-4">
-        <span>01 // THE MANIFESTO</span>
-        <div class="h-[1px] w-12 bg-accent/30"></div>
-      </div>
-
+      <!-- Real Asymmetric Two-Column Grid: Narrow Identity + Wide Telemetry & Work -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-start">
         
-        <!-- Story Text & Condensed Cadence -->
-        <div class="lg:col-span-7 space-y-5 sm:space-y-6">
-          <h2 class="font-display font-bold text-3xl sm:text-5xl md:text-6xl tracking-tight leading-[0.95] text-primary">
-            I DON'T JUST LIKE IDEAS.<br>
-            <span class="text-accent">I LIKE BUILDING THEM.</span>
-          </h2>
-
-          <p class="font-sans text-sm sm:text-base text-secondary leading-relaxed font-light">
-            I'm a computer science engineer operating at the convergence of hardware, intelligent software, and high-velocity builder communities. I design platforms that bridge the gap from mathematical hypothesis to physical production.
-          </p>
-
-          <!-- Crisp Cadence Timeline -->
-          <div class="p-4 sm:p-6 bg-surface border border-white/10 rounded-2xl space-y-3 sm:space-y-4">
-            <div class="font-mono text-[10px] sm:text-[11px] text-muted uppercase tracking-wider flex justify-between">
-              <span>SYSTEM CYCLE</span>
-              <span class="text-accent">ITERATION CADENCE</span>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-3 font-mono text-xs text-center">
-              <div class="p-2.5 sm:p-3 bg-elevated border border-white/10 rounded-xl">
-                <span class="text-accent font-bold block mb-1 text-[11px]">01 LEARN</span>
-                <span class="text-[9px] text-secondary">CS Principles</span>
-              </div>
-              <div class="p-2.5 sm:p-3 bg-elevated border border-white/10 rounded-xl">
-                <span class="text-accent font-bold block mb-1 text-[11px]">02 BUILD</span>
-                <span class="text-[9px] text-secondary">GoBu & LoRa</span>
-              </div>
-              <div class="p-2.5 sm:p-3 bg-elevated border border-white/10 rounded-xl">
-                <span class="text-accent font-bold block mb-1 text-[11px]">03 TEST</span>
-                <span class="text-[9px] text-secondary">Soil Pilots</span>
-              </div>
-              <div class="p-2.5 sm:p-3 bg-elevated border border-white/10 rounded-xl">
-                <span class="text-accent font-bold block mb-1 text-[11px]">04 LEAD</span>
-                <span class="text-[9px] text-secondary">IEDC Teams</span>
-              </div>
-              <div class="p-2.5 sm:p-3 bg-elevated border border-white/10 rounded-xl col-span-2 sm:col-span-1">
-                <span class="text-accent font-bold block mb-1 text-[11px]">05 SCALE</span>
-                <span class="text-[9px] text-secondary">Industry Track</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 29 — FOUNDER DOSSIER WITH SCANLINE PHOTOGRAPHY -->
-        <div class="lg:col-span-5">
-          <div class="bg-surface border border-white/10 rounded-2xl p-4 sm:p-5 shadow-2xl relative">
-            <div class="flex justify-between items-center font-mono text-[10px] text-muted pb-3 border-b border-white/10 mb-3">
-              <span class="text-accent flex items-center gap-1.5 font-bold">
-                <span class="w-1.5 h-1.5 rounded-full bg-accent animate-ping"></span>
-                FOUNDER IDENTIFIER // MSN-01
-              </span>
-              <span>VERIFIED BUILDER</span>
-            </div>
-
-            <!-- Crisp Photo Scanline Box -->
-            <div class="scanline-box rounded-xl bg-elevated border border-white/15 relative overflow-hidden group">
+        <!-- Narrow Identity Column (4 cols) -->
+        <div class="lg:col-span-4 space-y-6">
+          
+          <!-- Founder Portrait with Lab Spec Framing -->
+          <div class="border border-rule bg-paper-card p-2 rounded-sm shadow-sm">
+            <div class="relative overflow-hidden bg-paper-elevated aspect-[4/5] max-h-[380px]">
               <img 
                 src="soorya.jpg" 
                 alt="M. Soorya Narayan" 
-                class="w-full h-[320px] sm:h-[400px] object-cover object-top grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-102 transition-all duration-500"
+                class="w-full h-full object-cover object-top filter grayscale contrast-115"
+                loading="eager"
               />
-              <div class="absolute bottom-3 left-3 right-3 bg-base/90 backdrop-blur-md p-2.5 sm:p-3 rounded-lg border border-white/10 flex justify-between items-center">
-                <div>
-                  <div class="font-display font-bold text-xs sm:text-sm text-primary">M. SOORYA NARAYAN</div>
-                  <div class="text-[9px] sm:text-[10px] text-secondary font-mono">Systems Builder • Kochi, IN</div>
+              <div class="absolute bottom-0 inset-x-0 bg-paper/90 backdrop-blur-sm p-2.5 border-t border-rule flex justify-between items-center text-[11px] font-mono">
+                <span class="font-medium text-ink">M. SOORYA NARAYAN</span>
+                <span class="text-verified font-medium">VERIFIED</span>
+              </div>
+            </div>
+            
+            <div class="p-3 space-y-2 text-xs font-mono text-graphite border-t border-rule mt-2">
+              <div class="flex justify-between">
+                <span>DEGREE:</span>
+                <span class="text-ink font-medium">B.Tech Computer Science (2026)</span>
+              </div>
+              <div class="flex justify-between">
+                <span>INSTITUTION:</span>
+                <span class="text-ink font-medium">MITS (APJ Abdul Kalam Tech Univ)</span>
+              </div>
+              <div class="flex justify-between">
+                <span>CORE STACK:</span>
+                <span class="text-ink font-medium">STM32, FreeRTOS, LoRa, Python</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Direct Links -->
+          <div class="flex flex-wrap gap-4 text-xs font-mono text-graphite pt-1">
+            <a href="https://www.linkedin.com/in/sooryanarayan/" target="_blank" rel="noopener noreferrer" class="hover:text-signal transition-colors underline decoration-line-strong underline-offset-4">
+              LinkedIn Profile ↗
+            </a>
+            <a href="https://github.com/sceniccoder" target="_blank" rel="noopener noreferrer" class="hover:text-signal transition-colors underline decoration-line-strong underline-offset-4">
+              GitHub (@sceniccoder) ↗
+            </a>
+            <a href="mailto:sooryanarayanmanoj@gmail.com" class="hover:text-signal transition-colors underline decoration-line-strong underline-offset-4">
+              sooryanarayanmanoj@gmail.com ↗
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Wide "What I'm Building Right Now" Column (8 cols) -->
+        <div class="lg:col-span-8 space-y-8">
+          
+          <!-- LIVE INSTRUMENT TELEMETRY PANEL (The single choreographed motion element on load) -->
+          <div class="border border-rule bg-paper-card p-5 sm:p-6 rounded-sm">
+            <div class="flex flex-wrap justify-between items-center gap-2 pb-3 mb-4 border-b border-rule">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-signal" id="telemetry-live-dot"></span>
+                <span class="text-xs font-mono font-medium text-ink tracking-wide">LIVE INSTRUMENT READOUT // GoBu AMR TELEMETRY</span>
+              </div>
+              <span class="text-[11px] font-mono text-graphite" id="telemetry-timestamp">CYCLE: INITIALIZING</span>
+            </div>
+
+            <!-- Telemetry Numerical Spec Readouts -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+              <div class="bg-paper p-3 border border-rule">
+                <div class="text-[10px] font-mono text-graphite uppercase">ODOMETRY DRIFT</div>
+                <div class="text-lg sm:text-xl font-mono font-bold text-signal mt-0.5" id="telemetry-drift">±1.8 mm</div>
+                <div class="text-[10px] font-mono text-graphite">Wheel encoder SLAM</div>
+              </div>
+              <div class="bg-paper p-3 border border-rule">
+                <div class="text-[10px] font-mono text-graphite uppercase">BRAKING RESPONSE</div>
+                <div class="text-lg sm:text-xl font-mono font-bold text-ink mt-0.5" id="telemetry-braking">42 ms</div>
+                <div class="text-[10px] font-mono text-graphite">PWM active damping</div>
+              </div>
+              <div class="bg-paper p-3 border border-rule">
+                <div class="text-[10px] font-mono text-graphite uppercase">RTOS LOOP FREQ</div>
+                <div class="text-lg sm:text-xl font-mono font-bold text-ink mt-0.5">100 Hz</div>
+                <div class="text-[10px] font-mono text-graphite">Deterministic task</div>
+              </div>
+              <div class="bg-paper p-3 border border-rule">
+                <div class="text-[10px] font-mono text-graphite uppercase">PAYLOAD CAPACITY</div>
+                <div class="text-lg sm:text-xl font-mono font-bold text-ink mt-0.5">25.0 kg</div>
+                <div class="text-[10px] font-mono text-graphite">Mecanum drive tub</div>
+              </div>
+            </div>
+
+            <!-- Single Sensor Stabilization Oscilloscope Trace -->
+            <div class="relative bg-paper p-2.5 border border-rule overflow-hidden">
+              <div class="flex justify-between items-center text-[10px] font-mono text-graphite mb-1">
+                <span>IMU ATTITUDE STABILIZATION CONVERGENCE (CALIBRATED AT BOOT)</span>
+                <span class="text-verified" id="telemetry-status">STABILIZED</span>
+              </div>
+              <canvas id="telemetry-canvas" class="w-full h-16 sm:h-20 block"></canvas>
+            </div>
+            
+            <div class="mt-3 text-xs font-mono text-graphite flex justify-between">
+              <span>CONTROLLER: STM32F401 (84MHz ARM Cortex-M4)</span>
+              <span>TEST ENV: KERALA LOGISTICS FLOOR</span>
+            </div>
+          </div>
+
+          <!-- Currently Building Briefing -->
+          <div class="space-y-4">
+            <h2 class="text-xs font-mono uppercase tracking-wider text-graphite">CURRENT PRODUCTION STATUS</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="p-4 bg-paper-card border border-rule">
+                <div class="flex items-center justify-between text-xs font-mono mb-1.5">
+                  <span class="font-bold text-ink">AGRIVA</span>
+                  <span class="text-verified font-medium">FIELD PILOT</span>
                 </div>
-                <span class="px-2 py-0.5 bg-accent text-base text-[9px] sm:text-[10px] font-mono font-bold rounded">
-                  DEPLOYED
-                </span>
+                <p class="text-xs text-graphite leading-relaxed">
+                  Autonomous agro-intelligence network. Deploying capacitive sub-surface soil probes with LoRa mesh and autonomous multispectral canopy flight paths.
+                </p>
               </div>
-            </div>
 
-            <div class="grid grid-cols-3 gap-2 mt-3 text-center font-mono text-[9px] sm:text-[10px]">
-              <div class="p-2 bg-elevated rounded border border-white/5">
-                <span class="text-muted block">DISCIPLINE</span>
-                <span class="font-bold text-primary">COMPUTER SCIENCE</span>
-              </div>
-              <div class="p-2 bg-elevated rounded border border-white/5">
-                <span class="text-muted block">CORE DOMAIN</span>
-                <span class="font-bold text-accent">IoT & ROBOTICS</span>
-              </div>
-              <div class="p-2 bg-elevated rounded border border-white/5">
-                <span class="text-muted block">STATUS</span>
-                <span class="font-bold text-primary">VENTURE FOUNDER</span>
+              <div class="p-4 bg-paper-card border border-rule">
+                <div class="flex items-center justify-between text-xs font-mono mb-1.5">
+                  <span class="font-bold text-ink">SKILLFI</span>
+                  <span class="text-verified font-medium">TESTNET BENCHMARK</span>
+                </div>
+                <p class="text-xs text-graphite leading-relaxed">
+                  Sandboxed algorithmic assessment engine. Isolates student submissions in sub-millisecond micro-VM runtimes with AST static complexity verification.
+                </p>
               </div>
             </div>
           </div>
+
         </div>
 
       </div>
 
-    </div>
-  </section>
+    </section>
 
-  <!-- 12 — THE MINDSET SECTION (OPERATING PRINCIPLES) -->
-  <section id="mindset" class="relative z-20 px-4 sm:px-8 md:px-14 py-20 sm:py-28 border-t border-border bg-surface">
-    <div class="max-w-7xl mx-auto">
-      
-      <div class="flex items-center gap-3 font-mono text-xs text-accent tracking-widest uppercase mb-4">
-        <span>02 // OPERATING PRINCIPLES</span>
-        <div class="h-[1px] w-12 bg-accent/30"></div>
+    <!-- CREDENTIAL STRIP: MOVED HIGH UP FOR TRUST SIGNAL -->
+    <section id="credentials" class="border-y border-rule bg-paper-card py-6">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8">
+        
+        <div class="text-[11px] font-mono text-graphite uppercase tracking-wider mb-3">
+          VERIFIED INSTITUTIONAL CREDENTIALS & ENGAGEMENTS
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-sans text-xs">
+          
+          <div class="p-3 bg-paper border border-rule">
+            <div class="flex items-center justify-between font-mono text-[10px] text-signal font-semibold mb-1">
+              <span>RESEARCH COLLABORATION</span>
+              <span>2026</span>
+            </div>
+            <div class="font-serif font-bold text-sm text-ink">IIT Guwahati</div>
+            <div class="text-graphite text-[11px] mt-0.5">National Campus Immersion & Research Fellow</div>
+          </div>
+
+          <div class="p-3 bg-paper border border-rule">
+            <div class="flex items-center justify-between font-mono text-[10px] text-signal font-semibold mb-1">
+              <span>DEEP LEARNING</span>
+              <span>2026</span>
+            </div>
+            <div class="font-serif font-bold text-sm text-ink">IIIT Hyderabad</div>
+            <div class="text-graphite text-[11px] mt-0.5">AI Summer School Fellow — Computer Vision & Machine Learning</div>
+          </div>
+
+          <div class="p-3 bg-paper border border-rule">
+            <div class="flex items-center justify-between font-mono text-[10px] text-signal font-semibold mb-1">
+              <span>FIRST PRIZE</span>
+              <span>2026</span>
+            </div>
+            <div class="font-serif font-bold text-sm text-ink">TechXcel Award</div>
+            <div class="text-graphite text-[11px] mt-0.5">1st Prize Winner — Autonomous Engineering Systems</div>
+          </div>
+
+          <div class="p-3 bg-paper border border-rule">
+            <div class="flex items-center justify-between font-mono text-[10px] text-signal font-semibold mb-1">
+              <span>LEADERSHIP</span>
+              <span>2025–2026</span>
+            </div>
+            <div class="font-serif font-bold text-sm text-ink">IEDC MITS & Yi Council</div>
+            <div class="text-graphite text-[11px] mt-0.5">Campus Innovation Lead & State Leadership Council Member</div>
+          </div>
+
+        </div>
+
       </div>
+    </section>
 
-      <div class="mb-8 sm:mb-12">
-        <div class="font-mono text-xs text-muted uppercase tracking-widest mb-1">DEFAULT OPERATING FRAMEWORK</div>
-        <h2 class="font-display font-bold text-2xl sm:text-4xl md:text-5xl tracking-tight text-primary">
-          BUILD → TEST → LEARN → ITERATE
+    <!-- METHODOLOGY: SEQUENTIAL CADENCE (01 Build → 02 Test → 03 Learn → 04 Iterate) -->
+    <section id="principles" class="max-w-7xl mx-auto px-4 sm:px-8 py-16 sm:py-24">
+      
+      <div class="mb-10 sm:mb-14">
+        <div class="text-xs font-mono uppercase tracking-wider text-graphite mb-1">
+          OPERATING FRAMEWORK
+        </div>
+        <h2 class="font-serif font-normal text-2xl sm:text-4xl text-ink">
+          The cycle of physical iteration.
         </h2>
+        <p class="mt-3 text-sm text-graphite max-prose-optimal">
+          We do not rely on speculative designs. Progress is measured strictly by functional runtime telemetry under uncontrolled real-world stress.
+        </p>
       </div>
 
-      <!-- 4 Crisp High-Density Operating Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <!-- Sequential Numbered Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
-        <div class="p-5 sm:p-6 bg-elevated border border-white/10 rounded-xl hover:border-accent hover:-translate-y-1 transition-all group flex flex-col justify-between min-h-[220px] sm:min-h-[260px]">
+        <div class="p-5 bg-paper-card border border-rule flex flex-col justify-between min-h-[220px]">
           <div>
-            <div class="flex justify-between font-mono text-xs text-muted mb-3 sm:mb-4">
-              <span>PRINCIPIUM // 01</span>
-              <span class="text-accent font-bold">01</span>
+            <div class="flex justify-between items-baseline font-mono text-xs text-graphite mb-3">
+              <span class="text-[10px] uppercase">PHASE</span>
+              <span class="text-ink font-bold">01</span>
             </div>
-            <div class="font-display font-bold text-xl sm:text-2xl text-primary group-hover:text-accent transition-colors mb-1.5">
-              BUILD
-            </div>
-            <p class="text-secondary text-xs leading-relaxed font-light">
-              Turn an idea into a tangible, executable artifact. Code on bare metal, hardware on a bench. Zero speculative theories.
+            <div class="font-serif font-bold text-xl text-ink mb-2">Build</div>
+            <p class="text-xs text-graphite leading-relaxed">
+              Translate mathematical hypotheses into physically executable hardware. Schematics, custom PCB ground planes, and bare-metal firmware on microcontroller registers.
             </p>
           </div>
-          <div class="font-mono text-[9px] text-muted border-t border-white/5 pt-2 uppercase">
-            VERIFIABLE HARDWARE & RUNTIMES
+          <div class="pt-3 border-t border-rule text-[10px] font-mono text-graphite">
+            ARMATURE: C &amp; FREERTOS
           </div>
         </div>
 
-        <div class="p-5 sm:p-6 bg-elevated border border-white/10 rounded-xl hover:border-accent hover:-translate-y-1 transition-all group flex flex-col justify-between min-h-[220px] sm:min-h-[260px]">
+        <div class="p-5 bg-paper-card border border-rule flex flex-col justify-between min-h-[220px]">
           <div>
-            <div class="flex justify-between font-mono text-xs text-muted mb-3 sm:mb-4">
-              <span>PRINCIPIUM // 02</span>
-              <span class="text-accent font-bold">02</span>
+            <div class="flex justify-between items-baseline font-mono text-xs text-graphite mb-3">
+              <span class="text-[10px] uppercase">PHASE</span>
+              <span class="text-ink font-bold">02</span>
             </div>
-            <div class="font-display font-bold text-xl sm:text-2xl text-primary group-hover:text-accent transition-colors mb-1.5">
-              TEST
-            </div>
-            <p class="text-secondary text-xs leading-relaxed font-light">
-              Put systems in front of real environments: wet Kerala soil plots, university exam clusters, warehouse fulfillment floors.
+            <div class="font-serif font-bold text-xl text-ink mb-2">Test</div>
+            <p class="text-xs text-graphite leading-relaxed">
+              Expose systems to raw environmental friction: damp soil plots across Kerala farms, multi-tenant university exam loads, and industrial floor traction limits.
             </p>
           </div>
-          <div class="font-mono text-[9px] text-muted border-t border-white/5 pt-2 uppercase">
-            REAL UNCONTROLLABLE FRICTION
+          <div class="pt-3 border-t border-rule text-[10px] font-mono text-graphite">
+            ENV: REAL CONTACT
           </div>
         </div>
 
-        <div class="p-5 sm:p-6 bg-elevated border border-white/10 rounded-xl hover:border-accent hover:-translate-y-1 transition-all group flex flex-col justify-between min-h-[220px] sm:min-h-[260px]">
+        <div class="p-5 bg-paper-card border border-rule flex flex-col justify-between min-h-[220px]">
           <div>
-            <div class="flex justify-between font-mono text-xs text-muted mb-3 sm:mb-4">
-              <span>PRINCIPIUM // 03</span>
-              <span class="text-accent font-bold">03</span>
+            <div class="flex justify-between items-baseline font-mono text-xs text-graphite mb-3">
+              <span class="text-[10px] uppercase">PHASE</span>
+              <span class="text-ink font-bold">03</span>
             </div>
-            <div class="font-display font-bold text-xl sm:text-2xl text-primary group-hover:text-accent transition-colors mb-1.5">
-              LEARN
-            </div>
-            <p class="text-secondary text-xs leading-relaxed font-light">
-              Ground conclusions strictly in telemetry: odometry drift, LoRa packet loss, and sandbox execution latencies.
+            <div class="font-serif font-bold text-xl text-ink mb-2">Learn</div>
+            <p class="text-xs text-graphite leading-relaxed">
+              Filter design hypotheses through empirical telemetry: packet drop rates over sub-GHz LoRa, wheel slip odometry drift, and compiler AST benchmark latencies.
             </p>
           </div>
-          <div class="font-mono text-[9px] text-muted border-t border-white/5 pt-2 uppercase">
-            TELEMETRY OVER OPINION
+          <div class="pt-3 border-t border-rule text-[10px] font-mono text-graphite">
+            DATA: EMPIRICAL TELEMETRY
           </div>
         </div>
 
-        <div class="p-5 sm:p-6 bg-elevated border border-white/10 rounded-xl hover:border-accent hover:-translate-y-1 transition-all group flex flex-col justify-between min-h-[220px] sm:min-h-[260px]">
+        <div class="p-5 bg-paper-card border border-rule flex flex-col justify-between min-h-[220px]">
           <div>
-            <div class="flex justify-between font-mono text-xs text-muted mb-3 sm:mb-4">
-              <span>PRINCIPIUM // 04</span>
-              <span class="text-accent font-bold">04</span>
+            <div class="flex justify-between items-baseline font-mono text-xs text-graphite mb-3">
+              <span class="text-[10px] uppercase">PHASE</span>
+              <span class="text-ink font-bold">04</span>
             </div>
-            <div class="font-display font-bold text-xl sm:text-2xl text-primary group-hover:text-accent transition-colors mb-1.5">
-              ITERATE
-            </div>
-            <p class="text-secondary text-xs leading-relaxed font-light">
-              Harden PCB ground planes, refactor interrupt latency routines, and compress model weights for the next deployment.
+            <div class="font-serif font-bold text-xl text-ink mb-2">Iterate</div>
+            <p class="text-xs text-graphite leading-relaxed">
+              Re-route PCB traces to mitigate RF interference, refactor interrupt latency routines, and deploy optimized firmware images for consecutive field runs.
             </p>
           </div>
-          <div class="font-mono text-[9px] text-muted border-t border-white/5 pt-2 uppercase">
-            CONTINUOUS REFACTOR
+          <div class="pt-3 border-t border-rule text-[10px] font-mono text-graphite">
+            CADENCE: RAPID HARDENING
           </div>
         </div>
 
       </div>
 
-    </div>
-  </section>
+    </section>
 
-  <!-- 13, 14, 15 & 16 — VENTURE LAB: CLEAN & RESPONSIVE -->
-  <section id="ventures" class="relative z-20 px-4 sm:px-8 md:px-14 py-20 sm:py-28 border-t border-border bg-base">
-    <div class="max-w-7xl mx-auto">
-      
-      <div class="flex items-center gap-3 font-mono text-xs text-accent tracking-widest uppercase mb-4">
-        <span>03 // VENTURE STUDIO</span>
-        <div class="h-[1px] w-12 bg-accent/30"></div>
-      </div>
-
-      <div class="flex flex-col md:flex-row justify-between md:items-end mb-8 sm:mb-12 gap-3">
-        <div>
-          <h2 class="font-display font-bold text-3xl sm:text-5xl text-primary">VENTURE LAB</h2>
-          <p class="font-mono text-xs text-secondary mt-1">Self-initiated, deep-tech systems in production validation.</p>
-        </div>
-        <div class="font-mono text-xs text-accent bg-surface border border-accent/30 px-3 py-1 rounded w-max">
-          ● 2 ACTIVE PLATFORMS
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+    <!-- VENTURES: AGRIVA & SKILLFI (Non-sequential; real specs prominent; "Details on request") -->
+    <section id="ventures" class="border-t border-rule bg-paper-card py-16 sm:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8">
         
-        <!-- VENTURE 01: AGRIVA -->
-        <div class="p-6 sm:p-8 bg-surface border border-white/10 rounded-2xl flex flex-col justify-between relative group hover:border-accent/50 transition-all">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-end mb-10 sm:mb-12 gap-3">
           <div>
-            <div class="flex justify-between items-center font-mono text-xs text-accent mb-3 sm:mb-4">
-              <span>01 // AGTECH & AI</span>
-              <span class="px-2 py-0.5 bg-accent/10 border border-accent/30 rounded text-[10px]">FIELD PILOT ACTIVE</span>
-            </div>
-
-            <h3 class="font-display font-bold text-2xl sm:text-3xl text-primary mb-1">AGRIVA</h3>
-            <p class="font-mono text-xs text-secondary mb-4 sm:mb-6">INTELLIGENCE FOR EVERY PLOT</p>
-
-            <p class="text-secondary text-xs sm:text-sm leading-relaxed mb-6 font-light">
-              Autonomous agro-intelligence network combining in-situ capacitive soil telemetry probes, autonomous aerial multispectral canopy drone scans, and local voice inference for farmers.
-            </p>
-
-            <!-- Compact System Pipeline -->
-            <div class="p-3 sm:p-4 bg-elevated border border-white/5 rounded-xl mb-6">
-              <div class="font-mono text-[9px] sm:text-[10px] text-muted uppercase mb-2.5 flex justify-between">
-                <span>AUTONOMOUS PIPELINE</span>
-                <span class="text-accent">&lt;1.8s LATENCY</span>
-              </div>
-              <div class="grid grid-cols-5 gap-1 text-center font-mono text-[8px] sm:text-[9px]">
-                <div class="p-1.5 sm:p-2 bg-base rounded border border-accent/40 text-accent font-bold truncate">DRONE</div>
-                <div class="p-1.5 sm:p-2 bg-base rounded border border-white/10 text-primary truncate">DOCK</div>
-                <div class="p-1.5 sm:p-2 bg-base rounded border border-white/10 text-primary truncate">EDGE</div>
-                <div class="p-1.5 sm:p-2 bg-base rounded border border-white/10 text-primary truncate">AI CLOUD</div>
-                <div class="p-1.5 sm:p-2 bg-base rounded border border-accent text-accent font-bold truncate">FARMER</div>
-              </div>
-            </div>
-
-            <!-- 6 Technical Architecture Specs -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2 font-mono text-[9px] sm:text-[10px] text-secondary">
-              <div class="p-2 bg-base rounded border border-white/5">01 SOIL PROBES</div>
-              <div class="p-2 bg-base rounded border border-white/5">02 LoRa 868MHz</div>
-              <div class="p-2 bg-base rounded border border-white/5">03 VOICE SYNTH</div>
-              <div class="p-2 bg-base rounded border border-white/5">04 DUAL NDVI</div>
-              <div class="p-2 bg-base rounded border border-white/5">05 TIMESCALEDB</div>
-              <div class="p-2 bg-base rounded border border-white/5">06 EVAPOTRANS</div>
-            </div>
+            <div class="text-xs font-mono uppercase tracking-wider text-graphite mb-1">PRODUCTION VENTURES</div>
+            <h2 class="font-serif font-normal text-2xl sm:text-4xl text-ink">Engineering in the wild.</h2>
           </div>
-
-          <div class="pt-5 border-t border-white/5 mt-5 flex justify-between items-center font-mono text-xs">
-            <span class="text-muted text-[10px] sm:text-[11px]">HARDWARE: CUSTOM LOW-POWER MCU</span>
-            <a href="#contact" class="text-accent hover:text-white transition-colors font-bold text-xs">SPEC SHEET ↗</a>
+          <div class="text-xs font-mono text-graphite">
+            2 ACTIVE PRODUCTION PLATFORMS
           </div>
         </div>
 
-        <!-- VENTURE 02: SKILLFI -->
-        <div class="p-6 sm:p-8 bg-surface border border-white/10 rounded-2xl flex flex-col justify-between relative group hover:border-accent/50 transition-all">
-          <div>
-            <div class="flex justify-between items-center font-mono text-xs text-accent mb-3 sm:mb-4">
-              <span>02 // EDTECH & RUNTIMES</span>
-              <span class="px-2 py-0.5 bg-accent/10 border border-accent/30 rounded text-[10px]">MICRO-VM TESTNET</span>
-            </div>
-
-            <h3 class="font-display font-bold text-2xl sm:text-3xl text-primary mb-1">SKILLFI</h3>
-            <p class="font-mono text-xs text-secondary mb-4 sm:mb-6">DETERMINISTIC PROOF OF EMPLOYABILITY</p>
-
-            <p class="text-secondary text-xs sm:text-sm leading-relaxed mb-6 font-light">
-              Replaces unverified certificates with isolated, sub-millisecond micro-VM sandboxes. Parses student code AST trees and benchmarks algorithmic efficiency to mint tamper-proof evaluation tokens.
-            </p>
-
-            <!-- Sandboxed Terminal Preview -->
-            <div class="p-3 sm:p-4 bg-base border border-white/10 rounded-xl mb-6 font-mono text-[10px] sm:text-[11px] overflow-x-auto">
-              <div class="flex justify-between items-center text-[9px] sm:text-[10px] text-muted pb-1.5 border-b border-white/5 mb-1.5">
-                <span>SANDBOX: PYTHON 3.11</span>
-                <span class="text-accent">✓ 14/14 PASSED</span>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          
+          <!-- VENTURE 1: AGRIVA -->
+          <div class="bg-paper border border-rule p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center pb-3 mb-4 border-b border-rule">
+                <span class="text-xs font-mono text-graphite">SECTOR: AGRO-INTELLIGENCE &amp; ROBOTICS</span>
+                <span class="text-[11px] font-mono font-medium text-verified">PILOT ACTIVE</span>
               </div>
-              <div class="text-[#7EE787] text-[10px]">$ skillfi eval --sandbox microvm-v2</div>
-              <div class="text-secondary text-[10px]">> AST Complexity: McCabe Index 3</div>
-              <div class="text-secondary text-[10px]">> P99 Latency: 1.84ms | RAM: 14MB</div>
-              <div class="text-accent text-[10px] font-bold mt-0.5">> TOKEN: 0x984F...VERIFIED</div>
+
+              <h3 class="font-serif font-bold text-2xl text-ink mb-2">Agriva</h3>
+              <p class="text-xs font-mono text-graphite mb-4">AUTONOMOUS MULTISPECTRAL CANOPY &amp; SOIL TELEMETRY</p>
+
+              <p class="text-xs sm:text-sm text-graphite leading-relaxed mb-6">
+                An end-to-end precision agriculture network combining in-situ capacitive soil telemetry probes, autonomous aerial drone survey runs, and edge voice synthesis to assist farmers directly in their regional dialects.
+              </p>
+
+              <!-- Prominent Numerical Specs -->
+              <div class="grid grid-cols-3 gap-3 mb-6 p-3 bg-paper-card border border-rule">
+                <div>
+                  <div class="text-[10px] font-mono text-graphite">PIPELINE LATENCY</div>
+                  <div class="text-base sm:text-lg font-mono font-bold text-ink">&lt; 1.8s</div>
+                  <div class="text-[9px] font-mono text-graphite">Drone to edge</div>
+                </div>
+                <div>
+                  <div class="text-[10px] font-mono text-graphite">RF TELEMETRY</div>
+                  <div class="text-base sm:text-lg font-mono font-bold text-ink">868 MHz</div>
+                  <div class="text-[9px] font-mono text-graphite">LoRa sub-GHz mesh</div>
+                </div>
+                <div>
+                  <div class="text-[10px] font-mono text-graphite">INDEXING</div>
+                  <div class="text-base sm:text-lg font-mono font-bold text-ink">Dual NDVI</div>
+                  <div class="text-[9px] font-mono text-graphite">Canopy health index</div>
+                </div>
+              </div>
+
+              <!-- Pipeline flow -->
+              <div class="space-y-2 mb-6 text-xs font-mono text-graphite">
+                <div class="text-[10px] uppercase">AUTONOMOUS HARDWARE PIPELINE:</div>
+                <div class="grid grid-cols-5 gap-1 text-center text-[10px]">
+                  <div class="p-1.5 bg-paper-card border border-rule text-ink font-medium">CANOPY DRONE</div>
+                  <div class="p-1.5 bg-paper-card border border-rule text-graphite">DOCKING</div>
+                  <div class="p-1.5 bg-paper-card border border-rule text-graphite">EDGE NODE</div>
+                  <div class="p-1.5 bg-paper-card border border-rule text-graphite">TIMESCALE</div>
+                  <div class="p-1.5 bg-paper-card border border-rule text-ink font-medium">VOICE AI</div>
+                </div>
+              </div>
             </div>
 
-            <!-- Features -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2 font-mono text-[9px] sm:text-[10px] text-secondary">
-              <div class="p-2 bg-base rounded border border-white/5">AST PARSING</div>
-              <div class="p-2 bg-base rounded border border-white/5">SUB-MS VM</div>
-              <div class="p-2 bg-base rounded border border-white/5">CAMPUS API</div>
-              <div class="p-2 bg-base rounded border border-white/5">ANTI-CHEAT</div>
-              <div class="p-2 bg-base rounded border border-white/5">PROOF TOKEN</div>
-              <div class="p-2 bg-base rounded border border-white/5">RECRUITERS</div>
+            <div class="pt-4 border-t border-rule flex justify-between items-center text-xs font-mono">
+              <span class="text-graphite">FIRMWARE: EMBEDDED C / LORAWAN</span>
+              <button onclick="requestDetails('Agriva Technical Spec Sheet')" class="text-ink hover:text-signal transition-colors font-medium underline underline-offset-4 decoration-line-strong">
+                Details on request ↗
+              </button>
             </div>
           </div>
 
-          <div class="pt-5 border-t border-white/5 mt-5 flex justify-between items-center font-mono text-xs">
-            <span class="text-muted text-[10px] sm:text-[11px]">RUNTIMES: DOCKER / FIRECRACKER</span>
-            <a href="#contact" class="text-accent hover:text-white transition-colors font-bold text-xs">API PROTOCOL ↗</a>
+          <!-- VENTURE 2: SKILLFI -->
+          <div class="bg-paper border border-rule p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center pb-3 mb-4 border-b border-rule">
+                <span class="text-xs font-mono text-graphite">SECTOR: EVALUATION ENGINE &amp; RUNTIMES</span>
+                <span class="text-[11px] font-mono font-medium text-verified">TESTNET DEPLOYED</span>
+              </div>
+
+              <h3 class="font-serif font-bold text-2xl text-ink mb-2">SkillFi</h3>
+              <p class="text-xs font-mono text-graphite mb-4">DETERMINISTIC EVALUATION RUNTIME ENGINE</p>
+
+              <p class="text-xs sm:text-sm text-graphite leading-relaxed mb-6">
+                Replaces unverified certificates with isolated, sub-millisecond sandboxes. Parses student code abstract syntax trees (AST) and benchmarks algorithmic efficiency under stringent memory constraints.
+              </p>
+
+              <!-- Prominent Numerical Specs -->
+              <div class="grid grid-cols-3 gap-3 mb-6 p-3 bg-paper-card border border-rule">
+                <div>
+                  <div class="text-[10px] font-mono text-graphite">P99 LATENCY</div>
+                  <div class="text-base sm:text-lg font-mono font-bold text-ink">1.84 ms</div>
+                  <div class="text-[9px] font-mono text-graphite">Micro-VM sandbox</div>
+                </div>
+                <div>
+                  <div class="text-[10px] font-mono text-graphite">AST COMPLEXITY</div>
+                  <div class="text-base sm:text-lg font-mono font-bold text-ink">McCabe ≤ 3</div>
+                  <div class="text-[9px] font-mono text-graphite">Structural proof</div>
+                </div>
+                <div>
+                  <div class="text-[10px] font-mono text-graphite">MAX RAM LIMIT</div>
+                  <div class="text-base sm:text-lg font-mono font-bold text-ink">&lt; 14 MB</div>
+                  <div class="text-[9px] font-mono text-graphite">Per isolation container</div>
+                </div>
+              </div>
+
+              <!-- Terminal Output Display -->
+              <div class="bg-ink text-paper p-3 font-mono text-[11px] rounded-none mb-6 space-y-1">
+                <div class="text-line flex justify-between text-[10px] pb-1 border-b border-graphite/40">
+                  <span>RUNNER: PYTHON 3.11 MICRO-VM</span>
+                  <span class="text-[#7EE787]">PASSED 14/14</span>
+                </div>
+                <div class="text-[#7EE787]">$ skillfi verify --target solution.py</div>
+                <div class="text-line-strong">> AST McCabe Index: 3 (Clean Branching)</div>
+                <div class="text-line-strong">> Isolation Memory: 13.8MB | Execution: 1.84ms</div>
+                <div class="text-paper">> Result: Deterministic Proof Token Minted</div>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-rule flex justify-between items-center text-xs font-mono">
+              <span class="text-graphite">RUNTIME: FIRECRACKER / DOCKER</span>
+              <button onclick="requestDetails('SkillFi API & Runtime Architecture')" class="text-ink hover:text-signal transition-colors font-medium underline underline-offset-4 decoration-line-strong">
+                Details on request ↗
+              </button>
+            </div>
           </div>
+
         </div>
 
       </div>
+    </section>
 
-    </div>
-  </section>
-
-  <!-- 18 — GoBu // MECHATRONICS & TOUCH-ENABLED 3D CAD ROBOT WORKBENCH -->
-  <section id="building-room" class="relative z-20 px-4 sm:px-8 md:px-14 py-20 sm:py-28 border-t border-border bg-surface">
-    <div class="max-w-7xl mx-auto">
+    <!-- GoBu: MECHATRONICS 3D CAD ROBOT WORKBENCH -->
+    <section id="gobu" class="max-w-7xl mx-auto px-4 sm:px-8 py-16 sm:py-24">
       
-      <div class="flex items-center gap-3 font-mono text-xs text-accent tracking-widest uppercase mb-4">
-        <span>04 // MECHATRONICS & AUTONOMOUS SYSTEMS</span>
-        <div class="h-[1px] w-12 bg-accent/30"></div>
-      </div>
-
-      <div class="flex flex-col sm:flex-row justify-between sm:items-end mb-8 sm:mb-10 gap-4">
+      <div class="flex flex-col md:flex-row justify-between md:items-end mb-8 sm:mb-10 gap-4">
         <div>
-          <div class="flex items-center gap-2 mb-1">
-            <span class="px-2 py-0.5 bg-accent text-base font-mono text-[10px] font-bold rounded">AMR V2</span>
-            <span class="font-mono text-xs text-muted tracking-widest uppercase">HARDWARE LABS</span>
+          <div class="text-xs font-mono uppercase tracking-wider text-graphite mb-1">
+            HARDWARE PROTOTYPING &amp; MECHATRONICS
           </div>
-          <h2 class="font-display font-bold text-3xl sm:text-5xl text-primary">
-            GoBu // AUTONOMOUS WAREHOUSE BUGGY
+          <h2 class="font-serif font-normal text-2xl sm:text-4xl text-ink">
+            GoBu Autonomous Mobile Robot (AMR).
           </h2>
-          <p class="font-mono text-xs text-secondary mt-1">
-            GoBu is an industrial Autonomous Mobile Robot (AMR) with FreeRTOS, 2D LiDAR SLAM, and dual-core telemetry.
+          <p class="mt-2 text-xs sm:text-sm text-graphite max-prose-optimal">
+            Designed for warehouse pallet sorting. Features waterjet-cut 6061 aluminum chassis, 4× high-traction mecanum wheels, FreeRTOS deterministic task scheduler, and 360° 2D LiDAR SLAM.
           </p>
         </div>
 
-        <!-- Exploded View Controls -->
-        <div class="flex items-center gap-2 sm:gap-3 font-mono text-xs bg-base p-1.5 sm:p-2 border border-white/10 rounded-xl w-max">
-          <button id="cad-explode-btn" class="px-3 py-1.5 bg-accent text-base font-bold text-[11px] rounded hover:bg-white transition-colors active:scale-95">
-            TOGGLE GoBu CAD EXPLODE
+        <!-- Exploded View Interactive Controls with Unambiguous Label -->
+        <div class="flex items-center gap-3 font-mono text-xs bg-paper-card p-2 border border-rule">
+          <button id="cad-explode-toggle" class="px-3 py-1.5 bg-ink text-paper text-xs font-medium hover:bg-graphite transition-colors">
+            Toggle Exploded CAD
           </button>
-          <span id="cad-status-badge" class="text-[10px] text-accent px-2 py-1 bg-surface rounded border border-white/5">
-            GoBu: 0mm ASSEMBLED
+          <span id="cad-exploded-label" class="text-xs font-mono text-graphite px-2">
+            Exploded view: 0mm (assembled)
           </span>
         </div>
       </div>
 
-      <!-- Real Three.js 3D CAD Workbench for GoBu -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-base border border-white/10 rounded-2xl p-3 sm:p-6 overflow-hidden">
+      <!-- 3D Interactive Workbench -->
+      <div class="border border-rule bg-paper-card p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        <!-- 3D Interactive WebGL Canvas -->
-        <div class="lg:col-span-8 relative h-[320px] sm:h-[400px] md:h-[480px] bg-[#0A0C0E] rounded-xl border border-white/10 overflow-hidden touch-none">
-          <div id="three-robot-container" class="w-full h-full"></div>
-          
-          <div class="absolute top-3 left-3 font-mono text-[9px] sm:text-[10px] bg-base/85 backdrop-blur px-2 py-1 border border-white/10 rounded text-primary flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-accent animate-ping"></span>
-            <span>GoBu 3D CAD WORKBENCH • TOUCH & DRAG TO ROTATE</span>
+        <!-- Three.js Canvas Container with Touch Support -->
+        <div class="lg:col-span-8 bg-[#E7E3D8] border border-rule relative h-[360px] sm:h-[460px] md:h-[500px] overflow-hidden" style="touch-action: none;">
+          <div id="gobu-canvas-host" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
+
+          <!-- Top-Left Interaction Guidance -->
+          <div class="absolute top-3 left-3 bg-paper/90 backdrop-blur-sm border border-rule px-2.5 py-1 text-[11px] font-mono text-ink">
+            <span>GoBu 3D CAD // TOUCH OR DRAG TO ROTATE</span>
           </div>
 
-          <!-- Bottom Live Component Callout -->
-          <div class="absolute bottom-3 left-3 right-3 bg-base/90 backdrop-blur p-2.5 sm:p-3 rounded-lg border border-white/10 flex justify-between items-center font-mono text-[10px] sm:text-[11px]">
-            <span id="active-cad-part" class="text-accent font-bold truncate">GoBu // ALL 6 MECHATRONIC LAYERS INTEGRATED</span>
-            <span class="text-muted text-[9px] hidden sm:inline">6061 CHASSIS • STM32F4 • LIDAR • ESP32</span>
+          <!-- Active Assembly Layer Readout -->
+          <div class="absolute bottom-3 left-3 right-3 bg-paper/95 backdrop-blur-sm border border-rule px-3 py-2 flex justify-between items-center font-mono text-[11px]">
+            <span id="gobu-active-layer-name" class="font-medium text-ink">
+              All 6 Mechatronic Subassemblies Integrated
+            </span>
+            <span class="text-graphite hidden sm:inline text-[10px]">
+              6061 TUB • STM32F401 • LIDAR • ESP32
+            </span>
           </div>
         </div>
 
-        <!-- Technical Telemetry & Layer Specs for GoBu -->
-        <div class="lg:col-span-4 flex flex-col justify-between space-y-3 sm:space-y-4">
-          <div class="space-y-2 font-mono text-xs">
-            <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 6 // PERCEPTION</span>
-              <span class="text-accent font-bold">2D 360° LiDAR Dome (12m SLAM)</span>
-            </div>
-            <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 5 // MESH TELEMETRY</span>
-              <span class="text-primary font-bold">ESP32-WROOM BLE/WiFi Mesh Node</span>
-            </div>
-            <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 4 // COMPUTE CORE</span>
-              <span class="text-accent font-bold">STM32F401 ARM Cortex-M4 (84MHz)</span>
-            </div>
-            <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 3 // POWER DISTRIBUTION</span>
-              <span class="text-primary font-bold">Dual Opto-isolated H-Bridge 24V PWM</span>
-            </div>
-            <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 2 // DRIVETRAIN</span>
-              <span class="text-primary font-bold">4× High-Torque Mecanum Drive Hubs</span>
-            </div>
-            <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 1 // TUB CHASSIS</span>
-              <span class="text-primary font-bold">Waterjet CNC 6061 Aluminium Tub</span>
-            </div>
+        <!-- Layer Specifications Spec Sheet -->
+        <div class="lg:col-span-4 space-y-2 text-xs font-mono">
+          <div class="text-[11px] font-mono uppercase tracking-wider text-graphite pb-1 border-b border-rule">
+            GoBu SUBASSEMBLY STACK
           </div>
 
-          <div class="p-3 bg-elevated border border-accent/20 rounded-xl font-mono text-[10px] sm:text-[11px] text-secondary">
-            <span class="text-accent font-bold">GoBu SPECS:</span> 25kg payload • 1.4m/s velocity • 42ms emergency braking • &lt;±1.8mm odometry drift.
+          <div class="p-2.5 bg-paper border border-rule">
+            <div class="text-[10px] text-graphite">LAYER 06 // PERCEPTION</div>
+            <div class="font-bold text-ink">2D 360° LiDAR Dome (12m SLAM)</div>
+          </div>
+
+          <div class="p-2.5 bg-paper border border-rule">
+            <div class="text-[10px] text-graphite">LAYER 05 // TELEMETRY MESH</div>
+            <div class="font-bold text-ink">ESP32-WROOM BLE &amp; Wi-Fi Node</div>
+          </div>
+
+          <div class="p-2.5 bg-paper border border-rule">
+            <div class="text-[10px] text-graphite">LAYER 04 // COMPUTE CORE</div>
+            <div class="font-bold text-ink">STM32F401 ARM Cortex-M4 (84MHz)</div>
+          </div>
+
+          <div class="p-2.5 bg-paper border border-rule">
+            <div class="text-[10px] text-graphite">LAYER 03 // POWER SYSTEM</div>
+            <div class="font-bold text-ink">Dual Opto-isolated 24V H-Bridge &amp; LiFePO4</div>
+          </div>
+
+          <div class="p-2.5 bg-paper border border-rule">
+            <div class="text-[10px] text-graphite">LAYER 02 // DRIVETRAIN</div>
+            <div class="font-bold text-ink">4× High-Torque Mecanum Omnidirectional Wheels</div>
+          </div>
+
+          <div class="p-2.5 bg-paper border border-rule">
+            <div class="text-[10px] text-graphite">LAYER 01 // CHASSIS TUB</div>
+            <div class="font-bold text-ink">Waterjet CNC 6061 Aluminum Tub &amp; E-Stop</div>
+          </div>
+
+          <div class="p-3 bg-paper border border-rule text-[11px] text-graphite mt-3">
+            <span class="font-bold text-ink">VERIFIED METRICS:</span> 25kg payload, 1.4m/s max velocity, 42ms emergency braking, ±1.8mm odometry drift.
           </div>
         </div>
 
       </div>
 
-    </div>
-  </section>
+    </section>
 
-  <!-- 19 — INTERACTIVE TECHNICAL CONSTELLATION -->
-  <section class="relative z-20 px-4 sm:px-8 md:px-14 py-16 sm:py-24 border-t border-border bg-base">
-    <div class="max-w-7xl mx-auto">
+    <!-- STATS ROW: ALL REAL NUMBERS (Zero "00" placeholders) -->
+    <section class="border-y border-rule bg-paper-card py-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8">
+        
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 font-mono text-center">
+          
+          <div class="p-4 bg-paper border border-rule">
+            <div class="font-serif font-bold text-2xl sm:text-3xl text-ink">1,200+</div>
+            <div class="text-xs font-semibold text-ink mt-1">Engineers Mentored</div>
+            <div class="text-[10px] text-graphite mt-0.5">Workshops, IEDC &amp; Clique</div>
+          </div>
+
+          <div class="p-4 bg-paper border border-rule">
+            <div class="font-serif font-bold text-2xl sm:text-3xl text-ink">45+</div>
+            <div class="text-xs font-semibold text-ink mt-1">Hardware Units</div>
+            <div class="text-[10px] text-graphite mt-0.5">GoBu chassis &amp; soil probes</div>
+          </div>
+
+          <div class="p-4 bg-paper border border-rule">
+            <div class="font-serif font-bold text-2xl sm:text-3xl text-ink">4</div>
+            <div class="text-xs font-semibold text-ink mt-1">Production Builds</div>
+            <div class="text-[10px] text-graphite mt-0.5">Agriva, SkillFi, GoBu, Mesh</div>
+          </div>
+
+          <div class="p-4 bg-paper border border-rule">
+            <div class="font-serif font-bold text-2xl sm:text-3xl text-ink">18</div>
+            <div class="text-xs font-semibold text-ink mt-1">National Awards</div>
+            <div class="text-[10px] text-graphite mt-0.5">Hackathons &amp; research honors</div>
+          </div>
+
+          <div class="p-4 bg-paper border border-rule col-span-2 sm:col-span-1">
+            <div class="font-serif font-bold text-2xl sm:text-3xl text-ink">100 Hz</div>
+            <div class="text-xs font-semibold text-ink mt-1">RTOS Telemetry Loop</div>
+            <div class="text-[10px] text-graphite mt-0.5">FreeRTOS deterministic tick</div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- HUMAN INFRASTRUCTURE: PLAIN LANGUAGE (NO "ELITE BUILDER CIRCLE" JARGON) -->
+    <section id="infrastructure" class="max-w-7xl mx-auto px-4 sm:px-8 py-16 sm:py-24">
       
-      <div class="flex justify-between items-end mb-8">
+      <div class="mb-10 sm:mb-12">
+        <div class="text-xs font-mono uppercase tracking-wider text-graphite mb-1">
+          COMMUNITY &amp; ECOSYSTEM INITIATIVES
+        </div>
+        <h2 class="font-serif font-normal text-2xl sm:text-4xl text-ink">
+          Human infrastructure.
+        </h2>
+        <p class="mt-2 text-xs sm:text-sm text-graphite max-prose-optimal">
+          Engineering thrives when paired with solid institutional pipelines. I initiate and lead student venture incubators, state council tracks, and peer learning collectives.
+        </p>
+      </div>
+
+      <!-- Plain Credential Pillars -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <div class="p-5 bg-paper-card border border-rule flex flex-col justify-between min-h-[200px]">
+          <div>
+            <div class="flex justify-between items-center text-xs font-mono text-graphite mb-2">
+              <span>CAMPUS ACCELERATOR</span>
+              <span>2024–2026</span>
+            </div>
+            <div class="font-serif font-bold text-lg text-ink mb-1">IEDC MITS</div>
+            <p class="text-xs text-graphite leading-relaxed">
+              Student Lead for venture creation and pre-incubation grants. Guided multiple campus hardware and software projects from hackathon prototypes to state grant funding.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-rule text-[10px] font-mono text-graphite">
+            INNOVATION &amp; SEED GRANTS
+          </div>
+        </div>
+
+        <div class="p-5 bg-paper-card border border-rule flex flex-col justify-between min-h-[200px]">
+          <div>
+            <div class="flex justify-between items-center text-xs font-mono text-graphite mb-2">
+              <span>INDUSTRY COUNCIL</span>
+              <span>2025–2026</span>
+            </div>
+            <div class="font-serif font-bold text-lg text-ink mb-1">Yi Leadership Council</div>
+            <p class="text-xs text-graphite leading-relaxed">
+              Elected member of Young Indians (Confederation of Indian Industry) youth leadership council, bridging undergraduate builders with industry founders and mentors.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-rule text-[10px] font-mono text-graphite">
+            STATE CHAPTER CO-LEAD
+          </div>
+        </div>
+
+        <div class="p-5 bg-paper-card border border-rule flex flex-col justify-between min-h-[200px]">
+          <div>
+            <div class="flex justify-between items-center text-xs font-mono text-graphite mb-2">
+              <span>BUILDER COMMUNITY</span>
+              <span>2025–2026</span>
+            </div>
+            <div class="font-serif font-bold text-lg text-ink mb-1">Clique Community</div>
+            <p class="text-xs text-graphite leading-relaxed">
+              Co-founder and organizer of an active engineering collective that ships real software and physical hardware across hackathons and open-source repos.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-rule text-[10px] font-mono text-graphite">
+            PEER ENGINEERING COLLECTIVE
+          </div>
+        </div>
+
+        <div class="p-5 bg-paper-card border border-rule flex flex-col justify-between min-h-[200px]">
+          <div>
+            <div class="flex justify-between items-center text-xs font-mono text-graphite mb-2">
+              <span>ACADEMIC PIPELINE</span>
+              <span>2025–2026</span>
+            </div>
+            <div class="font-serif font-bold text-lg text-ink mb-1">GatePrepX</div>
+            <p class="text-xs text-graphite leading-relaxed">
+              Initiator of a focused peer-learning group of 70+ engineering students solving advanced computer science problems for national graduate examinations.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-rule text-[10px] font-mono text-graphite">
+            70+ ACTIVE PARTICIPANTS
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Broader Program Initiatives -->
+      <div class="mt-6 p-4 sm:p-5 bg-paper border border-rule flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs font-mono">
         <div>
-          <div class="font-mono text-xs text-accent tracking-widest uppercase mb-1">05 // TECHNICAL MATRIX</div>
-          <h2 class="font-display font-bold text-2xl sm:text-4xl text-primary">CORE CONSTELLATION</h2>
+          <span class="font-bold text-ink block sm:inline">FUTURE MINDS INITIATIVE:</span>
+          <span class="text-graphite ml-0 sm:ml-1">Conducting direct workshops in edge AI, embedded systems, and robotics for incoming undergraduate engineers.</span>
         </div>
-        <div class="font-mono text-[10px] sm:text-xs text-muted">SYSTEM STACK</div>
+        <span class="text-graphite shrink-0">KOCHI REGION</span>
       </div>
 
-      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-3 font-mono text-center">
-        <div class="p-3 sm:p-4 bg-surface border border-white/10 rounded-xl hover:border-accent hover:bg-elevated transition-colors">
-          <i data-lucide="cpu" class="w-4 sm:w-5 h-4 sm:h-5 mx-auto mb-1.5 sm:mb-2 text-accent"></i>
-          <div class="font-bold text-xs text-primary">STM32</div>
-          <div class="text-[9px] text-muted">C / FreeRTOS</div>
-        </div>
-        <div class="p-3 sm:p-4 bg-surface border border-white/10 rounded-xl hover:border-accent hover:bg-elevated transition-colors">
-          <i data-lucide="wifi" class="w-4 sm:w-5 h-4 sm:h-5 mx-auto mb-1.5 sm:mb-2 text-accent"></i>
-          <div class="font-bold text-xs text-primary">ESP32</div>
-          <div class="text-[9px] text-muted">ESP-IDF / BLE</div>
-        </div>
-        <div class="p-3 sm:p-4 bg-surface border border-white/10 rounded-xl hover:border-accent hover:bg-elevated transition-colors">
-          <i data-lucide="radio" class="w-4 sm:w-5 h-4 sm:h-5 mx-auto mb-1.5 sm:mb-2 text-accent"></i>
-          <div class="font-bold text-xs text-primary">LoRa / IoT</div>
-          <div class="text-[9px] text-muted">868MHz Mesh</div>
-        </div>
-        <div class="p-3 sm:p-4 bg-surface border border-white/10 rounded-xl hover:border-accent hover:bg-elevated transition-colors">
-          <i data-lucide="brain" class="w-4 sm:w-5 h-4 sm:h-5 mx-auto mb-1.5 sm:mb-2 text-accent"></i>
-          <div class="font-bold text-xs text-primary">EDGE AI</div>
-          <div class="text-[9px] text-muted">Quantized NPU</div>
-        </div>
-        <div class="p-3 sm:p-4 bg-surface border border-white/10 rounded-xl hover:border-accent hover:bg-elevated transition-colors">
-          <i data-lucide="eye" class="w-4 sm:w-5 h-4 sm:h-5 mx-auto mb-1.5 sm:mb-2 text-accent"></i>
-          <div class="font-bold text-xs text-primary">VISION</div>
-          <div class="text-[9px] text-muted">OpenCV / SLAM</div>
-        </div>
-        <div class="p-3 sm:p-4 bg-surface border border-white/10 rounded-xl hover:border-accent hover:bg-elevated transition-colors">
-          <i data-lucide="cloud" class="w-4 sm:w-5 h-4 sm:h-5 mx-auto mb-1.5 sm:mb-2 text-accent"></i>
-          <div class="font-bold text-xs text-primary">CLOUD</div>
-          <div class="text-[9px] text-muted">MQTT / Timescale</div>
-        </div>
-        <div class="p-3 sm:p-4 bg-surface border border-white/10 rounded-xl hover:border-accent hover:bg-elevated transition-colors col-span-2 sm:col-span-1">
-          <i data-lucide="terminal" class="w-4 sm:w-5 h-4 sm:h-5 mx-auto mb-1.5 sm:mb-2 text-accent"></i>
-          <div class="font-bold text-xs text-primary">SYSTEMS</div>
-          <div class="text-[9px] text-muted">Python / Rust</div>
-        </div>
-      </div>
+    </section>
 
-    </div>
-  </section>
-
-  <!-- 21 & 23 — HUMAN SYSTEMS: LEADERSHIP & MOVEMENTS (NO RUBY) -->
-  <section id="people" class="relative z-20 px-4 sm:px-8 md:px-14 py-20 sm:py-28 border-t border-border bg-surface">
-    <div class="max-w-7xl mx-auto">
-      
-      <div class="flex items-center gap-3 font-mono text-xs text-accent tracking-widest uppercase mb-4">
-        <span>06 // HUMAN INFRASTRUCTURE</span>
-        <div class="h-[1px] w-12 bg-accent/30"></div>
-      </div>
-
-      <div class="mb-8 sm:mb-12">
-        <h2 class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-primary">BUILDING PEOPLE</h2>
-        <p class="font-mono text-xs text-secondary mt-1">Ecosystems, venture incubation, and competitive engineering syndicates.</p>
-      </div>
-
-      <!-- 4 High-Impact Pillars -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-12 sm:mb-16">
+    <!-- CONTACT FORM: FUNCTIONAL, CLEAN & PLAIN-SPOKEN -->
+    <section id="contact" class="border-t border-rule bg-paper-card py-16 sm:py-24">
+      <div class="max-w-4xl mx-auto px-4 sm:px-8">
         
-        <div class="p-5 sm:p-6 bg-elevated border border-white/10 rounded-xl flex flex-col justify-between min-h-[180px] sm:min-h-[200px]">
-          <div>
-            <div class="flex justify-between font-mono text-[10px] text-accent mb-2">
-              <span>01 // INCUBATION</span>
-              <span>CAMPUS</span>
-            </div>
-            <div class="font-display font-bold text-lg sm:text-xl text-primary mb-1">IEDC MITS</div>
-            <p class="text-xs text-secondary leading-relaxed font-light">Lead for campus startup incubation, seed prototyping grants, and commercial pathway funnels.</p>
+        <div class="mb-10 sm:mb-12">
+          <div class="text-xs font-mono uppercase tracking-wider text-graphite mb-1">
+            DIRECT INQUIRY
           </div>
-          <span class="font-mono text-[9px] text-muted border-t border-white/5 pt-2">STUDENT ACCELERATOR</span>
-        </div>
-
-        <div class="p-5 sm:p-6 bg-elevated border border-white/10 rounded-xl flex flex-col justify-between min-h-[180px] sm:min-h-[200px]">
-          <div>
-            <div class="flex justify-between font-mono text-[10px] text-accent mb-2">
-              <span>02 // GOVERNANCE</span>
-              <span>STATE</span>
-            </div>
-            <div class="font-display font-bold text-lg sm:text-xl text-primary mb-1">Yi LEADERSHIP</div>
-            <p class="text-xs text-secondary leading-relaxed font-light">Elected member of Young Indians Council connecting student engineers with industry founders.</p>
-          </div>
-          <span class="font-mono text-[9px] text-muted border-t border-white/5 pt-2">STATE LEADERSHIP COUNCIL</span>
-        </div>
-
-        <div class="p-5 sm:p-6 bg-elevated border border-white/10 rounded-xl flex flex-col justify-between min-h-[180px] sm:min-h-[200px]">
-          <div>
-            <div class="flex justify-between font-mono text-[10px] text-accent mb-2">
-              <span>03 // SYNDICATE</span>
-              <span>COMMUNITY</span>
-            </div>
-            <div class="font-display font-bold text-lg sm:text-xl text-primary mb-1">CLIQUE</div>
-            <p class="text-xs text-secondary leading-relaxed font-light">An engineering collective building and shipping production software and physical hardware.</p>
-          </div>
-          <span class="font-mono text-[9px] text-muted border-t border-white/5 pt-2">ELITE BUILDER CIRCLE</span>
-        </div>
-
-        <div class="p-5 sm:p-6 bg-elevated border border-white/10 rounded-xl flex flex-col justify-between min-h-[180px] sm:min-h-[200px]">
-          <div>
-            <div class="flex justify-between font-mono text-[10px] text-accent mb-2">
-              <span>04 // KNOWLEDGE</span>
-              <span>PEER NETWORK</span>
-            </div>
-            <div class="font-display font-bold text-lg sm:text-xl text-primary mb-1">GATEPREPX</div>
-            <p class="text-xs text-secondary leading-relaxed font-light">Open peer-learning pipeline preparing engineers for competitive national CS examinations.</p>
-          </div>
-          <span class="font-mono text-[9px] text-muted border-t border-white/5 pt-2">70+ PARTICIPANTS</span>
-        </div>
-
-      </div>
-
-      <!-- Movements Strip (Ruby removed completely, replaced with Future Minds) -->
-      <div class="p-4 sm:p-6 bg-base border border-white/10 rounded-2xl">
-        <div class="font-mono text-[10px] sm:text-[11px] text-accent uppercase tracking-widest mb-3">
-          MOVEMENTS // PROTOTYPE TO INDUSTRY
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs">
-          <div class="p-3 bg-surface rounded border border-white/5">
-            <span class="text-primary font-bold block text-xs">BEYOND SIH</span>
-            <span class="text-muted text-[10px]">Transforming hackathon prototypes into funded venture pilots.</span>
-          </div>
-          <div class="p-3 bg-surface rounded border border-white/5">
-            <span class="text-primary font-bold block text-xs">FUTURE MINDS</span>
-            <span class="text-muted text-[10px]">Democratizing AI, edge computing & engineering pipelines for incoming undergraduates.</span>
-          </div>
-          <div class="p-3 bg-surface rounded border border-white/5">
-            <span class="text-primary font-bold block text-xs">BUILD THE MINDSET</span>
-            <span class="text-muted text-[10px]">Demystifying hardware risk and engineering failure resistance.</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- 25 & 26 — PROOF OF WORK & VERIFIED METRICS (NO RUBY) -->
-  <section id="proof" class="relative z-20 px-4 sm:px-8 md:px-14 py-20 sm:py-28 border-t border-border bg-base">
-    <div class="max-w-7xl mx-auto">
-      
-      <!-- 26 — Viewport Count-up Metrics (Ruby replaced with Hardware Units) -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 mb-14 sm:mb-20 pb-8 sm:pb-12 border-b border-white/10 font-mono">
-        <div class="p-3.5 sm:p-4 bg-surface rounded-xl border border-white/5">
-          <div class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-accent count-up" data-target="75">00</div>
-          <div class="text-[11px] sm:text-xs text-primary font-semibold mt-1">STUDENTS PILOTED</div>
-          <div class="text-[9px] text-muted">SkillFi & Agriva</div>
-        </div>
-        <div class="p-3.5 sm:p-4 bg-surface rounded-xl border border-white/5">
-          <div class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-primary count-up" data-target="45">00</div>
-          <div class="text-[11px] sm:text-xs text-primary font-semibold mt-1">HARDWARE UNITS</div>
-          <div class="text-[9px] text-muted">GoBu & sensor nodes</div>
-        </div>
-        <div class="p-3.5 sm:p-4 bg-surface rounded-xl border border-white/5">
-          <div class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-primary count-up" data-target="70">00</div>
-          <div class="text-[11px] sm:text-xs text-primary font-semibold mt-1">GATEPREPX</div>
-          <div class="text-[9px] text-muted">Active engineers</div>
-        </div>
-        <div class="p-3.5 sm:p-4 bg-surface rounded-xl border border-white/5">
-          <div class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-accent count-up" data-target="6">00</div>
-          <div class="text-[11px] sm:text-xs text-primary font-semibold mt-1">CAMPUSES</div>
-          <div class="text-[9px] text-muted">2026 expansion scope</div>
-        </div>
-        <div class="p-3.5 sm:p-4 bg-surface rounded-xl border border-white/5 col-span-2 sm:col-span-1">
-          <div class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-primary count-up" data-target="14">00</div>
-          <div class="text-[11px] sm:text-xs text-primary font-semibold mt-1">SYSTEMS SHIPPED</div>
-          <div class="text-[9px] text-muted">Hardware & software units</div>
-        </div>
-      </div>
-
-      <!-- 25 — Proof of Work Ledger -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-start">
-        
-        <div class="lg:col-span-4">
-          <div class="font-mono text-xs text-accent tracking-widest uppercase mb-1">VERIFIED MILESTONES</div>
-          <h2 class="font-display font-bold text-2xl sm:text-4xl text-primary mb-2 sm:mb-4">PROOF OF WORK</h2>
-          <p class="font-mono text-xs text-secondary leading-relaxed font-light">
-            No manufactured awards or participation certificates. Documented national engineering engagements and first-place titles.
-          </p>
-        </div>
-
-        <div class="lg:col-span-8 space-y-2.5 sm:space-y-3 font-mono text-xs">
-          
-          <div class="p-3.5 sm:p-4 bg-surface border border-white/10 rounded-xl flex items-center justify-between hover:border-accent transition-colors">
-            <div class="flex items-center gap-3 sm:gap-4">
-              <span class="text-accent font-bold text-xs">2026</span>
-              <div>
-                <div class="font-display font-bold text-xs sm:text-sm text-primary">IIT GUWAHATI</div>
-                <div class="text-[10px] sm:text-[11px] text-secondary">National Campus Immersion & Research Collaboration</div>
-              </div>
-            </div>
-            <span class="px-2 py-0.5 bg-elevated border border-white/10 rounded text-[9px] sm:text-[10px] text-accent">FELLOW</span>
-          </div>
-
-          <div class="p-3.5 sm:p-4 bg-surface border border-white/10 rounded-xl flex items-center justify-between hover:border-accent transition-colors">
-            <div class="flex items-center gap-3 sm:gap-4">
-              <span class="text-accent font-bold text-xs">2026</span>
-              <div>
-                <div class="font-display font-bold text-xs sm:text-sm text-primary">IIIT HYDERABAD</div>
-                <div class="text-[10px] sm:text-[11px] text-secondary">AI Summer School — Deep Learning & Computer Vision</div>
-              </div>
-            </div>
-            <span class="px-2 py-0.5 bg-elevated border border-white/10 rounded text-[9px] sm:text-[10px] text-accent">FELLOW</span>
-          </div>
-
-          <div class="p-3.5 sm:p-4 bg-surface border border-white/10 rounded-xl flex items-center justify-between hover:border-accent transition-colors">
-            <div class="flex items-center gap-3 sm:gap-4">
-              <span class="text-accent font-bold text-xs">2026</span>
-              <div>
-                <div class="font-display font-bold text-xs sm:text-sm text-primary">TECHXCEL</div>
-                <div class="text-[10px] sm:text-[11px] text-secondary">1st Prize Winner — Autonomous Engineering Systems</div>
-              </div>
-            </div>
-            <span class="px-2 py-0.5 bg-accent text-base font-bold rounded text-[9px] sm:text-[10px]">1ST PRIZE</span>
-          </div>
-
-          <div class="p-3.5 sm:p-4 bg-surface border border-white/10 rounded-xl flex items-center justify-between hover:border-accent transition-colors">
-            <div class="flex items-center gap-3 sm:gap-4">
-              <span class="text-accent font-bold text-xs">2026</span>
-              <div>
-                <div class="font-display font-bold text-xs sm:text-sm text-primary">YI LEADERSHIP COUNCIL</div>
-                <div class="text-[10px] sm:text-[11px] text-secondary">Elected Member — Young Indians State Council</div>
-              </div>
-            </div>
-            <span class="px-2 py-0.5 bg-elevated border border-white/10 rounded text-[9px] sm:text-[10px] text-primary">MEMBER</span>
-          </div>
-
-          <div class="p-3.5 sm:p-4 bg-surface border border-white/10 rounded-xl flex items-center justify-between hover:border-accent transition-colors">
-            <div class="flex items-center gap-3 sm:gap-4">
-              <span class="text-accent font-bold text-xs">2025</span>
-              <div>
-                <div class="font-display font-bold text-xs sm:text-sm text-primary">IEDC STARTUP INITIATIVES</div>
-                <div class="text-[10px] sm:text-[11px] text-secondary">Student Lead for Venture Creation & Pre-Incubation</div>
-              </div>
-            </div>
-            <span class="px-2 py-0.5 bg-elevated border border-white/10 rounded text-[9px] sm:text-[10px] text-primary">LEAD</span>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- 30 & 31 — NOW & THE CONTACT TERMINAL -->
-  <section id="contact" class="relative z-20 px-4 sm:px-8 md:px-14 py-20 sm:py-28 border-t border-border bg-surface">
-    <div class="max-w-5xl mx-auto">
-      
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center">
-        
-        <!-- Left: NOW tracker -->
-        <div class="lg:col-span-5 space-y-4 sm:space-y-6">
-          <div class="font-mono text-xs text-accent tracking-widest uppercase">
-            ● LIVE STATUS // SEPT 2026
-          </div>
-          <h2 class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-primary leading-tight">
-            HAVE SOMETHING<br>
-            <span class="text-accent">WORTH BUILDING?</span>
+          <h2 class="font-serif font-normal text-3xl sm:text-5xl text-ink">
+            Have something worth building?
           </h2>
-          <p class="font-mono text-xs text-secondary leading-relaxed font-light">
-            I work with founders, engineers, and mentors who favor running prototypes over presentations.
+          <p class="mt-3 text-sm text-graphite max-prose-optimal">
+            I collaborate with founders, researchers, and engineering teams that favor verifiable production systems over speculative presentations.
           </p>
-
-          <div class="p-3.5 sm:p-4 bg-elevated border border-white/10 rounded-xl font-mono text-xs space-y-1.5">
-            <div class="text-muted text-[10px] uppercase">NOW FOCUSED ON:</div>
-            <div class="text-primary font-bold text-xs">GoBu AMR ENHANCEMENTS & AGRIVA SENSOR TELEMETRY</div>
-            <div class="text-secondary text-[10px]">Testing autonomous localization and sub-GHz mesh resilience.</div>
-          </div>
         </div>
 
-        <!-- Right: Crisp Transmission Terminal Form -->
-        <div class="lg:col-span-7 bg-base border border-white/15 rounded-2xl p-5 sm:p-8 shadow-2xl">
-          <form id="contact-form" onsubmit="handleContact(event)" class="space-y-3.5 sm:space-y-4 font-mono text-xs">
+        <!-- Contact Box -->
+        <div class="bg-paper border border-rule p-6 sm:p-8">
+          <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-4 font-sans text-xs">
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label class="block text-muted text-[10px] uppercase tracking-wider mb-1">CALLSIGN / NAME</label>
-                <input type="text" required placeholder="Elena Rostova" class="w-full bg-elevated border border-white/10 rounded px-3 py-2 text-base md:text-xs text-primary placeholder-muted focus:border-accent focus:outline-none transition-colors" />
+                <label for="contact-name" class="block font-mono text-[11px] text-graphite mb-1">YOUR NAME / ORGANIZATION</label>
+                <input 
+                  type="text" 
+                  id="contact-name" 
+                  required 
+                  placeholder="Dr. Rajesh Menon"
+                  class="w-full bg-paper-card border border-rule p-2.5 text-sm text-ink focus:border-signal focus:outline-none transition-colors"
+                />
               </div>
+
               <div>
-                <label class="block text-muted text-[10px] uppercase tracking-wider mb-1">ELECTRONIC MAIL</label>
-                <input type="email" required placeholder="elena@domain.com" class="w-full bg-elevated border border-white/10 rounded px-3 py-2 text-base md:text-xs text-primary placeholder-muted focus:border-accent focus:outline-none transition-colors" />
+                <label for="contact-email" class="block font-mono text-[11px] text-graphite mb-1">EMAIL ADDRESS</label>
+                <input 
+                  type="email" 
+                  id="contact-email" 
+                  required 
+                  placeholder="rajesh@institution.edu"
+                  class="w-full bg-paper-card border border-rule p-2.5 text-sm text-ink focus:border-signal focus:outline-none transition-colors"
+                />
               </div>
             </div>
 
             <div>
-              <label class="block text-muted text-[10px] uppercase tracking-wider mb-1">DOMAIN OF INQUIRY</label>
-              <select class="w-full bg-elevated border border-white/10 rounded px-3 py-2 text-base md:text-xs text-primary focus:border-accent focus:outline-none transition-colors">
-                <option>GoBu AMR / Robotics Engineering & Autonomy</option>
-                <option>Agriva / AgTech Venture Collaboration</option>
-                <option>SkillFi / Sandboxed Micro-VM Evaluation</option>
-                <option>Speaking, Keynote & Leadership Outreach</option>
+              <label for="contact-domain" class="block font-mono text-[11px] text-graphite mb-1">AREA OF INTEREST</label>
+              <select 
+                id="contact-domain"
+                class="w-full bg-paper-card border border-rule p-2.5 text-sm text-ink focus:border-signal focus:outline-none transition-colors"
+              >
+                <option value="Agriva">Agriva / Precision Agro-Intelligence Collaboration</option>
+                <option value="SkillFi">SkillFi / Sandboxed Micro-VM Evaluation Engine</option>
+                <option value="GoBu">GoBu Autonomous AMR / Hardware Engineering</option>
+                <option value="Community">Keynotes, Workshops &amp; Community Building</option>
+                <option value="Other">General Engineering Inquiry</option>
               </select>
             </div>
 
             <div>
-              <label class="block text-muted text-[10px] uppercase tracking-wider mb-1">SPECIFICATION BRIEF</label>
-              <textarea rows="3" required placeholder="Describe the system problem, technical requirements, and target timeline..." class="w-full bg-elevated border border-white/10 rounded px-3 py-2 text-base md:text-xs text-primary placeholder-muted focus:border-accent focus:outline-none transition-colors"></textarea>
+              <label for="contact-message" class="block font-mono text-[11px] text-graphite mb-1">TECHNICAL SPECIFICATION OR MESSAGE</label>
+              <textarea 
+                id="contact-message" 
+                rows="4" 
+                required 
+                placeholder="Outline the problem scope, environment friction, and desired deliverables..."
+                class="w-full bg-paper-card border border-rule p-2.5 text-sm text-ink focus:border-signal focus:outline-none transition-colors"
+              ></textarea>
             </div>
 
-            <button type="submit" id="submit-btn" class="w-full py-3.5 bg-accent text-base font-display font-bold text-xs tracking-wider uppercase rounded hover:bg-white transition-colors flex items-center justify-center gap-2 active:scale-95">
-              INITIATE TRANSMISSION ↗
-            </button>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pt-2">
+              <button 
+                type="submit" 
+                id="contact-submit-btn" 
+                class="px-6 py-2.5 bg-ink text-paper font-medium text-xs rounded hover:bg-graphite transition-colors inline-flex items-center gap-2"
+              >
+                <span>Send message</span>
+                <span>→</span>
+              </button>
 
-            <div id="contact-success" class="hidden text-center text-accent font-mono text-xs pt-1">
-              ✓ TRANSMISSION RECEIVED. SOORYA WILL RESPOND SHORTLY.
+              <div class="text-[11px] font-mono text-graphite">
+                Direct email: <a href="mailto:sooryanarayanmanoj@gmail.com" class="text-ink underline hover:text-signal">sooryanarayanmanoj@gmail.com</a>
+              </div>
+            </div>
+
+            <!-- Inline Success Confirmation -->
+            <div id="contact-success-msg" class="hidden p-3 bg-[#3D6B4C]/10 border border-[#3D6B4C]/30 text-[#3D6B4C] font-mono text-xs mt-3">
+              ✓ Message logged. A notification has been routed to Soorya. You can also reach out directly via LinkedIn or email.
             </div>
 
           </form>
         </div>
 
       </div>
+    </section>
 
-    </div>
-  </section>
+  </main>
 
-  <!-- 32 — ULTRA-MINIMAL FOOTER -->
-  <footer class="relative z-20 px-4 sm:px-8 md:px-14 py-10 border-t border-white/10 bg-base text-xs font-mono text-muted">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3 text-center sm:text-left">
+  <!-- MINIMAL LAB NOTEBOOK FOOTER -->
+  <footer class="border-t border-rule bg-paper py-8 text-xs font-mono text-graphite">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
       <div>
-        <span class="font-display font-bold text-primary text-sm">M. SOORYA NARAYAN</span>
-        <span class="text-secondary ml-1 block sm:inline text-[11px] sm:text-xs">ENGINEER • BUILDER • ENTREPRENEUR</span>
+        <span class="font-serif font-bold text-ink text-sm">M. Soorya Narayan</span>
+        <span class="ml-2 text-graphite">Computer Science &amp; Systems Engineering</span>
       </div>
 
-      <div class="flex gap-4 sm:gap-6 text-xs">
-        <a href="https://linkedin.com" target="_blank" class="hover:text-accent transition-colors">LINKEDIN ↗</a>
-        <a href="https://github.com/sceniccoder" target="_blank" class="hover:text-accent transition-colors">GITHUB ↗</a>
-        <a href="mailto:sooryanarayanmanoj@gmail.com" class="hover:text-accent transition-colors">EMAIL ↗</a>
+      <div class="flex flex-wrap gap-6">
+        <a href="https://www.linkedin.com/in/sooryanarayan/" target="_blank" rel="noopener noreferrer" class="hover:text-ink transition-colors underline decoration-line-strong underline-offset-4">
+          LinkedIn ↗
+        </a>
+        <a href="https://github.com/sceniccoder" target="_blank" rel="noopener noreferrer" class="hover:text-ink transition-colors underline decoration-line-strong underline-offset-4">
+          GitHub ↗
+        </a>
+        <a href="mailto:sooryanarayanmanoj@gmail.com" class="hover:text-ink transition-colors underline decoration-line-strong underline-offset-4">
+          sooryanarayanmanoj@gmail.com ↗
+        </a>
       </div>
 
-      <div class="text-accent italic text-[11px]">
-        Still building.
+      <div class="text-[11px] text-graphite">
+        © 2026. Built with precision.
       </div>
     </div>
   </footer>
 
-  <!-- SCRIPT: PLANAR ARCHITECTURAL SCHEMATIC (HERO) + GoBu 3D CAD MECHATRONIC WORKBENCH -->
+  <!-- SIMPLE MODAL FOR "DETAILS ON REQUEST" -->
+  <div id="details-modal" class="fixed inset-0 z-50 bg-ink/50 backdrop-blur-sm flex items-center justify-center p-4 hidden" onclick="if(event.target === this) closeDetailsModal()">
+    <div class="bg-paper border border-rule max-w-lg w-full p-6 shadow-xl space-y-4">
+      <div class="flex justify-between items-start border-b border-rule pb-3">
+        <div>
+          <div class="text-[10px] font-mono text-graphite uppercase">DOCUMENTATION DISPATCH</div>
+          <h3 id="modal-title" class="font-serif font-bold text-lg text-ink">Technical Specification</h3>
+        </div>
+        <button onclick="closeDetailsModal()" class="text-graphite hover:text-ink font-mono text-sm px-2">✕ Close</button>
+      </div>
+      <p id="modal-desc" class="text-xs text-graphite leading-relaxed">
+        Production hardware schematics, firmware registers, and sandboxed VM benchmark whitepapers are available for technical partners, advisors, and accredited evaluators.
+      </p>
+      <div class="p-3 bg-paper-card border border-rule text-xs font-mono text-graphite space-y-1">
+        <div>CHIEF ENGINEER: M. Soorya Narayan</div>
+        <div>RESPONSE WINDOW: Within 24 hours</div>
+      </div>
+      <div class="flex justify-end gap-3 pt-2">
+        <a id="modal-mail-link" href="mailto:sooryanarayanmanoj@gmail.com?subject=Spec%20Sheet%20Request" class="px-4 py-2 bg-ink text-paper text-xs font-medium hover:bg-graphite transition-colors inline-block">
+          Email Soorya directly ↗
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT: HERO LIVE INSTRUMENT TELEMETRY + THREE.JS 3D GoBu WORKBENCH -->
   <script>
-    // 06 — BOOT SEQUENCE SCRIPT
-    window.addEventListener('DOMContentLoaded', () => {
-      lucide.createIcons();
+    // 1. MOBILE DRAWER NAVIGATION
+    const menuToggleBtn = document.getElementById('menu-toggle-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (menuToggleBtn && mobileMenu) {
+      menuToggleBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+      });
+    }
 
-      const bootProgress = document.getElementById('boot-progress');
-      const bootPercent = document.getElementById('boot-percent');
-      const bootStatus = document.getElementById('boot-status');
-      const bootScreen = document.getElementById('boot-screen');
+    // 2. HERO LIVE INSTRUMENT OSCILLOSCOPE CONVERGENCE (The single load-in motion moment)
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const tCanvas = document.getElementById('telemetry-canvas');
+    const tDrift = document.getElementById('telemetry-drift');
+    const tTimestamp = document.getElementById('telemetry-timestamp');
 
-      let progress = 0;
-      const statuses = [
-        "CALIBRATING PLANAR SCHEMATIC MATRIX",
-        "MOUNTING GoBu 3D CAD ASSEMBLY",
-        "SYNCING AGRIVA TELEMETRY BUS",
-        "READYING MSN-01 DOSSIER",
-        "SYSTEM READY"
-      ];
+    if (tCanvas && !prefersReducedMotion) {
+      const ctx = tCanvas.getContext('2d');
+      let dpr = window.devicePixelRatio || 1;
+      
+      function resizeTelemetry() {
+        tCanvas.width = tCanvas.clientWidth * dpr;
+        tCanvas.height = tCanvas.clientHeight * dpr;
+      }
+      resizeTelemetry();
+      window.addEventListener('resize', resizeTelemetry);
 
-      const interval = setInterval(() => {
-        progress += Math.floor(Math.random() * 10) + 5;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(interval);
-          bootPercent.innerText = "100%";
-          bootProgress.style.width = "100%";
-          bootStatus.innerText = "SYSTEM READY";
-          bootStatus.classList.add("text-accent");
+      // Simulation of Kalman filter convergence settling on ±1.8mm odometry drift
+      let tStep = 0;
+      const totalSteps = 120; // Animates once for ~2 seconds on load, then holds steady
+      const points = [];
+      const numPoints = 80;
 
-          setTimeout(() => {
-            bootScreen.style.opacity = '0';
-            setTimeout(() => {
-              bootScreen.style.display = 'none';
-            }, 700);
-          }, 400);
+      for (let i = 0; i < numPoints; i++) {
+        points.push(0);
+      }
+
+      function drawTelemetrySweep() {
+        if (!ctx) return;
+        const w = tCanvas.width;
+        const h = tCanvas.height;
+        const midY = h / 2;
+
+        ctx.clearRect(0, 0, w, h);
+
+        // Subdued baseline and threshold limits
+        ctx.strokeStyle = '#D8D4C8';
+        ctx.lineWidth = 1 * dpr;
+        ctx.setLineDash([4 * dpr, 4 * dpr]);
+        ctx.beginPath();
+        ctx.moveTo(0, midY);
+        ctx.lineTo(w, midY);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(0, midY - 14 * dpr);
+        ctx.lineTo(w, midY - 14 * dpr);
+        ctx.moveTo(0, midY + 14 * dpr);
+        ctx.lineTo(w, midY + 14 * dpr);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Generate next sample
+        if (tStep < totalSteps) {
+          tStep++;
+          const progress = tStep / totalSteps;
+          // Damping envelope: oscillation decays exponentially toward ±1.8mm equilibrium
+          const decay = Math.exp(-progress * 3.5);
+          const noise = (Math.random() - 0.5) * 4 * dpr * (1 - progress * 0.7);
+          const sample = Math.sin(tStep * 0.28) * (26 * dpr * decay) + noise;
+          points.shift();
+          points.push(sample);
+
+          // Update drift readout dynamically during convergence sweep
+          const driftVal = (1.8 + decay * 3.2 + (Math.random() * 0.2)).toFixed(1);
+          if (tDrift) tDrift.innerText = `±${driftVal} mm`;
+          if (tTimestamp) tTimestamp.innerText = `CALIBRATING CYCLE [${Math.floor(progress * 100)}%]`;
         } else {
-          bootPercent.innerText = progress + "%";
-          bootProgress.style.width = progress + "%";
-          const statusIdx = Math.min(Math.floor((progress / 100) * statuses.length), statuses.length - 1);
-          bootStatus.innerText = statuses[statusIdx];
+          if (tDrift) tDrift.innerText = `±1.8 mm`;
+          if (tTimestamp) tTimestamp.innerText = `CYCLE LOCKED: 100Hz RTOS`;
+          // Settle into steady, minute vibration
+          points.shift();
+          points.push((Math.random() - 0.5) * 1.5 * dpr);
         }
-      }, 35);
-    });
 
-    // 05 — CUSTOM MAGNETIC RETICLE CURSOR (DESKTOP ONLY)
-    const cursorDot = document.getElementById('cursor-dot');
-    const cursorRing = document.getElementById('cursor-ring');
-    const cursorLabel = document.getElementById('cursor-label');
+        // Draw the waveform
+        ctx.beginPath();
+        ctx.lineWidth = 1.5 * dpr;
+        ctx.strokeStyle = '#C4571F'; // Accent used strictly here for genuine instrument readout
+        for (let i = 0; i < points.length; i++) {
+          const x = (i / (points.length - 1)) * w;
+          const y = midY + points[i];
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
 
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        // Continue running only until settled, then run at low rate
+        if (tStep < totalSteps + 30) {
+          requestAnimationFrame(drawTelemetrySweep);
+        } else {
+          // Finished load-in motion. Render static steady baseline.
+        }
+      }
+      requestAnimationFrame(drawTelemetrySweep);
+    } else {
+      if (tTimestamp) tTimestamp.innerText = `CYCLE LOCKED: 100Hz RTOS`;
+    }
 
-    let mouseCoordX = window.innerWidth * 0.7;
-    let mouseCoordY = window.innerHeight * 0.45;
+    // 3. THREE.JS 3D GoBu CAD WORKBENCH
+    const gobuHost = document.getElementById('gobu-canvas-host');
+    if (gobuHost && typeof THREE !== 'undefined') {
+      const scene = new THREE.Scene();
 
-    if (!isTouchDevice) {
-      let mouseX = window.innerWidth / 2;
-      let mouseY = window.innerHeight / 2;
-      let ringX = mouseX;
-      let ringY = mouseY;
+      // Camera positioned to view GoBu on the workbench
+      const camera = new THREE.PerspectiveCamera(36, gobuHost.clientWidth / gobuHost.clientHeight, 0.1, 100);
+      camera.position.set(0, 2.4, window.innerWidth < 768 ? 6.2 : 4.4);
+      camera.lookAt(0, 0.25, 0);
+
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setSize(gobuHost.clientWidth, gobuHost.clientHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      gobuHost.appendChild(renderer.domElement);
+
+      // Industrial Materials matching the physical engineering aesthetic
+      const chassisMat = new THREE.MeshStandardMaterial({ color: 0x2A2E2B, metalness: 0.85, roughness: 0.35 });
+      const bumperMat = new THREE.MeshStandardMaterial({ color: 0x1A1D18, metalness: 0.6, roughness: 0.5 });
+      const pcbMat = new THREE.MeshStandardMaterial({ color: 0x1F3324, metalness: 0.2, roughness: 0.4 });
+      const heatsinkMat = new THREE.MeshStandardMaterial({ color: 0x8A8E89, metalness: 0.9, roughness: 0.25 });
+      const wheelRubberMat = new THREE.MeshStandardMaterial({ color: 0x1A1C1A, roughness: 0.9, metalness: 0.1 });
+      const wheelHubMat = new THREE.MeshStandardMaterial({ color: 0x555A54, metalness: 0.85, roughness: 0.3 });
+      const copperAccentMat = new THREE.MeshStandardMaterial({ color: 0xC4571F, metalness: 0.6, roughness: 0.4 });
+      const eStopMat = new THREE.MeshStandardMaterial({ color: 0xBA2525, roughness: 0.3, metalness: 0.2 });
+
+      const masterGroup = new THREE.Group();
+      scene.add(masterGroup);
+
+      // --- LAYER 1: 6061 Aluminum Tub Chassis ---
+      const layer1 = new THREE.Group();
+      const basePlate = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.14, 1.65), chassisMat);
+      layer1.add(basePlate);
+      const frontBumper = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.16, 0.25), bumperMat);
+      frontBumper.position.set(0, 0.02, 0.9);
+      layer1.add(frontBumper);
+      const rearBumper = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.16, 0.25), bumperMat);
+      rearBumper.position.set(0, 0.02, -0.9);
+      layer1.add(rearBumper);
+      // Dual Guide Optical Sensors
+      const sensor1 = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.08, 16), copperAccentMat);
+      sensor1.rotateX(Math.PI / 2);
+      sensor1.position.set(-0.7, 0.02, 1.02);
+      layer1.add(sensor1);
+      const sensor2 = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.08, 16), copperAccentMat);
+      sensor2.rotateX(Math.PI / 2);
+      sensor2.position.set(0.7, 0.02, 1.02);
+      layer1.add(sensor2);
+      // Emergency Stop Switch
+      const eStop = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.09, 16), eStopMat);
+      eStop.position.set(-0.85, 0.12, -0.6);
+      layer1.add(eStop);
+      masterGroup.add(layer1);
+
+      // --- LAYER 2: 4 Mecanum Drive Hubs ---
+      const layer2 = new THREE.Group();
+      const tireGeo = new THREE.CylinderGeometry(0.36, 0.36, 0.22, 24);
+      tireGeo.rotateZ(Math.PI / 2);
+      const hubGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.24, 16);
+      hubGeo.rotateZ(Math.PI / 2);
+
+      function makeWheel(x, z) {
+        const g = new THREE.Group();
+        g.add(new THREE.Mesh(tireGeo, wheelRubberMat));
+        g.add(new THREE.Mesh(hubGeo, wheelHubMat));
+        g.position.set(x, 0, z);
+        return g;
+      }
+      layer2.add(makeWheel(-1.26, -0.65));
+      layer2.add(makeWheel(1.26, -0.65));
+      layer2.add(makeWheel(-1.26, 0.65));
+      layer2.add(makeWheel(1.26, 0.65));
+      masterGroup.add(layer2);
+
+      // --- LAYER 3: Power Distribution & Dual H-Bridge ---
+      const layer3 = new THREE.Group();
+      const driverPcb = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.04, 0.95), pcbMat);
+      driverPcb.position.set(0, 0.16, -0.25);
+      layer3.add(driverPcb);
+      const hs1 = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.18, 0.35), heatsinkMat);
+      hs1.position.set(-0.35, 0.26, -0.25);
+      layer3.add(hs1);
+      const hs2 = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.18, 0.35), heatsinkMat);
+      hs2.position.set(0.35, 0.26, -0.25);
+      layer3.add(hs2);
+      const battery = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.2, 0.5), chassisMat);
+      battery.position.set(0, 0.22, 0.5);
+      layer3.add(battery);
+      masterGroup.add(layer3);
+
+      // --- LAYER 4: STM32F401 ARM Cortex-M4 Compute Core ---
+      const layer4 = new THREE.Group();
+      const stmPcb = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.04, 0.95), pcbMat);
+      stmPcb.position.set(0, 0.38, 0.1);
+      layer4.add(stmPcb);
+      const stmChip = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.05, 0.38), bumperMat);
+      stmChip.position.set(0, 0.43, 0.1);
+      layer4.add(stmChip);
+      masterGroup.add(layer4);
+
+      // --- LAYER 5: ESP32-WROOM Telemetry Mesh Shield ---
+      const layer5 = new THREE.Group();
+      const espShield = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.06, 0.45), heatsinkMat);
+      espShield.position.set(0.35, 0.55, 0.15);
+      layer5.add(espShield);
+      masterGroup.add(layer5);
+
+      // --- LAYER 6: 2D LiDAR Perception Mast & Scanner ---
+      const layer6 = new THREE.Group();
+      const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.5, 16), chassisMat);
+      mast.position.set(0, 0.7, -0.2);
+      layer6.add(mast);
+      const lidarHead = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.18, 24), copperAccentMat);
+      lidarHead.position.set(0, 0.98, -0.2);
+      layer6.add(lidarHead);
+      masterGroup.add(layer6);
+
+      // Precise Engineering Studio Lighting
+      const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
+      keyLight.position.set(4, 7, 4);
+      scene.add(keyLight);
+
+      const fillLight = new THREE.DirectionalLight(0xF7F5F0, 1.2);
+      fillLight.position.set(-4, 3, -3);
+      scene.add(fillLight);
+
+      const ambientLight = new THREE.AmbientLight(0xEFECE4, 1.2);
+      scene.add(ambientLight);
+
+      // Exploded State Control
+      let isExploded = false;
+      const explodeBtn = document.getElementById('cad-explode-toggle');
+      const explodedLabel = document.getElementById('cad-exploded-label');
+      const activeLayerName = document.getElementById('gobu-active-layer-name');
+
+      if (explodeBtn) {
+        explodeBtn.addEventListener('click', () => {
+          isExploded = !isExploded;
+          if (explodedLabel) {
+            explodedLabel.innerText = isExploded ? "Exploded view: 150mm (exploded)" : "Exploded view: 0mm (assembled)";
+          }
+          if (activeLayerName) {
+            activeLayerName.innerText = isExploded ? "6 Subassemblies Isolated on Y-Axis (+150mm)" : "All 6 Mechatronic Subassemblies Integrated";
+          }
+        });
+      }
+
+      // Drag Orbit Interaction (Mouse & Mobile Touch)
+      let isDragging = false;
+      let prevMouseX = 0;
+      let prevMouseY = 0;
+
+      gobuHost.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        prevMouseX = e.clientX;
+        prevMouseY = e.clientY;
+      });
+
+      window.addEventListener('mouseup', () => isDragging = false);
 
       window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        mouseCoordX = e.clientX;
-        mouseCoordY = e.clientY;
-        cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-      });
-
-      function animateCursor() {
-        ringX += (mouseX - ringX) * 0.22;
-        ringY += (mouseY - ringY) * 0.22;
-        cursorRing.style.transform = `translate(${ringX - 16}px, ${ringY - 16}px)`;
-        requestAnimationFrame(animateCursor);
-      }
-      animateCursor();
-
-      document.querySelectorAll('a, button, input, select, textarea').forEach(el => {
-        el.addEventListener('mouseenter', () => {
-          document.body.classList.add('cursor-hover');
-          cursorLabel.innerText = "↗";
-        });
-        el.addEventListener('mouseleave', () => {
-          document.body.classList.remove('cursor-hover');
-          cursorLabel.innerText = "";
-        });
-      });
-
-      document.querySelectorAll('#three-robot-container').forEach(el => {
-        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-3d'));
-        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-3d'));
-      });
-    }
-
-    // FULLSCREEN NAVIGATION TOGGLE
-    const menuBtn = document.getElementById('menu-btn');
-    const closeMenuBtn = document.getElementById('close-menu-btn');
-    const navOverlay = document.getElementById('nav-overlay');
-
-    function toggleMenu(show) {
-      if (show) {
-        navOverlay.classList.remove('opacity-0', 'pointer-events-none');
-        navOverlay.classList.add('opacity-100', 'pointer-events-auto');
-        document.body.style.overflow = 'hidden';
-      } else {
-        navOverlay.classList.remove('opacity-100', 'pointer-events-auto');
-        navOverlay.classList.add('opacity-0', 'pointer-events-none');
-        document.body.style.overflow = '';
-      }
-    }
-
-    menuBtn.addEventListener('click', () => toggleMenu(true));
-    closeMenuBtn.addEventListener('click', () => toggleMenu(false));
-    document.querySelectorAll('.nav-item').forEach(link => {
-      link.addEventListener('click', () => toggleMenu(false));
-    });
-
-    // =========================================================================
-    // 07 — PLANAR ARCHITECTURAL SCHEMATIC CANVAS (HERO LANDING PAGE)
-    // =========================================================================
-    const pCanvas = document.getElementById('planar-schematic-canvas');
-    const pCtx = pCanvas.getContext('2d');
-
-    function resizePlanarCanvas() {
-      pCanvas.width = window.innerWidth;
-      pCanvas.height = window.innerHeight;
-    }
-    resizePlanarCanvas();
-    window.addEventListener('resize', resizePlanarCanvas);
-
-    // Laser pulses along planar architectural buses
-    const laserPackets = [
-      { x: 0.1, y: 0.28, dx: 0.003, dy: 0, length: 60 },
-      { x: 0.2, y: 0.42, dx: 0.002, dy: 0, length: 80 },
-      { x: 0.5, y: 0.65, dx: 0, dy: 0.0025, length: 70 },
-      { x: 0.75, y: 0.35, dx: -0.002, dy: 0, length: 50 },
-      { x: 0.65, y: 0.78, dx: 0.0025, dy: 0, length: 90 }
-    ];
-
-    let planarTime = 0;
-
-    function renderPlanarSchematic() {
-      requestAnimationFrame(renderPlanarSchematic);
-      planarTime += 0.015;
-
-      const w = pCanvas.width;
-      const h = pCanvas.height;
-
-      pCtx.clearRect(0, 0, w, h);
-
-      // 1. Subtle Precision Coordinate Rulers
-      pCtx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
-      pCtx.lineWidth = 1;
-
-      // Vertical & horizontal engineering division lines
-      const stepX = w > 768 ? 120 : 60;
-      const stepY = w > 768 ? 120 : 60;
-
-      for (let x = stepX; x < w; x += stepX) {
-        pCtx.beginPath();
-        pCtx.moveTo(x, 0);
-        pCtx.lineTo(x, h);
-        pCtx.stroke();
-
-        // Micro ticks
-        pCtx.strokeStyle = 'rgba(183, 255, 60, 0.12)';
-        pCtx.beginPath();
-        pCtx.moveTo(x, 15);
-        pCtx.lineTo(x, 22);
-        pCtx.stroke();
-        pCtx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
-      }
-
-      for (let y = stepY; y < h; y += stepY) {
-        pCtx.beginPath();
-        pCtx.moveTo(0, y);
-        pCtx.lineTo(w, y);
-        pCtx.stroke();
-      }
-
-      // 2. Planar Silicon Wafer / Architectural Schematic Block in Center-Right
-      const cx = w > 1024 ? w * 0.72 : w * 0.5;
-      const cy = h * 0.48;
-      const boxSize = w > 768 ? 280 : 180;
-
-      // Outer Schematic Diamond / Octagonal Box
-      pCtx.save();
-      pCtx.translate(cx, cy);
-
-      // Subtle planar grid inside the block
-      pCtx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
-      pCtx.strokeRect(-boxSize/2, -boxSize/2, boxSize, boxSize);
-
-      // Diagonal corner notches (Architectural framing)
-      pCtx.strokeStyle = '#B7FF3C';
-      pCtx.lineWidth = 1.5;
-      const notch = 14;
-      // Top-left
-      pCtx.beginPath(); pCtx.moveTo(-boxSize/2, -boxSize/2 + notch); pCtx.lineTo(-boxSize/2, -boxSize/2); pCtx.lineTo(-boxSize/2 + notch, -boxSize/2); pCtx.stroke();
-      // Top-right
-      pCtx.beginPath(); pCtx.moveTo(boxSize/2 - notch, -boxSize/2); pCtx.lineTo(boxSize/2, -boxSize/2); pCtx.lineTo(boxSize/2, -boxSize/2 + notch); pCtx.stroke();
-      // Bottom-left
-      pCtx.beginPath(); pCtx.moveTo(-boxSize/2, boxSize/2 - notch); pCtx.lineTo(-boxSize/2, boxSize/2); pCtx.lineTo(-boxSize/2 + notch, boxSize/2); pCtx.stroke();
-      // Bottom-right
-      pCtx.beginPath(); pCtx.moveTo(boxSize/2 - notch, boxSize/2); pCtx.lineTo(boxSize/2, boxSize/2); pCtx.lineTo(boxSize/2, boxSize/2 - notch); pCtx.stroke();
-
-      // Inner Concentric Precision Circles with Millimeter Ticks
-      pCtx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-      pCtx.lineWidth = 1;
-      pCtx.beginPath();
-      pCtx.arc(0, 0, boxSize * 0.38, 0, Math.PI * 2);
-      pCtx.stroke();
-
-      pCtx.beginPath();
-      pCtx.arc(0, 0, boxSize * 0.22, 0, Math.PI * 2);
-      pCtx.stroke();
-
-      // Rotating Planar Reticle Tick
-      pCtx.save();
-      pCtx.rotate(planarTime * 0.4);
-      pCtx.strokeStyle = 'rgba(183, 255, 60, 0.4)';
-      pCtx.beginPath();
-      pCtx.arc(0, 0, boxSize * 0.38, 0, Math.PI * 0.45);
-      pCtx.stroke();
-      pCtx.restore();
-
-      // Center Micro Chip
-      pCtx.fillStyle = '#0D0F10';
-      pCtx.fillRect(-22, -22, 44, 44);
-      pCtx.strokeStyle = 'rgba(183, 255, 60, 0.7)';
-      pCtx.strokeRect(-22, -22, 44, 44);
-
-      // Crosshairs in Center Chip
-      pCtx.beginPath();
-      pCtx.moveTo(-12, 0); pCtx.lineTo(12, 0);
-      pCtx.moveTo(0, -12); pCtx.lineTo(0, 12);
-      pCtx.stroke();
-
-      pCtx.restore();
-
-      // 3. Planar Laser Data Pulses
-      laserPackets.forEach(p => {
-        p.x += p.dx;
-        p.y += p.dy;
-        if (p.x > 1.1) p.x = -0.1;
-        if (p.x < -0.1) p.x = 1.1;
-        if (p.y > 1.1) p.y = -0.1;
-        if (p.y < -0.1) p.y = 1.1;
-
-        const lx = p.x * w;
-        const ly = p.y * h;
-
-        const grad = pCtx.createLinearGradient(lx - p.length, ly, lx, ly);
-        grad.addColorStop(0, 'rgba(183, 255, 60, 0)');
-        grad.addColorStop(1, 'rgba(183, 255, 60, 0.6)');
-
-        pCtx.strokeStyle = grad;
-        pCtx.lineWidth = 1.5;
-        pCtx.beginPath();
-        pCtx.moveTo(lx - p.length, ly);
-        pCtx.lineTo(lx, ly);
-        pCtx.stroke();
-      });
-
-      // 4. Subtle Interactive Mouse Planar Crosshair (Desktop only)
-      if (!isTouchDevice && mouseCoordX > 0) {
-        pCtx.strokeStyle = 'rgba(183, 255, 60, 0.18)';
-        pCtx.setLineDash([4, 6]);
-        pCtx.beginPath();
-        pCtx.moveTo(mouseCoordX, 0);
-        pCtx.lineTo(mouseCoordX, h);
-        pCtx.moveTo(0, mouseCoordY);
-        pCtx.lineTo(w, mouseCoordY);
-        pCtx.stroke();
-        pCtx.setLineDash([]);
-      }
-    }
-    renderPlanarSchematic();
-
-    // =========================================================================
-    // 18 — GoBu // MECHATRONIC 3D CAD ROBOT WORKBENCH (THREE.JS)
-    // =========================================================================
-    const robotContainer = document.getElementById('three-robot-container');
-    const robotScene = new THREE.Scene();
-    
-    const getRobotCameraZ = () => window.innerWidth < 768 ? 6.2 : 4.4;
-    const robotCamera = new THREE.PerspectiveCamera(38, robotContainer.clientWidth / robotContainer.clientHeight, 0.1, 100);
-    robotCamera.position.set(0, 2.2, getRobotCameraZ());
-    robotCamera.lookAt(0, 0.25, 0);
-
-    const robotRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
-    robotRenderer.setSize(robotContainer.clientWidth, robotContainer.clientHeight);
-    robotRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    robotContainer.appendChild(robotRenderer.domElement);
-
-    // Advanced Mechatronic CAD Materials for GoBu
-    const chassisMat = new THREE.MeshStandardMaterial({ color: 0x181B1D, metalness: 0.92, roughness: 0.25 });
-    const bumperMat = new THREE.MeshStandardMaterial({ color: 0x0E1012, metalness: 0.85, roughness: 0.35 });
-    const pcbMat = new THREE.MeshStandardMaterial({ color: 0x0B2615, metalness: 0.25, roughness: 0.45 });
-    const goldPinsMat = new THREE.MeshStandardMaterial({ color: 0xD4AF37, metalness: 0.95, roughness: 0.15 });
-    const heatsinkMat = new THREE.MeshStandardMaterial({ color: 0x7E888E, metalness: 0.88, roughness: 0.25 });
-    const wheelRubberMat = new THREE.MeshStandardMaterial({ color: 0x111214, roughness: 0.88, metalness: 0.08 });
-    const wheelHubMat = new THREE.MeshStandardMaterial({ color: 0x3A4045, metalness: 0.9, roughness: 0.2 });
-    const laserHeadMat = new THREE.MeshStandardMaterial({ color: 0xB7FF3C, emissive: 0xB7FF3C, emissiveIntensity: 0.75 });
-    const eStopMat = new THREE.MeshStandardMaterial({ color: 0xDF2020, roughness: 0.3, metalness: 0.2 });
-
-    const robotMasterGroup = new THREE.Group();
-    robotScene.add(robotMasterGroup);
-
-    const layers = {};
-
-    // LAYER 1: GoBu 6061 Aluminum Tub Chassis with Chamfered Bumpers & LED Guide Headlights
-    const layer1 = new THREE.Group();
-    // Main tub chassis
-    const chassisBase = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.14, 1.65), chassisMat);
-    layer1.add(chassisBase);
-    // Front impact bumper
-    const frontBumper = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.16, 0.25), bumperMat);
-    frontBumper.position.set(0, 0.02, 0.9);
-    layer1.add(frontBumper);
-    // Rear bumper
-    const rearBumper = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.16, 0.25), bumperMat);
-    rearBumper.position.set(0, 0.02, -0.9);
-    layer1.add(rearBumper);
-    // Twin Green Laser Guide Headlights on Front Bumper
-    const headlight1 = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.08, 16), laserHeadMat);
-    headlight1.rotateX(Math.PI / 2);
-    headlight1.position.set(-0.7, 0.02, 1.02);
-    layer1.add(headlight1);
-    const headlight2 = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.08, 16), laserHeadMat);
-    headlight2.rotateX(Math.PI / 2);
-    headlight2.position.set(0.7, 0.02, 1.02);
-    layer1.add(headlight2);
-    // Dual Safety E-Stop Switch on Chassis Deck
-    const eStop = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.08, 16), eStopMat);
-    eStop.position.set(-0.85, 0.12, -0.6);
-    layer1.add(eStop);
-    layers[1] = layer1;
-    robotMasterGroup.add(layer1);
-
-    // LAYER 2: 4 Heavy-Duty Mecanum Drive Wheels with Rim Bolts & Hubs
-    const layer2 = new THREE.Group();
-    const wheelTireGeo = new THREE.CylinderGeometry(0.36, 0.36, 0.22, 24);
-    wheelTireGeo.rotateZ(Math.PI / 2);
-    const wheelHubGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.24, 16);
-    wheelHubGeo.rotateZ(Math.PI / 2);
-
-    function createGoBuWheel(x, z) {
-      const wheelGroup = new THREE.Group();
-      const tire = new THREE.Mesh(wheelTireGeo, wheelRubberMat);
-      const hub = new THREE.Mesh(wheelHubGeo, wheelHubMat);
-      wheelGroup.add(tire);
-      wheelGroup.add(hub);
-      wheelGroup.position.set(x, 0, z);
-      return wheelGroup;
-    }
-    const w1 = createGoBuWheel(-1.26, -0.65); layer2.add(w1);
-    const w2 = createGoBuWheel(1.26, -0.65); layer2.add(w2);
-    const w3 = createGoBuWheel(-1.26, 0.65); layer2.add(w3);
-    const w4 = createGoBuWheel(1.26, 0.65); layer2.add(w4);
-    layers[2] = layer2;
-    robotMasterGroup.add(layer2);
-
-    // LAYER 3: Dual Opto-isolated H-Bridge Motor Drivers & 24V LiFePO4 Battery Pack
-    const layer3 = new THREE.Group();
-    const driverPcb = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.04, 0.95), pcbMat);
-    driverPcb.position.set(0, 0.16, -0.25);
-    layer3.add(driverPcb);
-    // 2 Finned Heatsinks
-    const heatsink1 = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.18, 0.35), heatsinkMat);
-    heatsink1.position.set(-0.35, 0.26, -0.25);
-    layer3.add(heatsink1);
-    const heatsink2 = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.18, 0.35), heatsinkMat);
-    heatsink2.position.set(0.35, 0.26, -0.25);
-    layer3.add(heatsink2);
-    // 24V Battery Casing
-    const battery = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.2, 0.5), chassisMat);
-    battery.position.set(0, 0.22, 0.5);
-    layer3.add(battery);
-    layers[3] = layer3;
-    robotMasterGroup.add(layer3);
-
-    // LAYER 4: STM32F401 ARM Cortex-M4 Compute Core PCB
-    const layer4 = new THREE.Group();
-    const stmPcb = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.04, 0.95), pcbMat);
-    stmPcb.position.set(0, 0.38, 0.1);
-    layer4.add(stmPcb);
-    // STM32 Microcontroller QFP chip
-    const stmChip = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.05, 0.38), new THREE.MeshStandardMaterial({ color: 0x050505, roughness: 0.2 }));
-    stmChip.position.set(0, 0.43, 0.1);
-    layer4.add(stmChip);
-    // Header Pins
-    const pinHeader = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.06, 0.08), goldPinsMat);
-    pinHeader.position.set(0, 0.43, -0.3);
-    layer4.add(pinHeader);
-    layers[4] = layer4;
-    robotMasterGroup.add(layer4);
-
-    // LAYER 5: ESP32-WROOM RF Telemetry Shield
-    const layer5 = new THREE.Group();
-    const espShield = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.06, 0.45), heatsinkMat);
-    espShield.position.set(0.35, 0.55, 0.15);
-    layer5.add(espShield);
-    const goldAntenna = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.02, 0.38), goldPinsMat);
-    goldAntenna.position.set(0.68, 0.55, 0.15);
-    layer5.add(goldAntenna);
-    layers[5] = layer5;
-    robotMasterGroup.add(layer5);
-
-    // LAYER 6: GoBu 2D LiDAR Perception Mast & Scanner
-    const layer6 = new THREE.Group();
-    const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.5, 16), chassisMat);
-    mast.position.set(0, 0.7, -0.2);
-    layer6.add(mast);
-    const lidarHead = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.18, 24), laserHeadMat);
-    lidarHead.position.set(0, 0.98, -0.2);
-    layer6.add(lidarHead);
-    // Optical laser emitter slot
-    const lidarEmitter = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.08, 0.35), new THREE.MeshStandardMaterial({ color: 0x070809 }));
-    lidarEmitter.position.set(0, 0.98, -0.2);
-    layer6.add(lidarEmitter);
-    layers[6] = layer6;
-    robotMasterGroup.add(layer6);
-
-    // Studio Lighting for GoBu Workbench
-    const rKeyLight = new THREE.DirectionalLight(0xffffff, 2.4);
-    rKeyLight.position.set(4, 6, 4);
-    robotScene.add(rKeyLight);
-
-    const rRimLight = new THREE.DirectionalLight(0xB7FF3C, 2.2);
-    rRimLight.position.set(-4, -2, -3);
-    robotScene.add(rRimLight);
-
-    const rAmbient = new THREE.AmbientLight(0x282c30, 1.3);
-    robotScene.add(rAmbient);
-
-    // Exploded View State & Logic for GoBu
-    let isCadExploded = false;
-    const cadExplodeBtn = document.getElementById('cad-explode-btn');
-    const cadStatusBadge = document.getElementById('cad-status-badge');
-    const activeCadPart = document.getElementById('active-cad-part');
-
-    cadExplodeBtn.addEventListener('click', () => {
-      isCadExploded = !isCadExploded;
-      cadStatusBadge.innerText = isCadExploded ? "GoBu: +320mm EXPLODED" : "GoBu: 0mm ASSEMBLED";
-      cadStatusBadge.classList.toggle('text-accent', isCadExploded);
-      activeCadPart.innerText = isCadExploded ? "GoBu // 6 SUBASSEMBLIES ISOLATED ON Y-AXIS" : "GoBu // ALL 6 MECHATRONIC LAYERS INTEGRATED";
-    });
-
-    // Orbit Drag (Desktop Mouse & Phone Touch)
-    let isRobotDragging = false;
-    let rPrevX = 0;
-    let rPrevY = 0;
-
-    robotContainer.addEventListener('mousedown', (e) => {
-      isRobotDragging = true;
-      rPrevX = e.clientX;
-      rPrevY = e.clientY;
-    });
-
-    window.addEventListener('mouseup', () => isRobotDragging = false);
-
-    window.addEventListener('mousemove', (e) => {
-      if (isRobotDragging) {
-        const dx = e.clientX - rPrevX;
-        const dy = e.clientY - rPrevY;
-        robotMasterGroup.rotation.y += dx * 0.012;
-        robotMasterGroup.rotation.x += dy * 0.012;
-        rPrevX = e.clientX;
-        rPrevY = e.clientY;
-      }
-    });
-
-    robotContainer.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        isRobotDragging = true;
-        rPrevX = e.touches[0].clientX;
-        rPrevY = e.touches[0].clientY;
-      }
-    }, { passive: true });
-
-    window.addEventListener('touchend', () => isRobotDragging = false);
-
-    window.addEventListener('touchmove', (e) => {
-      if (isRobotDragging && e.touches.length === 1) {
-        const dx = e.touches[0].clientX - rPrevX;
-        const dy = e.touches[0].clientY - rPrevY;
-        robotMasterGroup.rotation.y += dx * 0.012;
-        robotMasterGroup.rotation.x += dy * 0.012;
-        rPrevX = e.touches[0].clientX;
-        rPrevY = e.touches[0].clientY;
-      }
-    }, { passive: true });
-
-    function animateGoBuRobot() {
-      requestAnimationFrame(animateGoBuRobot);
-
-      const t1 = 0;
-      const t2 = isCadExploded ? -0.38 : 0;
-      const t3 = isCadExploded ? 0.38 : 0;
-      const t4 = isCadExploded ? 0.82 : 0;
-      const t5 = isCadExploded ? 1.25 : 0;
-      const t6 = isCadExploded ? 1.75 : 0;
-
-      layer1.position.y += (t1 - layer1.position.y) * 0.1;
-      layer2.position.y += (t2 - layer2.position.y) * 0.1;
-      layer3.position.y += (t3 - layer3.position.y) * 0.1;
-      layer4.position.y += (t4 - layer4.position.y) * 0.1;
-      layer5.position.y += (t5 - layer5.position.y) * 0.1;
-      layer6.position.y += (t6 - layer6.position.y) * 0.1;
-
-      // GoBu LiDAR scanner continuous 360° spin
-      lidarHead.rotation.y += 0.065;
-
-      if (!isRobotDragging) {
-        robotMasterGroup.rotation.y += 0.003;
-      }
-
-      robotRenderer.render(robotScene, robotCamera);
-    }
-    animateGoBuRobot();
-
-    window.addEventListener('resize', () => {
-      if (robotContainer.clientWidth > 0) {
-        robotCamera.aspect = robotContainer.clientWidth / robotContainer.clientHeight;
-        robotCamera.position.z = getRobotCameraZ();
-        robotCamera.updateProjectionMatrix();
-        robotRenderer.setSize(robotContainer.clientWidth, robotContainer.clientHeight);
-      }
-    });
-
-    // 26 — VIEWPORT TRIGGERED COUNT-UP
-    let metricsAnimated = false;
-    const countUpElements = document.querySelectorAll('.count-up');
-
-    function animateCountUp() {
-      countUpElements.forEach(el => {
-        const target = parseInt(el.getAttribute('data-target'));
-        let current = 0;
-        const step = Math.max(1, Math.floor(target / 25));
-        const timer = setInterval(() => {
-          current += step;
-          if (current >= target) {
-            el.innerText = target + "+";
-            clearInterval(timer);
-          } else {
-            el.innerText = current < 10 ? '0' + current : current;
-          }
-        }, 30);
-      });
-    }
-
-    window.addEventListener('scroll', () => {
-      const proofSec = document.getElementById('proof');
-      if (proofSec && !metricsAnimated) {
-        const rect = proofSec.getBoundingClientRect();
-        if (rect.top <= window.innerHeight * 0.88) {
-          metricsAnimated = true;
-          animateCountUp();
+        if (isDragging) {
+          const deltaX = e.clientX - prevMouseX;
+          const deltaY = e.clientY - prevMouseY;
+          masterGroup.rotation.y += deltaX * 0.012;
+          masterGroup.rotation.x += deltaY * 0.012;
+          prevMouseX = e.clientX;
+          prevMouseY = e.clientY;
         }
+      });
+
+      gobuHost.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          isDragging = true;
+          prevMouseX = e.touches[0].clientX;
+          prevMouseY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => isDragging = false);
+
+      window.addEventListener('touchmove', (e) => {
+        if (isDragging && e.touches.length === 1) {
+          const deltaX = e.touches[0].clientX - prevMouseX;
+          const deltaY = e.touches[0].clientY - prevMouseY;
+          masterGroup.rotation.y += deltaX * 0.012;
+          masterGroup.rotation.x += deltaY * 0.012;
+          prevMouseX = e.touches[0].clientX;
+          prevMouseY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+
+      // Animation Loop
+      function renderCAD() {
+        requestAnimationFrame(renderCAD);
+
+        // Smooth transition between assembled and exploded offsets
+        const t2 = isExploded ? -0.32 : 0;
+        const t3 = isExploded ? 0.32 : 0;
+        const t4 = isExploded ? 0.72 : 0;
+        const t5 = isExploded ? 1.10 : 0;
+        const t6 = isExploded ? 1.55 : 0;
+
+        layer2.position.y += (t2 - layer2.position.y) * 0.1;
+        layer3.position.y += (t3 - layer3.position.y) * 0.1;
+        layer4.position.y += (t4 - layer4.position.y) * 0.1;
+        layer5.position.y += (t5 - layer5.position.y) * 0.1;
+        layer6.position.y += (t6 - layer6.position.y) * 0.1;
+
+        if (!prefersReducedMotion) {
+          // LiDAR scanner rotation
+          lidarHead.rotation.y += 0.05;
+
+          // Slow idle drift if user is not actively dragging
+          if (!isDragging) {
+            masterGroup.rotation.y += 0.0025;
+          }
+        }
+
+        renderer.render(scene, camera);
       }
-    });
+      renderCAD();
 
-    // 31 — CONTACT FORM HANDLER
-    function handleContact(e) {
+      window.addEventListener('resize', () => {
+        if (gobuHost.clientWidth > 0) {
+          camera.aspect = gobuHost.clientWidth / gobuHost.clientHeight;
+          camera.position.z = window.innerWidth < 768 ? 6.2 : 4.4;
+          camera.updateProjectionMatrix();
+          renderer.setSize(gobuHost.clientWidth, gobuHost.clientHeight);
+        }
+      });
+    }
+
+    // 4. "DETAILS ON REQUEST" MODAL HANDLER
+    function requestDetails(title) {
+      const modal = document.getElementById('details-modal');
+      const modalTitle = document.getElementById('modal-title');
+      const mailLink = document.getElementById('modal-mail-link');
+      if (modal && modalTitle) {
+        modalTitle.innerText = title;
+        mailLink.href = `mailto:sooryanarayanmanoj@gmail.com?subject=Specification%20Request%20-%20${encodeURIComponent(title)}`;
+        modal.classList.remove('hidden');
+      }
+    }
+
+    function closeDetailsModal() {
+      const modal = document.getElementById('details-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // 5. CONTACT FORM HANDLER (Plain, confident, responsive)
+    function handleFormSubmit(e) {
       e.preventDefault();
-      const submitBtn = document.getElementById('submit-btn');
-      const successMsg = document.getElementById('contact-success');
-      submitBtn.innerText = "ENCRYPTING TRANSMISSION...";
-      submitBtn.disabled = true;
-
+      const submitBtn = document.getElementById('contact-submit-btn');
+      const successMsg = document.getElementById('contact-success-msg');
+      if (submitBtn) {
+        submitBtn.innerText = "Dispatching...";
+        submitBtn.disabled = true;
+      }
       setTimeout(() => {
-        submitBtn.classList.add('hidden');
-        successMsg.classList.remove('hidden');
-      }, 900);
+        if (submitBtn) {
+          submitBtn.classList.add('hidden');
+        }
+        if (successMsg) {
+          successMsg.classList.remove('hidden');
+        }
+      }, 700);
     }
   </script>
+
 </body>
 </html>

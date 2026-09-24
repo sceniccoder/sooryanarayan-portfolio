@@ -1,51 +1,42 @@
-# SOORYA / 01 — BUILDING WHAT COMES NEXT
+# M. Soorya Narayan — Systems Builder & Founder Portfolio
 
-A cinematic, highly interactive founder portfolio / personal operating system combining:
-**Founder Identity + Venture Studio + Engineering Lab + Leadership + Proof of Work**
+Engineering documentation and systems portfolio of **M. Soorya Narayan** — Computer Science Engineer, Systems Builder, and Mechatronics Practitioner based in Kochi, Kerala, India.
 
-Designed and built for **M. Soorya Narayan (MSN)** — Computer Science Engineer, Systems Builder, and Entrepreneur based in Kochi, India.
-
----
-
-## 01 — Core Philosophy
-
-> **IDEA → SYSTEM → BUILD → IMPACT**
-
-The experience communicates three truths within the first 20 seconds:
-1. **He builds:** Agriva, SkillFi, GoBu Autonomous AMR, Edge AI, Distributed IoT.
-2. **He initiates:** Programs, startup initiatives, student communities, national cohorts.
-3. **He thinks in systems:** Problem → Idea → Prototype → Validation → Execution.
+> **Positioning:** Grounded in physical systems that survive contact with the real world — wet agricultural soil, warehouse floors, and live examination servers. Designed in the visual language of an engineering spec sheet, schematic, and lab notebook.
 
 ---
 
-## 02 — Architecture & Design System
+## 01 — Color System & Design Tokens
 
-- **Design Aesthetic:** Apple × Linear × Industrial Design Lab.
-- **Palette:** 
-  - Base: `#070809`
-  - Surface: `#0D0F10`
-  - Elevated: `#121516`
-  - Border: `rgba(255, 255, 255, 0.08)`
-  - Accent: `#B7FF3C` (Technical Electric Green)
-  - Typography: Space Grotesk (Display) & Inter (Interface)
-- **Planar Architectural Landing Screen:** Precision coordinate matrix, dynamic laser trace conduits, and architectural schematic plane.
-- **GoBu 3D CAD Workbench:** Interactive Three.js mechatronic assembly with full CAD exploded view (+320mm) and real-time touch/mouse orbit controls.
-- **Founder Dossier:** Integrated biometric scanlines and holographic HUD framing for founder photography.
+- `--paper`: `#F7F5F0` (warm off-white base)
+- `--ink`: `#1A1D18` (near-black with faint olive undertone)
+- `--graphite`: `#5B5F56` (secondary text, muted)
+- `--signal`: `#C4571F` (burnt rust/copper accent, disciplined usage max 3–4 places per screen)
+- `--line`: `#D8D4C8` (hairline rule divider)
+- `--verified`: `#3D6B4C` (deep moss green, reserved strictly for verified/deployed status)
 
 ---
 
-## 03 — Featured Ventures & Builds
+## 02 — Typography
 
-- **Agriva:** Autonomous Agro-Intelligence Platform (Drone → Agriva Dock → Edge Node → Cloud AI → Farmer).
-- **SkillFi:** Deterministic Employability & Real-Time Micro-VM Sandboxed Evaluation Engine.
-- **GoBu (Autonomous Warehouse AMR):** Industrial mechatronic mobile robot with FreeRTOS on STM32F4, ESP32 BLE/WiFi mesh, 2D LiDAR SLAM, and high-traction mecanum drive hubs.
-- **Building People:** IEDC MITS, Yi Leadership Council, Clique, GatePrepX, Beyond SIH, Future Minds.
+- **Headings & Display:** `Fraunces` (warm, sharp engineering-document serif)
+- **Body & UI:** `Inter` (clean grotesque with disciplined line lengths capped at ~68ch)
+- **Data & Telemetry:** `IBM Plex Mono` (strictly for numerical readouts, latency figures, and specs)
+
+---
+
+## 03 — Featured Production Systems & Ventures
+
+1. **Agriva:** Autonomous agro-intelligence platform combining in-situ capacitive soil telemetry probes, 868MHz LoRa mesh, autonomous aerial multispectral drone canopy surveys, and local edge voice AI.
+2. **SkillFi:** Deterministic proof-of-employability runtime engine replacing unverified certificates with isolated sub-millisecond micro-VM sandboxes and AST McCabe index complexity proofs.
+3. **GoBu Autonomous Mobile Robot (AMR):** Industrial warehouse mechatronics platform featuring CNC 6061 aluminum tub chassis, 4× omnidirectional mecanum drive hubs, STM32F401 ARM Cortex-M4 (84MHz) running FreeRTOS, ESP32 BLE/Wi-Fi mesh, and 2D LiDAR SLAM.
+4. **Human Infrastructure:** IEDC MITS (Campus Venture Pre-Incubation), Young Indians (Yi CII State Leadership Council), Clique (Peer Engineering Syndicate), GatePrepX (70+ engineers), and Future Minds.
 
 ---
 
 ## 04 — Quick Start
 
-Simply open `index.html` in any modern web browser, or serve with any static server:
+Open `index.html` in any modern web browser, or serve locally with any static HTTP server:
 
 ```bash
 npx serve .
