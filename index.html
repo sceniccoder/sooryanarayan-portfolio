@@ -204,33 +204,56 @@
   <div id="cursor-dot"></div>
   <div id="cursor-ring"><span id="cursor-label"></span></div>
 
-  <!-- 06 — CINEMATIC BOOT SEQUENCE -->
-  <div id="boot-screen" class="fixed inset-0 z-50 bg-[#070809] flex flex-col justify-between p-6 sm:p-10 md:p-14 transition-opacity duration-700 ease-out select-none">
+  <!-- 06 — CINEMATIC SIGNATURE BOOT SEQUENCE -->
+  <div id="boot-screen" class="fixed inset-0 z-50 bg-[#070809] flex flex-col justify-between p-6 sm:p-10 md:p-12 transition-opacity duration-700 ease-out select-none">
+    
+    <!-- Top System Verification Header -->
     <div class="flex justify-between items-center text-[10px] sm:text-[11px] font-mono text-muted tracking-widest uppercase">
-      <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span> MSN OPERATING SYSTEM</span>
-      <span class="text-secondary hidden sm:inline">PLANAR ARCHITECTURAL SCHEMATIC</span>
+      <span class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span> 
+        FOUNDER SIGNATURE VERIFICATION
+      </span>
+      <span class="text-secondary hidden sm:inline">AUTONOMOUS SYSTEMS // MSN-01</span>
     </div>
 
-    <div class="max-w-md mx-auto w-full text-center px-4">
-      <div class="font-display font-bold text-3xl sm:text-5xl md:text-6xl tracking-tighter mb-2 text-primary">
-        MSN / 01
-      </div>
-      <div class="font-mono text-xs text-accent tracking-[0.2em] mb-6 sm:mb-8 font-semibold">
-        INITIALIZING EXPERIENCE
+    <!-- Center Signature Write-On Presentation -->
+    <div class="max-w-2xl mx-auto w-full flex flex-col items-center justify-center my-auto px-4">
+      
+      <!-- Signature Canvas Host with Ambient Gold Glow -->
+      <div class="relative w-full max-w-[540px] aspect-[1024/682] flex items-center justify-center">
+        <div class="absolute inset-0 bg-radial from-[#FFD700]/12 via-[#B7FF3C]/5 to-transparent blur-3xl pointer-events-none"></div>
+        <canvas id="signature-canvas" width="1024" height="682" class="w-full h-full object-contain relative z-10 filter drop-shadow-[0_0_24px_rgba(255,215,0,0.3)]"></canvas>
       </div>
 
-      <!-- High Precision Progress Bar -->
-      <div class="w-full bg-[#121516] h-[3px] rounded-full overflow-hidden relative border border-white/10 mb-3">
-        <div id="boot-progress" class="h-full bg-accent w-0 transition-all duration-75"></div>
+      <!-- Letter-after-Letter Live Typographic Readout -->
+      <div class="mt-4 sm:mt-6 text-center">
+        <div id="sig-letter-display" class="font-display font-bold text-2xl sm:text-3xl text-primary tracking-widest h-9 flex items-center justify-center gap-1">
+          <span class="text-accent font-mono text-xs tracking-normal mr-2">[SIGNING]</span>
+          <span id="sig-live-letters" class="text-[#FFD700] tracking-widest">S</span>
+          <span class="inline-block w-2 h-5 bg-accent animate-pulse ml-1"></span>
+        </div>
+        <div class="font-mono text-[9px] sm:text-[10px] text-muted tracking-[0.25em] uppercase mt-1">
+          BIOMETRIC CRYPTOGRAPHIC STROKE TRACE
+        </div>
       </div>
-      <div class="flex justify-between font-mono text-[9px] sm:text-[10px] text-muted tracking-wider">
-        <span id="boot-status">MAPPING PLANAR SCHEMATIC NODES</span>
-        <span id="boot-percent" class="text-primary font-bold">0%</span>
+
+      <!-- Precision Progress Bar -->
+      <div class="w-full max-w-md mt-6 sm:mt-8">
+        <div class="w-full bg-[#121516] h-[3px] rounded-full overflow-hidden relative border border-white/10 mb-2.5">
+          <div id="boot-progress" class="h-full bg-gradient-to-r from-[#B7FF3C] via-[#FFD700] to-accent w-0 transition-all duration-75 shadow-[0_0_12px_#B7FF3C]"></div>
+        </div>
+        <div class="flex justify-between font-mono text-[9px] sm:text-[10px] text-muted tracking-wider">
+          <span id="boot-status" class="text-secondary">INITIALIZING STROKE MESH</span>
+          <span id="boot-percent" class="text-primary font-bold">0%</span>
+        </div>
       </div>
+
     </div>
 
+    <!-- Bottom Verification Metadata -->
     <div class="flex justify-between items-center text-[9px] sm:text-[10px] font-mono text-muted border-t border-white/5 pt-3 sm:pt-4">
       <span>M. SOORYA NARAYAN</span>
+      <span class="text-accent/80 hidden sm:inline">STROKE SYNCHRONIZED</span>
       <span>KOCHI, IN [9.93° N, 76.26° E]</span>
     </div>
   </div>
@@ -1212,9 +1235,8 @@
     </div>
   </footer>
 
-  <!-- SCRIPT: PLANAR ARCHITECTURAL SCHEMATIC (HERO) + GoBu 3D CAD MECHATRONIC WORKBENCH -->
   <script>
-    // 06 — BOOT SEQUENCE SCRIPT
+    // 06 — CINEMATIC SIGNATURE WRITE-ON BOOT SEQUENCE
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
 
@@ -1222,39 +1244,309 @@
       const bootPercent = document.getElementById('boot-percent');
       const bootStatus = document.getElementById('boot-status');
       const bootScreen = document.getElementById('boot-screen');
+      const sigLiveLetters = document.getElementById('sig-live-letters');
+      const canvas = document.getElementById('signature-canvas');
+      if (!canvas) return;
 
-      let progress = 0;
-      const statuses = [
-        "CALIBRATING PLANAR SCHEMATIC MATRIX",
-        "MOUNTING GoBu 3D CAD ASSEMBLY",
-        "SYNCING AGRIVA TELEMETRY BUS",
-        "READYING MSN-01 DOSSIER",
-        "SYSTEM READY"
+      const ctx = canvas.getContext('2d');
+
+      // Offscreen canvas used as a progressive mask
+      const maskCanvas = document.createElement('canvas');
+      maskCanvas.width = 1024;
+      maskCanvas.height = 682;
+      const maskCtx = maskCanvas.getContext('2d');
+
+      // Load user's authentic golden metallic signature
+      const sigImg = new Image();
+      sigImg.src = 'signature.png';
+
+      // 7 Natural Cursive Handwriting Phases (Letter after letter)
+      const sigPhases = [
+        {
+          name: "S",
+          displayText: "S",
+          start: 0.0,
+          end: 0.28,
+          points: [
+            [205, 330], [240, 260], [285, 180], [340, 110], [410, 60], 
+            [465, 65], [490, 95], [485, 140], [440, 185], [370, 235],
+            [290, 290], [215, 360], [155, 435], [105, 510], [68, 575],
+            [75, 620], [125, 640], [185, 625], [245, 575], [295, 515], [320, 465]
+          ]
+        },
+        {
+          name: "o",
+          displayText: "So",
+          start: 0.28,
+          end: 0.40,
+          points: [
+            [320, 465], [330, 440], [350, 430], [368, 445], [370, 475],
+            [355, 495], [335, 490], [325, 465], [345, 440], [370, 445]
+          ]
+        },
+        {
+          name: "o",
+          displayText: "Soo",
+          start: 0.40,
+          end: 0.52,
+          points: [
+            [370, 445], [390, 430], [412, 438], [425, 465], [420, 492],
+            [395, 495], [382, 470], [405, 445], [425, 448]
+          ]
+        },
+        {
+          name: "r",
+          displayText: "Soor",
+          start: 0.52,
+          end: 0.62,
+          points: [
+            [425, 448], [440, 428], [458, 422], [468, 440], [465, 462], [482, 452]
+          ]
+        },
+        {
+          name: "y",
+          displayText: "Soory",
+          start: 0.62,
+          end: 0.75,
+          points: [
+            [482, 452], [498, 468], [515, 442],
+            [515, 490], [516, 545], [518, 605], [525, 645],
+            [545, 660], [572, 642], [575, 580], [558, 500], [568, 445]
+          ]
+        },
+        {
+          name: "a",
+          displayText: "Soorya",
+          start: 0.75,
+          end: 0.86,
+          points: [
+            [568, 445], [585, 430], [612, 435], [626, 460], [612, 485],
+            [585, 480], [575, 455], [615, 450], [642, 438], [670, 428]
+          ]
+        },
+        {
+          name: "flourish",
+          displayText: "Soorya ──",
+          start: 0.86,
+          end: 1.0,
+          points: [
+            [160, 625], [260, 560], [390, 485], [530, 415],
+            [680, 340], [830, 265], [940, 205], [995, 175]
+          ]
+        }
       ];
 
-      const interval = setInterval(() => {
-        progress += Math.floor(Math.random() * 10) + 5;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(interval);
-          bootPercent.innerText = "100%";
-          bootProgress.style.width = "100%";
-          bootStatus.innerText = "SYSTEM READY";
-          bootStatus.classList.add("text-accent");
+      // Precalculate lengths for each phase
+      sigPhases.forEach(phase => {
+        let total = 0;
+        phase.segLengths = [];
+        for (let i = 0; i < phase.points.length - 1; i++) {
+          const dx = phase.points[i+1][0] - phase.points[i][0];
+          const dy = phase.points[i+1][1] - phase.points[i][1];
+          const d = Math.hypot(dx, dy);
+          phase.segLengths.push(d);
+          total += d;
+        }
+        phase.totalLength = total || 1;
+      });
+
+      // Sparks / Laser Pen Particles
+      const particles = [];
+      function addSpark(x, y) {
+        if (particles.length > 30) return;
+        for (let i = 0; i < 2; i++) {
+          particles.push({
+            x, y,
+            vx: (Math.random() - 0.5) * 4,
+            vy: (Math.random() - 0.5) * 4,
+            size: Math.random() * 3 + 1.5,
+            alpha: 1.0
+          });
+        }
+      }
+
+      let animStartTime = null;
+      const animDuration = 2700; // 2.7s total cinematic duration
+      let isCompleted = false;
+
+      function renderFrame(timestamp) {
+        if (!animStartTime) animStartTime = timestamp;
+        const elapsed = timestamp - animStartTime;
+        let progress = Math.min(1.0, elapsed / animDuration);
+
+        // 1. Draw strokes into maskCanvas
+        maskCtx.clearRect(0, 0, 1024, 682);
+        maskCtx.lineWidth = 66; // Thick enough to cleanly encompass the whole cursive gold stroke
+        maskCtx.lineCap = 'round';
+        maskCtx.lineJoin = 'round';
+        maskCtx.strokeStyle = '#FFFFFF';
+
+        let currentTip = null;
+        let activePhaseName = "S";
+        let activeDisplay = "S";
+
+        sigPhases.forEach(phase => {
+          if (progress < phase.start) return;
+
+          if (progress >= phase.end) {
+            // Completed phase: draw full line
+            maskCtx.beginPath();
+            maskCtx.moveTo(phase.points[0][0], phase.points[0][1]);
+            for (let i = 1; i < phase.points.length; i++) {
+              maskCtx.lineTo(phase.points[i][0], phase.points[i][1]);
+            }
+            maskCtx.stroke();
+          } else {
+            // Active phase: draw partial line
+            activePhaseName = phase.name;
+            activeDisplay = phase.displayText;
+
+            const t = (progress - phase.start) / (phase.end - phase.start);
+            const targetDist = t * phase.totalLength;
+            let covered = 0;
+
+            maskCtx.beginPath();
+            maskCtx.moveTo(phase.points[0][0], phase.points[0][1]);
+
+            for (let i = 0; i < phase.segLengths.length; i++) {
+              const segLen = phase.segLengths[i];
+              if (covered + segLen <= targetDist) {
+                maskCtx.lineTo(phase.points[i+1][0], phase.points[i+1][1]);
+                covered += segLen;
+                currentTip = [phase.points[i+1][0], phase.points[i+1][1]];
+              } else {
+                const rem = targetDist - covered;
+                const ratio = rem / segLen;
+                const tx = phase.points[i][0] + (phase.points[i+1][0] - phase.points[i][0]) * ratio;
+                const ty = phase.points[i][1] + (phase.points[i+1][1] - phase.points[i][1]) * ratio;
+                maskCtx.lineTo(tx, ty);
+                currentTip = [tx, ty];
+                break;
+              }
+            }
+            maskCtx.stroke();
+          }
+        });
+
+        // 2. Render signature onto visible canvas using mask
+        ctx.clearRect(0, 0, 1024, 682);
+
+        if (sigImg.complete && sigImg.naturalWidth > 0) {
+          ctx.save();
+          // Draw masked signature
+          ctx.drawImage(maskCanvas, 0, 0);
+          ctx.globalCompositeOperation = 'source-in';
+          ctx.drawImage(sigImg, 0, 0, 1024, 682);
+          ctx.restore();
+        }
+
+        // 3. Draw luminous stylus spark at current drawing tip
+        if (currentTip && progress < 1.0) {
+          const [tipX, tipY] = currentTip;
+          addSpark(tipX, tipY);
+
+          // Golden glow corona
+          const grad = ctx.createRadialGradient(tipX, tipY, 0, tipX, tipY, 26);
+          grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
+          grad.addColorStop(0.2, 'rgba(255, 215, 0, 0.9)');
+          grad.addColorStop(0.6, 'rgba(183, 255, 60, 0.4)');
+          grad.addColorStop(1, 'rgba(183, 255, 60, 0)');
+
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(tipX, tipY, 26, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Intense core pinpoint
+          ctx.fillStyle = '#FFFFFF';
+          ctx.beginPath();
+          ctx.arc(tipX, tipY, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // 4. Update trailing micro-particles
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.alpha -= 0.04;
+          if (p.alpha <= 0) {
+            particles.splice(i, 1);
+            continue;
+          }
+          ctx.fillStyle = `rgba(255, 215, 0, ${p.alpha})`;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // 5. Update UI readouts
+        if (sigLiveLetters) {
+          sigLiveLetters.innerText = progress >= 0.98 ? "Soorya Narayan" : activeDisplay;
+        }
+
+        const pct = Math.floor(progress * 100);
+        if (bootPercent) bootPercent.innerText = pct + "%";
+        if (bootProgress) bootProgress.style.width = pct + "%";
+
+        if (bootStatus) {
+          if (progress < 0.28) bootStatus.innerText = "AUTHENTICATING LETTER: S";
+          else if (progress < 0.52) bootStatus.innerText = "AUTHENTICATING LETTER: O";
+          else if (progress < 0.62) bootStatus.innerText = "AUTHENTICATING LETTER: R";
+          else if (progress < 0.75) bootStatus.innerText = "AUTHENTICATING LETTER: Y";
+          else if (progress < 0.86) bootStatus.innerText = "AUTHENTICATING LETTER: A";
+          else if (progress < 1.0) bootStatus.innerText = "SYNCHRONIZING UNDERLINE FLOURISH";
+          else {
+            bootStatus.innerText = "SIGNATURE VERIFIED // SYSTEM READY";
+            bootStatus.classList.add("text-accent");
+          }
+        }
+
+        // 6. Loop or finish
+        if (progress < 1.0) {
+          requestAnimationFrame(renderFrame);
+        } else if (!isCompleted) {
+          isCompleted = true;
+
+          // Full signature visible with golden gleam
+          ctx.clearRect(0, 0, 1024, 682);
+          ctx.drawImage(sigImg, 0, 0, 1024, 682);
 
           setTimeout(() => {
             bootScreen.style.opacity = '0';
             setTimeout(() => {
               bootScreen.style.display = 'none';
             }, 700);
-          }, 400);
-        } else {
-          bootPercent.innerText = progress + "%";
-          bootProgress.style.width = progress + "%";
-          const statusIdx = Math.min(Math.floor((progress / 100) * statuses.length), statuses.length - 1);
-          bootStatus.innerText = statuses[statusIdx];
+          }, 450);
         }
-      }, 35);
+      }
+
+      // Quick click-to-skip if user wants immediate access
+      bootScreen.addEventListener('click', () => {
+        bootScreen.style.opacity = '0';
+        setTimeout(() => {
+          bootScreen.style.display = 'none';
+        }, 500);
+      });
+
+      // Start rendering loop when image is ready
+      if (sigImg.complete) {
+        requestAnimationFrame(renderFrame);
+      } else {
+        sigImg.onload = () => requestAnimationFrame(renderFrame);
+        sigImg.onerror = () => {
+          // Fallback if image fails
+          let fallbackP = 0;
+          const fbTimer = setInterval(() => {
+            fallbackP += 10;
+            if (fallbackP >= 100) {
+              clearInterval(fbTimer);
+              bootScreen.style.opacity = '0';
+              setTimeout(() => bootScreen.style.display = 'none', 700);
+            }
+          }, 60);
+        };
+      }
     });
 
     // 05 — CUSTOM MAGNETIC RETICLE CURSOR (DESKTOP ONLY)
