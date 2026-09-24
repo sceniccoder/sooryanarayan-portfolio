@@ -12,7 +12,7 @@
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Three.js CDN for 3D spatial WebGL canvas -->
+  <!-- Three.js CDN for GoBu 3D CAD Mechatronics Canvas -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -48,14 +48,14 @@
       -webkit-tap-highlight-color: transparent;
     }
     
-    /* Default desktop cursor hidden for custom magnetic reticle */
+    /* Desktop magnetic reticle cursor */
     @media (hover: hover) and (pointer: fine) {
       * {
         cursor: none;
       }
     }
     
-    /* Phone / Touch optimization: hide custom cursor on mobile to avoid input/scroll interference */
+    /* Touch screen compatibility */
     @media (hover: none) and (pointer: coarse) {
       #cursor-dot, #cursor-ring {
         display: none !important;
@@ -190,7 +190,7 @@
   <div id="boot-screen" class="fixed inset-0 z-50 bg-[#070809] flex flex-col justify-between p-6 sm:p-10 md:p-14 transition-opacity duration-700 ease-out select-none">
     <div class="flex justify-between items-center text-[10px] sm:text-[11px] font-mono text-muted tracking-widest uppercase">
       <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span> MSN OPERATING SYSTEM</span>
-      <span class="text-secondary hidden sm:inline">PBR HARDWARE PROFILE</span>
+      <span class="text-secondary hidden sm:inline">PLANAR ARCHITECTURAL SCHEMATIC</span>
     </div>
 
     <div class="max-w-md mx-auto w-full text-center px-4">
@@ -206,7 +206,7 @@
         <div id="boot-progress" class="h-full bg-accent w-0 transition-all duration-75"></div>
       </div>
       <div class="flex justify-between font-mono text-[9px] sm:text-[10px] text-muted tracking-wider">
-        <span id="boot-status">INITIALIZING SYSTEM SPATIAL BUFFERS</span>
+        <span id="boot-status">MAPPING PLANAR SCHEMATIC NODES</span>
         <span id="boot-percent" class="text-primary font-bold">0%</span>
       </div>
     </div>
@@ -232,9 +232,9 @@
         <span>STATUS: DEPLOYED</span>
       </span>
       <span class="text-white/20">/</span>
-      <span>AGRIVA: TELEMETRY ACTIVE</span>
+      <span>AGRIVA: FIELD PILOT</span>
       <span class="text-white/20">/</span>
-      <span>LOC: KOCHI, IN</span>
+      <span>GoBu: CAD VALIDATED</span>
     </div>
 
     <div class="flex items-center gap-3">
@@ -247,7 +247,7 @@
     </div>
   </header>
 
-  <!-- FULLSCREEN MENU OVERLAY (PHONE SCROLL SAFE) -->
+  <!-- FULLSCREEN MENU OVERLAY -->
   <div id="nav-overlay" class="fixed inset-0 z-45 bg-[#070809]/98 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-10 md:p-16 opacity-0 pointer-events-none transition-all duration-300 overflow-y-auto max-h-screen">
     <div class="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
       <div class="font-mono text-xs tracking-widest text-muted uppercase">DIRECTORY // MSN-01</div>
@@ -275,8 +275,8 @@
         </a>
         <a href="#building-room" class="nav-item group flex items-baseline gap-4 sm:gap-6 py-2 border-b border-white/[0.04]">
           <span class="font-mono text-xs text-muted group-hover:text-accent">04</span>
-          <span class="font-display text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-primary group-hover:text-accent transition-all">MECHATRONICS</span>
-          <span class="text-xs font-mono text-muted hidden sm:inline ml-auto">AUTONOMOUS 3D CAD BUGGY</span>
+          <span class="font-display text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-primary group-hover:text-accent transition-all">GoBu ROBOTICS</span>
+          <span class="text-xs font-mono text-muted hidden sm:inline ml-auto">AUTONOMOUS AMR CAD</span>
         </a>
         <a href="#people" class="nav-item group flex items-baseline gap-4 sm:gap-6 py-2 border-b border-white/[0.04]">
           <span class="font-mono text-xs text-muted group-hover:text-accent">05</span>
@@ -307,6 +307,10 @@
               <span class="font-bold text-primary">SKILLFI</span>
               <span class="text-accent text-[10px]">● MICRO-VM RUNTIME</span>
             </div>
+            <div class="p-2.5 bg-surface border border-white/10 rounded flex justify-between items-center">
+              <span class="font-bold text-primary">GoBu</span>
+              <span class="text-accent text-[10px]">● AMR CAD V2</span>
+            </div>
           </div>
         </div>
 
@@ -326,28 +330,51 @@
     </div>
   </div>
 
-  <!-- 07 & 08 — HERO: RESPONSIVE PHONE & DESKTOP LAYOUT -->
+  <!-- 07 & 08 — HERO: PLANAR ARCHITECTURAL SCHEMATIC (PROFESSIONAL & MINIMALIST) -->
   <section id="hero" class="relative w-full min-h-screen overflow-hidden flex flex-col justify-between px-4 sm:px-8 md:px-14 pt-24 sm:pt-28 pb-8 select-none">
     
-    <!-- 3D PBR Spatial Gyroscopic Core Canvas (Touch & Drag Capable) -->
-    <div id="three-core-container" class="absolute inset-0 z-0 touch-none"></div>
+    <!-- Planar Precision Architectural Schematic Canvas (2D Planar Canvas) -->
+    <canvas id="planar-schematic-canvas" class="absolute inset-0 z-0 pointer-events-none"></canvas>
 
-    <!-- Depth Vignettes -->
+    <!-- Planar Technical Coordinate HUD Overlay -->
+    <div class="absolute inset-0 z-5 pointer-events-none flex flex-col justify-between p-6 sm:p-12 opacity-40">
+      <div class="flex justify-between font-mono text-[9px] text-muted">
+        <span>SCHEMATIC // PLANAR REF: 9.9312° N, 76.2673° E</span>
+        <span>SYSTEM AXIS: [X: 1440, Y: 900]</span>
+      </div>
+      <div class="flex justify-between font-mono text-[9px] text-muted">
+        <span>ARCHITECTURAL BUS: SYNCHRONIZED</span>
+        <span>LAYER: 01-FOUNDER-CORE</span>
+      </div>
+    </div>
+
+    <!-- Soft Depth Vignettes -->
     <div class="absolute inset-0 bg-gradient-to-t from-base via-transparent to-base/70 pointer-events-none z-10"></div>
     <div class="absolute inset-0 bg-radial from-transparent via-transparent to-base/90 pointer-events-none z-10"></div>
 
-    <!-- Hero Content Layout: Ordered smartly for mobile screens -->
+    <!-- Hero Content Layout: Crisp Planar Architectural Presentation -->
     <div class="z-20 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-end my-auto">
       
-      <!-- Top on Mobile: Massive Kinetic Headline -->
+      <!-- Top on Mobile / Right on Desktop: Massive Kinetic Headline -->
       <div class="order-1 lg:order-2 lg:col-span-8 lg:text-right">
         <h1 class="font-display font-bold text-[40px] leading-[0.92] xs:text-5xl sm:text-7xl md:text-8xl lg:text-[108px] xl:text-[124px] tracking-tighter text-primary">
           <span class="block">BUILDING</span>
           <span class="block text-secondary/60 hover:text-primary transition-colors">WHAT COMES NEXT.</span>
         </h1>
+
+        <!-- Planar System Pipeline Ribbon -->
+        <div class="mt-6 flex flex-wrap lg:justify-end items-center gap-2 font-mono text-[10px] text-muted">
+          <span class="px-2 py-1 bg-surface border border-white/10 rounded text-accent">01 IDEA</span>
+          <span class="text-white/20">──→</span>
+          <span class="px-2 py-1 bg-surface border border-white/10 rounded text-primary">02 SYSTEM</span>
+          <span class="text-white/20">──→</span>
+          <span class="px-2 py-1 bg-surface border border-white/10 rounded text-primary">03 BUILD</span>
+          <span class="text-white/20">──→</span>
+          <span class="px-2 py-1 bg-surface border border-accent/40 rounded text-accent font-bold">04 IMPACT</span>
+        </div>
       </div>
 
-      <!-- Spec Column: Below headline on mobile for crisp hierarchy -->
+      <!-- Spec Column: Below headline on mobile -->
       <div class="order-2 lg:order-1 lg:col-span-4 flex flex-col justify-end space-y-3 sm:space-y-4">
         <div class="inline-flex items-center gap-2 px-3 py-1 bg-elevated/80 backdrop-blur-md border border-accent/30 rounded-full font-mono text-[10px] text-accent w-max">
           <span class="w-1.5 h-1.5 bg-accent rounded-full animate-ping"></span>
@@ -388,8 +415,8 @@
       </div>
 
       <div class="hidden md:flex items-center gap-6 text-[10px] text-muted">
-        <span class="text-secondary flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> PBR GYROSCOPIC CORE</span>
-        <span>DRAG TO ROTATE 3D SYSTEM</span>
+        <span class="text-secondary flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> PLANAR SCHEMATIC ACTIVE</span>
+        <span>INTERACTIVE COORDINATE MATRIX</span>
       </div>
 
       <div class="text-right">
@@ -435,7 +462,7 @@
               </div>
               <div class="p-2.5 sm:p-3 bg-elevated border border-white/10 rounded-xl">
                 <span class="text-accent font-bold block mb-1 text-[11px]">02 BUILD</span>
-                <span class="text-[9px] text-secondary">CNC & LoRa</span>
+                <span class="text-[9px] text-secondary">GoBu & LoRa</span>
               </div>
               <div class="p-2.5 sm:p-3 bg-elevated border border-white/10 rounded-xl">
                 <span class="text-accent font-bold block mb-1 text-[11px]">03 TEST</span>
@@ -636,7 +663,7 @@
               Autonomous agro-intelligence network combining in-situ capacitive soil telemetry probes, autonomous aerial multispectral canopy drone scans, and local voice inference for farmers.
             </p>
 
-            <!-- Compact System Pipeline (Mobile Safe Grid) -->
+            <!-- Compact System Pipeline -->
             <div class="p-3 sm:p-4 bg-elevated border border-white/5 rounded-xl mb-6">
               <div class="font-mono text-[9px] sm:text-[10px] text-muted uppercase mb-2.5 flex justify-between">
                 <span>AUTONOMOUS PIPELINE</span>
@@ -717,86 +744,90 @@
     </div>
   </section>
 
-  <!-- 18 — MECHATRONICS: TOUCH-ENABLED 3D CAD ROBOT WORKBENCH -->
+  <!-- 18 — GoBu // MECHATRONICS & TOUCH-ENABLED 3D CAD ROBOT WORKBENCH -->
   <section id="building-room" class="relative z-20 px-4 sm:px-8 md:px-14 py-20 sm:py-28 border-t border-border bg-surface">
     <div class="max-w-7xl mx-auto">
       
       <div class="flex items-center gap-3 font-mono text-xs text-accent tracking-widest uppercase mb-4">
-        <span>04 // MECHATRONICS & EMBEDDED HARDWARE</span>
+        <span>04 // MECHATRONICS & AUTONOMOUS SYSTEMS</span>
         <div class="h-[1px] w-12 bg-accent/30"></div>
       </div>
 
       <div class="flex flex-col sm:flex-row justify-between sm:items-end mb-8 sm:mb-10 gap-4">
         <div>
-          <h2 class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-primary">
-            AUTONOMOUS WAREHOUSE BUGGY
+          <div class="flex items-center gap-2 mb-1">
+            <span class="px-2 py-0.5 bg-accent text-base font-mono text-[10px] font-bold rounded">AMR V2</span>
+            <span class="font-mono text-xs text-muted tracking-widest uppercase">HARDWARE LABS</span>
+          </div>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl text-primary">
+            GoBu // AUTONOMOUS WAREHOUSE BUGGY
           </h2>
           <p class="font-mono text-xs text-secondary mt-1">
-            Deterministic indoor navigation via FreeRTOS, 2D LiDAR SLAM, and dual-core telemetry.
+            GoBu is an industrial Autonomous Mobile Robot (AMR) with FreeRTOS, 2D LiDAR SLAM, and dual-core telemetry.
           </p>
         </div>
 
         <!-- Exploded View Controls -->
         <div class="flex items-center gap-2 sm:gap-3 font-mono text-xs bg-base p-1.5 sm:p-2 border border-white/10 rounded-xl w-max">
           <button id="cad-explode-btn" class="px-3 py-1.5 bg-accent text-base font-bold text-[11px] rounded hover:bg-white transition-colors active:scale-95">
-            TOGGLE CAD EXPLODE
+            TOGGLE GoBu CAD EXPLODE
           </button>
           <span id="cad-status-badge" class="text-[10px] text-accent px-2 py-1 bg-surface rounded border border-white/5">
-            0mm ASSEMBLED
+            GoBu: 0mm ASSEMBLED
           </span>
         </div>
       </div>
 
-      <!-- Real Three.js 3D CAD Workbench -->
+      <!-- Real Three.js 3D CAD Workbench for GoBu -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-base border border-white/10 rounded-2xl p-3 sm:p-6 overflow-hidden">
         
-        <!-- 3D Interactive WebGL Canvas (Phone Touch Enabled) -->
+        <!-- 3D Interactive WebGL Canvas -->
         <div class="lg:col-span-8 relative h-[320px] sm:h-[400px] md:h-[480px] bg-[#0A0C0E] rounded-xl border border-white/10 overflow-hidden touch-none">
           <div id="three-robot-container" class="w-full h-full"></div>
           
           <div class="absolute top-3 left-3 font-mono text-[9px] sm:text-[10px] bg-base/85 backdrop-blur px-2 py-1 border border-white/10 rounded text-primary flex items-center gap-1.5">
             <span class="w-1.5 h-1.5 rounded-full bg-accent animate-ping"></span>
-            <span>3D CAD VIEW • TOUCH & DRAG TO ROTATE</span>
+            <span>GoBu 3D CAD WORKBENCH • TOUCH & DRAG TO ROTATE</span>
           </div>
 
           <!-- Bottom Live Component Callout -->
           <div class="absolute bottom-3 left-3 right-3 bg-base/90 backdrop-blur p-2.5 sm:p-3 rounded-lg border border-white/10 flex justify-between items-center font-mono text-[10px] sm:text-[11px]">
-            <span id="active-cad-part" class="text-accent font-bold truncate">ALL 6 LAYERS MOUNTED</span>
+            <span id="active-cad-part" class="text-accent font-bold truncate">GoBu // ALL 6 MECHATRONIC LAYERS INTEGRATED</span>
             <span class="text-muted text-[9px] hidden sm:inline">6061 CHASSIS • STM32F4 • LIDAR • ESP32</span>
           </div>
         </div>
 
-        <!-- Technical Telemetry & Layer Specs -->
+        <!-- Technical Telemetry & Layer Specs for GoBu -->
         <div class="lg:col-span-4 flex flex-col justify-between space-y-3 sm:space-y-4">
           <div class="space-y-2 font-mono text-xs">
             <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">LAYER 6 // SENSORS</span>
-              <span class="text-accent font-bold">2D 360° LiDAR Dome (12m Range)</span>
+              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 6 // PERCEPTION</span>
+              <span class="text-accent font-bold">2D 360° LiDAR Dome (12m SLAM)</span>
             </div>
             <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">LAYER 5 // TELEMETRY</span>
-              <span class="text-primary font-bold">ESP32-WROOM BLE/WiFi Mesh</span>
+              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 5 // MESH TELEMETRY</span>
+              <span class="text-primary font-bold">ESP32-WROOM BLE/WiFi Mesh Node</span>
             </div>
             <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">LAYER 4 // MAIN CONTROLLER</span>
+              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 4 // COMPUTE CORE</span>
               <span class="text-accent font-bold">STM32F401 ARM Cortex-M4 (84MHz)</span>
             </div>
             <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">LAYER 3 // POWER & DRIVER</span>
+              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 3 // POWER DISTRIBUTION</span>
               <span class="text-primary font-bold">Dual Opto-isolated H-Bridge 24V PWM</span>
             </div>
             <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">LAYER 2 // ACTUATION</span>
-              <span class="text-primary font-bold">4× High-Torque Geared Motors</span>
+              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 2 // DRIVETRAIN</span>
+              <span class="text-primary font-bold">4× High-Torque Mecanum Drive Hubs</span>
             </div>
             <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">LAYER 1 // STRUCTURAL</span>
-              <span class="text-primary font-bold">Waterjet CNC 6061 Aluminium</span>
+              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 1 // TUB CHASSIS</span>
+              <span class="text-primary font-bold">Waterjet CNC 6061 Aluminium Tub</span>
             </div>
           </div>
 
           <div class="p-3 bg-elevated border border-accent/20 rounded-xl font-mono text-[10px] sm:text-[11px] text-secondary">
-            <span class="text-accent font-bold">BENCHMARK:</span> 42ms obstacle reaction; &lt;±1.8mm drift per 10m run.
+            <span class="text-accent font-bold">GoBu SPECS:</span> 25kg payload • 1.4m/s velocity • 42ms emergency braking • &lt;±1.8mm odometry drift.
           </div>
         </div>
 
@@ -814,7 +845,7 @@
           <div class="font-mono text-xs text-accent tracking-widest uppercase mb-1">05 // TECHNICAL MATRIX</div>
           <h2 class="font-display font-bold text-2xl sm:text-4xl text-primary">CORE CONSTELLATION</h2>
         </div>
-        <div class="font-mono text-[10px] sm:text-xs text-muted">DEPENDENCIES</div>
+        <div class="font-mono text-[10px] sm:text-xs text-muted">SYSTEM STACK</div>
       </div>
 
       <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-3 font-mono text-center">
@@ -858,7 +889,7 @@
     </div>
   </section>
 
-  <!-- 21 & 23 — HUMAN SYSTEMS: LEADERSHIP & MOVEMENTS -->
+  <!-- 21 & 23 — HUMAN SYSTEMS: LEADERSHIP & MOVEMENTS (NO RUBY) -->
   <section id="people" class="relative z-20 px-4 sm:px-8 md:px-14 py-20 sm:py-28 border-t border-border bg-surface">
     <div class="max-w-7xl mx-auto">
       
@@ -925,7 +956,7 @@
 
       </div>
 
-      <!-- Movements Strip -->
+      <!-- Movements Strip (Ruby removed completely, replaced with Future Minds) -->
       <div class="p-4 sm:p-6 bg-base border border-white/10 rounded-2xl">
         <div class="font-mono text-[10px] sm:text-[11px] text-accent uppercase tracking-widest mb-3">
           MOVEMENTS // PROTOTYPE TO INDUSTRY
@@ -936,8 +967,8 @@
             <span class="text-muted text-[10px]">Transforming hackathon prototypes into funded venture pilots.</span>
           </div>
           <div class="p-3 bg-surface rounded border border-white/5">
-            <span class="text-primary font-bold block text-xs">RUBY COHORT</span>
-            <span class="text-muted text-[10px]">Hands-on 50-student accelerator for production software deployments.</span>
+            <span class="text-primary font-bold block text-xs">FUTURE MINDS</span>
+            <span class="text-muted text-[10px]">Democratizing AI, edge computing & engineering pipelines for incoming undergraduates.</span>
           </div>
           <div class="p-3 bg-surface rounded border border-white/5">
             <span class="text-primary font-bold block text-xs">BUILD THE MINDSET</span>
@@ -949,11 +980,11 @@
     </div>
   </section>
 
-  <!-- 25 & 26 — PROOF OF WORK & VERIFIED METRICS -->
+  <!-- 25 & 26 — PROOF OF WORK & VERIFIED METRICS (NO RUBY) -->
   <section id="proof" class="relative z-20 px-4 sm:px-8 md:px-14 py-20 sm:py-28 border-t border-border bg-base">
     <div class="max-w-7xl mx-auto">
       
-      <!-- 26 — Viewport Count-up Metrics (Mobile Safe Grid) -->
+      <!-- 26 — Viewport Count-up Metrics (Ruby replaced with Hardware Units) -->
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 mb-14 sm:mb-20 pb-8 sm:pb-12 border-b border-white/10 font-mono">
         <div class="p-3.5 sm:p-4 bg-surface rounded-xl border border-white/5">
           <div class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-accent count-up" data-target="75">00</div>
@@ -961,9 +992,9 @@
           <div class="text-[9px] text-muted">SkillFi & Agriva</div>
         </div>
         <div class="p-3.5 sm:p-4 bg-surface rounded-xl border border-white/5">
-          <div class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-primary count-up" data-target="50">00</div>
-          <div class="text-[11px] sm:text-xs text-primary font-semibold mt-1">RUBY COHORT</div>
-          <div class="text-[9px] text-muted">Accelerated builders</div>
+          <div class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-primary count-up" data-target="45">00</div>
+          <div class="text-[11px] sm:text-xs text-primary font-semibold mt-1">HARDWARE UNITS</div>
+          <div class="text-[9px] text-muted">GoBu & sensor nodes</div>
         </div>
         <div class="p-3.5 sm:p-4 bg-surface rounded-xl border border-white/5">
           <div class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-primary count-up" data-target="70">00</div>
@@ -1057,7 +1088,7 @@
     </div>
   </section>
 
-  <!-- 30 & 31 — NOW & THE CONTACT TERMINAL (PHONE INPUT FRIENDLY) -->
+  <!-- 30 & 31 — NOW & THE CONTACT TERMINAL -->
   <section id="contact" class="relative z-20 px-4 sm:px-8 md:px-14 py-20 sm:py-28 border-t border-border bg-surface">
     <div class="max-w-5xl mx-auto">
       
@@ -1078,12 +1109,12 @@
 
           <div class="p-3.5 sm:p-4 bg-elevated border border-white/10 rounded-xl font-mono text-xs space-y-1.5">
             <div class="text-muted text-[10px] uppercase">NOW FOCUSED ON:</div>
-            <div class="text-primary font-bold text-xs">AGRIVA FIELD SCALING & AUTONOMOUS EMBEDDED SLAM</div>
-            <div class="text-secondary text-[10px]">Deploying sub-GHz telemetry in high-moisture agricultural plots.</div>
+            <div class="text-primary font-bold text-xs">GoBu AMR ENHANCEMENTS & AGRIVA SENSOR TELEMETRY</div>
+            <div class="text-secondary text-[10px]">Testing autonomous localization and sub-GHz mesh resilience.</div>
           </div>
         </div>
 
-        <!-- Right: Crisp Transmission Terminal Form (iOS Safari 16px font-safe) -->
+        <!-- Right: Crisp Transmission Terminal Form -->
         <div class="lg:col-span-7 bg-base border border-white/15 rounded-2xl p-5 sm:p-8 shadow-2xl">
           <form id="contact-form" onsubmit="handleContact(event)" class="space-y-3.5 sm:space-y-4 font-mono text-xs">
             
@@ -1101,10 +1132,10 @@
             <div>
               <label class="block text-muted text-[10px] uppercase tracking-wider mb-1">DOMAIN OF INQUIRY</label>
               <select class="w-full bg-elevated border border-white/10 rounded px-3 py-2 text-base md:text-xs text-primary focus:border-accent focus:outline-none transition-colors">
-                <option>Venture Co-Founding & Scale (Agriva / SkillFi)</option>
-                <option>Embedded Robotics / Mechatronics Engineering</option>
-                <option>Edge AI & System Architecture</option>
-                <option>Leadership & Technical Keynote</option>
+                <option>GoBu AMR / Robotics Engineering & Autonomy</option>
+                <option>Agriva / AgTech Venture Collaboration</option>
+                <option>SkillFi / Sandboxed Micro-VM Evaluation</option>
+                <option>Speaking, Keynote & Leadership Outreach</option>
               </select>
             </div>
 
@@ -1149,7 +1180,7 @@
     </div>
   </footer>
 
-  <!-- SCRIPT: THREE.JS SPATIAL PBR GYROSCOPIC CORE & 3D CAD ROBOT WORKBENCH WITH TOUCH ORBIT CONTROLS -->
+  <!-- SCRIPT: PLANAR ARCHITECTURAL SCHEMATIC (HERO) + GoBu 3D CAD MECHATRONIC WORKBENCH -->
   <script>
     // 06 — BOOT SEQUENCE SCRIPT
     window.addEventListener('DOMContentLoaded', () => {
@@ -1162,9 +1193,9 @@
 
       let progress = 0;
       const statuses = [
-        "CALIBRATING PBR METALLIC SHADERS",
-        "MOUNTING CNC BUGGY ASSEMBLY",
-        "SYNCING AGRIVA TELEMETRY LINK",
+        "CALIBRATING PLANAR SCHEMATIC MATRIX",
+        "MOUNTING GoBu 3D CAD ASSEMBLY",
+        "SYNCING AGRIVA TELEMETRY BUS",
         "READYING MSN-01 DOSSIER",
         "SYSTEM READY"
       ];
@@ -1201,6 +1232,9 @@
 
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
+    let mouseCoordX = window.innerWidth * 0.7;
+    let mouseCoordY = window.innerHeight * 0.45;
+
     if (!isTouchDevice) {
       let mouseX = window.innerWidth / 2;
       let mouseY = window.innerHeight / 2;
@@ -1210,6 +1244,8 @@
       window.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
+        mouseCoordX = e.clientX;
+        mouseCoordY = e.clientY;
         cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
       });
 
@@ -1232,7 +1268,7 @@
         });
       });
 
-      document.querySelectorAll('#three-core-container, #three-robot-container').forEach(el => {
+      document.querySelectorAll('#three-robot-container').forEach(el => {
         el.addEventListener('mouseenter', () => document.body.classList.add('cursor-3d'));
         el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-3d'));
       });
@@ -1261,294 +1297,326 @@
       link.addEventListener('click', () => toggleMenu(false));
     });
 
-    // ========================================================
-    // 07 — THREE.JS HERO: PHYSICAL TITANIUM GYROSCOPIC REACTOR
-    // ========================================================
-    const coreContainer = document.getElementById('three-core-container');
-    const coreScene = new THREE.Scene();
-    
-    // Auto-adjust camera distance for phone screens so object never gets cropped
-    const getHeroCameraZ = () => window.innerWidth < 768 ? 9.2 : 6.2;
-    const coreCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    coreCamera.position.z = getHeroCameraZ();
+    // =========================================================================
+    // 07 — PLANAR ARCHITECTURAL SCHEMATIC CANVAS (HERO LANDING PAGE)
+    // =========================================================================
+    const pCanvas = document.getElementById('planar-schematic-canvas');
+    const pCtx = pCanvas.getContext('2d');
 
-    const coreRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
-    coreRenderer.setSize(window.innerWidth, window.innerHeight);
-    coreRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    coreRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-    coreRenderer.toneMappingExposure = 1.2;
-    coreContainer.appendChild(coreRenderer.domElement);
-
-    const masterCoreGroup = new THREE.Group();
-    coreScene.add(masterCoreGroup);
-
-    // Realistic Materials
-    const brushedMetalMat = new THREE.MeshStandardMaterial({
-      color: 0x1E2226,
-      metalness: 0.92,
-      roughness: 0.22,
-    });
-
-    const laserGreenMat = new THREE.MeshStandardMaterial({
-      color: 0xB7FF3C,
-      emissive: 0xB7FF3C,
-      emissiveIntensity: 0.85,
-      roughness: 0.2,
-      metalness: 0.5
-    });
-
-    const darkObsidianMat = new THREE.MeshStandardMaterial({
-      color: 0x0A0D0E,
-      roughness: 0.15,
-      metalness: 0.8
-    });
-
-    // 1. Outer Heavy Gimbal Bezel
-    const outerRingGeo = new THREE.TorusGeometry(1.9, 0.05, 16, window.innerWidth < 768 ? 48 : 90);
-    const outerRing = new THREE.Mesh(outerRingGeo, brushedMetalMat);
-    masterCoreGroup.add(outerRing);
-
-    // 2. Middle Gimbal Ring
-    const midRingGeo = new THREE.TorusGeometry(1.5, 0.04, 16, window.innerWidth < 768 ? 40 : 70);
-    const midRing = new THREE.Mesh(midRingGeo, brushedMetalMat);
-    midRing.rotation.x = Math.PI / 3;
-    masterCoreGroup.add(midRing);
-
-    // 3. Inner Equatorial Laser Track
-    const innerTrackGeo = new THREE.TorusGeometry(1.15, 0.02, 16, 50);
-    const innerTrack = new THREE.Mesh(innerTrackGeo, laserGreenMat);
-    masterCoreGroup.add(innerTrack);
-
-    // 4. Central Solid Multi-faceted Nucleus
-    const nucleusGeo = new THREE.DodecahedronGeometry(0.85, 0);
-    const nucleus = new THREE.Mesh(nucleusGeo, darkObsidianMat);
-    masterCoreGroup.add(nucleus);
-
-    // Micro green energy nodes on nucleus vertices
-    const nodeSphereGeo = new THREE.SphereGeometry(0.045, 10, 10);
-    for (let i = 0; i < 12; i++) {
-      const nodeMesh = new THREE.Mesh(nodeSphereGeo, laserGreenMat);
-      const phi = Math.acos(-1 + (2 * i) / 12);
-      const theta = Math.sqrt(12 * Math.PI) * phi;
-      nodeMesh.position.setFromSphericalCoords(0.88, phi, theta);
-      masterCoreGroup.add(nodeMesh);
+    function resizePlanarCanvas() {
+      pCanvas.width = window.innerWidth;
+      pCanvas.height = window.innerHeight;
     }
+    resizePlanarCanvas();
+    window.addEventListener('resize', resizePlanarCanvas);
 
-    // Floating orbital dust particles (fewer on mobile for speed)
-    const particleCount = window.innerWidth < 768 ? 60 : 160;
-    const particlePositions = new Float32Array(particleCount * 3);
-    for (let i = 0; i < particleCount * 3; i += 3) {
-      particlePositions[i] = (Math.random() - 0.5) * 4.5;
-      particlePositions[i+1] = (Math.random() - 0.5) * 4.5;
-      particlePositions[i+2] = (Math.random() - 0.5) * 3.0;
+    // Laser pulses along planar architectural buses
+    const laserPackets = [
+      { x: 0.1, y: 0.28, dx: 0.003, dy: 0, length: 60 },
+      { x: 0.2, y: 0.42, dx: 0.002, dy: 0, length: 80 },
+      { x: 0.5, y: 0.65, dx: 0, dy: 0.0025, length: 70 },
+      { x: 0.75, y: 0.35, dx: -0.002, dy: 0, length: 50 },
+      { x: 0.65, y: 0.78, dx: 0.0025, dy: 0, length: 90 }
+    ];
+
+    let planarTime = 0;
+
+    function renderPlanarSchematic() {
+      requestAnimationFrame(renderPlanarSchematic);
+      planarTime += 0.015;
+
+      const w = pCanvas.width;
+      const h = pCanvas.height;
+
+      pCtx.clearRect(0, 0, w, h);
+
+      // 1. Subtle Precision Coordinate Rulers
+      pCtx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+      pCtx.lineWidth = 1;
+
+      // Vertical & horizontal engineering division lines
+      const stepX = w > 768 ? 120 : 60;
+      const stepY = w > 768 ? 120 : 60;
+
+      for (let x = stepX; x < w; x += stepX) {
+        pCtx.beginPath();
+        pCtx.moveTo(x, 0);
+        pCtx.lineTo(x, h);
+        pCtx.stroke();
+
+        // Micro ticks
+        pCtx.strokeStyle = 'rgba(183, 255, 60, 0.12)';
+        pCtx.beginPath();
+        pCtx.moveTo(x, 15);
+        pCtx.lineTo(x, 22);
+        pCtx.stroke();
+        pCtx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+      }
+
+      for (let y = stepY; y < h; y += stepY) {
+        pCtx.beginPath();
+        pCtx.moveTo(0, y);
+        pCtx.lineTo(w, y);
+        pCtx.stroke();
+      }
+
+      // 2. Planar Silicon Wafer / Architectural Schematic Block in Center-Right
+      const cx = w > 1024 ? w * 0.72 : w * 0.5;
+      const cy = h * 0.48;
+      const boxSize = w > 768 ? 280 : 180;
+
+      // Outer Schematic Diamond / Octagonal Box
+      pCtx.save();
+      pCtx.translate(cx, cy);
+
+      // Subtle planar grid inside the block
+      pCtx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
+      pCtx.strokeRect(-boxSize/2, -boxSize/2, boxSize, boxSize);
+
+      // Diagonal corner notches (Architectural framing)
+      pCtx.strokeStyle = '#B7FF3C';
+      pCtx.lineWidth = 1.5;
+      const notch = 14;
+      // Top-left
+      pCtx.beginPath(); pCtx.moveTo(-boxSize/2, -boxSize/2 + notch); pCtx.lineTo(-boxSize/2, -boxSize/2); pCtx.lineTo(-boxSize/2 + notch, -boxSize/2); pCtx.stroke();
+      // Top-right
+      pCtx.beginPath(); pCtx.moveTo(boxSize/2 - notch, -boxSize/2); pCtx.lineTo(boxSize/2, -boxSize/2); pCtx.lineTo(boxSize/2, -boxSize/2 + notch); pCtx.stroke();
+      // Bottom-left
+      pCtx.beginPath(); pCtx.moveTo(-boxSize/2, boxSize/2 - notch); pCtx.lineTo(-boxSize/2, boxSize/2); pCtx.lineTo(-boxSize/2 + notch, boxSize/2); pCtx.stroke();
+      // Bottom-right
+      pCtx.beginPath(); pCtx.moveTo(boxSize/2 - notch, boxSize/2); pCtx.lineTo(boxSize/2, boxSize/2); pCtx.lineTo(boxSize/2, boxSize/2 - notch); pCtx.stroke();
+
+      // Inner Concentric Precision Circles with Millimeter Ticks
+      pCtx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+      pCtx.lineWidth = 1;
+      pCtx.beginPath();
+      pCtx.arc(0, 0, boxSize * 0.38, 0, Math.PI * 2);
+      pCtx.stroke();
+
+      pCtx.beginPath();
+      pCtx.arc(0, 0, boxSize * 0.22, 0, Math.PI * 2);
+      pCtx.stroke();
+
+      // Rotating Planar Reticle Tick
+      pCtx.save();
+      pCtx.rotate(planarTime * 0.4);
+      pCtx.strokeStyle = 'rgba(183, 255, 60, 0.4)';
+      pCtx.beginPath();
+      pCtx.arc(0, 0, boxSize * 0.38, 0, Math.PI * 0.45);
+      pCtx.stroke();
+      pCtx.restore();
+
+      // Center Micro Chip
+      pCtx.fillStyle = '#0D0F10';
+      pCtx.fillRect(-22, -22, 44, 44);
+      pCtx.strokeStyle = 'rgba(183, 255, 60, 0.7)';
+      pCtx.strokeRect(-22, -22, 44, 44);
+
+      // Crosshairs in Center Chip
+      pCtx.beginPath();
+      pCtx.moveTo(-12, 0); pCtx.lineTo(12, 0);
+      pCtx.moveTo(0, -12); pCtx.lineTo(0, 12);
+      pCtx.stroke();
+
+      pCtx.restore();
+
+      // 3. Planar Laser Data Pulses
+      laserPackets.forEach(p => {
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x > 1.1) p.x = -0.1;
+        if (p.x < -0.1) p.x = 1.1;
+        if (p.y > 1.1) p.y = -0.1;
+        if (p.y < -0.1) p.y = 1.1;
+
+        const lx = p.x * w;
+        const ly = p.y * h;
+
+        const grad = pCtx.createLinearGradient(lx - p.length, ly, lx, ly);
+        grad.addColorStop(0, 'rgba(183, 255, 60, 0)');
+        grad.addColorStop(1, 'rgba(183, 255, 60, 0.6)');
+
+        pCtx.strokeStyle = grad;
+        pCtx.lineWidth = 1.5;
+        pCtx.beginPath();
+        pCtx.moveTo(lx - p.length, ly);
+        pCtx.lineTo(lx, ly);
+        pCtx.stroke();
+      });
+
+      // 4. Subtle Interactive Mouse Planar Crosshair (Desktop only)
+      if (!isTouchDevice && mouseCoordX > 0) {
+        pCtx.strokeStyle = 'rgba(183, 255, 60, 0.18)';
+        pCtx.setLineDash([4, 6]);
+        pCtx.beginPath();
+        pCtx.moveTo(mouseCoordX, 0);
+        pCtx.lineTo(mouseCoordX, h);
+        pCtx.moveTo(0, mouseCoordY);
+        pCtx.lineTo(w, mouseCoordY);
+        pCtx.stroke();
+        pCtx.setLineDash([]);
+      }
     }
-    const particleGeo = new THREE.BufferGeometry();
-    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-    const particleMat = new THREE.PointsMaterial({
-      size: 0.028,
-      color: 0xF4F5F2,
-      transparent: true,
-      opacity: 0.5
-    });
-    const dustParticles = new THREE.Points(particleGeo, particleMat);
-    masterCoreGroup.add(dustParticles);
+    renderPlanarSchematic();
 
-    // Studio Lighting setup
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.2);
-    keyLight.position.set(5, 8, 5);
-    coreScene.add(keyLight);
-
-    const emeraldRimLight = new THREE.DirectionalLight(0xB7FF3C, 3.0);
-    emeraldRimLight.position.set(-6, -4, -3);
-    coreScene.add(emeraldRimLight);
-
-    const ambientLight = new THREE.AmbientLight(0x202428, 1.2);
-    coreScene.add(ambientLight);
-
-    // Mouse & Touch Drag Rotation
-    let heroTargetRotX = 0;
-    let heroTargetRotY = 0;
-    let isCoreDragging = false;
-    let prevMouseX = 0;
-    let prevMouseY = 0;
-
-    // Desktop Mouse Drag
-    coreContainer.addEventListener('mousedown', (e) => {
-      isCoreDragging = true;
-      prevMouseX = e.clientX;
-      prevMouseY = e.clientY;
-    });
-
-    window.addEventListener('mouseup', () => isCoreDragging = false);
-
-    window.addEventListener('mousemove', (e) => {
-      if (isCoreDragging) {
-        const deltaX = e.clientX - prevMouseX;
-        const deltaY = e.clientY - prevMouseY;
-        masterCoreGroup.rotation.y += deltaX * 0.01;
-        masterCoreGroup.rotation.x += deltaY * 0.01;
-        prevMouseX = e.clientX;
-        prevMouseY = e.clientY;
-      } else {
-        const nx = (e.clientX / window.innerWidth) * 2 - 1;
-        const ny = -(e.clientY / window.innerHeight) * 2 + 1;
-        heroTargetRotY = nx * 0.3;
-        heroTargetRotX = -ny * 0.3;
-      }
-    });
-
-    // Mobile Phone Touch Drag
-    coreContainer.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        isCoreDragging = true;
-        prevMouseX = e.touches[0].clientX;
-        prevMouseY = e.touches[0].clientY;
-      }
-    }, { passive: true });
-
-    window.addEventListener('touchend', () => isCoreDragging = false);
-
-    window.addEventListener('touchmove', (e) => {
-      if (isCoreDragging && e.touches.length === 1) {
-        const deltaX = e.touches[0].clientX - prevMouseX;
-        const deltaY = e.touches[0].clientY - prevMouseY;
-        masterCoreGroup.rotation.y += deltaX * 0.01;
-        masterCoreGroup.rotation.x += deltaY * 0.01;
-        prevMouseX = e.touches[0].clientX;
-        prevMouseY = e.touches[0].clientY;
-      }
-    }, { passive: true });
-
-    function animateHeroCore() {
-      requestAnimationFrame(animateHeroCore);
-      
-      const rotSpeed = 0.003;
-      outerRing.rotation.y += rotSpeed;
-      midRing.rotation.x += rotSpeed * 1.4;
-      innerTrack.rotation.z -= rotSpeed * 1.8;
-      nucleus.rotation.y -= rotSpeed * 0.8;
-      dustParticles.rotation.y += rotSpeed * 0.4;
-
-      if (!isCoreDragging) {
-        masterCoreGroup.rotation.y += (heroTargetRotY - masterCoreGroup.rotation.y) * 0.04;
-        masterCoreGroup.rotation.x += (heroTargetRotX - masterCoreGroup.rotation.x) * 0.04;
-      }
-
-      coreRenderer.render(coreScene, coreCamera);
-    }
-    animateHeroCore();
-
-    window.addEventListener('resize', () => {
-      coreCamera.aspect = window.innerWidth / window.innerHeight;
-      coreCamera.position.z = getHeroCameraZ();
-      coreCamera.updateProjectionMatrix();
-      coreRenderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    // ========================================================
-    // 18 — THREE.JS MECHATRONIC 3D CAD ROBOT WORKBENCH
-    // ========================================================
+    // =========================================================================
+    // 18 — GoBu // MECHATRONIC 3D CAD ROBOT WORKBENCH (THREE.JS)
+    // =========================================================================
     const robotContainer = document.getElementById('three-robot-container');
     const robotScene = new THREE.Scene();
     
-    const getRobotCameraZ = () => window.innerWidth < 768 ? 6.2 : 4.5;
-    const robotCamera = new THREE.PerspectiveCamera(40, robotContainer.clientWidth / robotContainer.clientHeight, 0.1, 100);
+    const getRobotCameraZ = () => window.innerWidth < 768 ? 6.2 : 4.4;
+    const robotCamera = new THREE.PerspectiveCamera(38, robotContainer.clientWidth / robotContainer.clientHeight, 0.1, 100);
     robotCamera.position.set(0, 2.2, getRobotCameraZ());
-    robotCamera.lookAt(0, 0.2, 0);
+    robotCamera.lookAt(0, 0.25, 0);
 
     const robotRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
     robotRenderer.setSize(robotContainer.clientWidth, robotContainer.clientHeight);
     robotRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     robotContainer.appendChild(robotRenderer.domElement);
 
-    // CAD Materials
-    const chassisMat = new THREE.MeshStandardMaterial({ color: 0x16191B, metalness: 0.9, roughness: 0.3 });
-    const pcbMat = new THREE.MeshStandardMaterial({ color: 0x0E2818, metalness: 0.2, roughness: 0.5 });
+    // Advanced Mechatronic CAD Materials for GoBu
+    const chassisMat = new THREE.MeshStandardMaterial({ color: 0x181B1D, metalness: 0.92, roughness: 0.25 });
+    const bumperMat = new THREE.MeshStandardMaterial({ color: 0x0E1012, metalness: 0.85, roughness: 0.35 });
+    const pcbMat = new THREE.MeshStandardMaterial({ color: 0x0B2615, metalness: 0.25, roughness: 0.45 });
     const goldPinsMat = new THREE.MeshStandardMaterial({ color: 0xD4AF37, metalness: 0.95, roughness: 0.15 });
-    const heatsinkMat = new THREE.MeshStandardMaterial({ color: 0x8A9398, metalness: 0.85, roughness: 0.25 });
-    const wheelRubberMat = new THREE.MeshStandardMaterial({ color: 0x101112, roughness: 0.85, metalness: 0.1 });
-    const lidarHeadMat = new THREE.MeshStandardMaterial({ color: 0xB7FF3C, emissive: 0xB7FF3C, emissiveIntensity: 0.6 });
+    const heatsinkMat = new THREE.MeshStandardMaterial({ color: 0x7E888E, metalness: 0.88, roughness: 0.25 });
+    const wheelRubberMat = new THREE.MeshStandardMaterial({ color: 0x111214, roughness: 0.88, metalness: 0.08 });
+    const wheelHubMat = new THREE.MeshStandardMaterial({ color: 0x3A4045, metalness: 0.9, roughness: 0.2 });
+    const laserHeadMat = new THREE.MeshStandardMaterial({ color: 0xB7FF3C, emissive: 0xB7FF3C, emissiveIntensity: 0.75 });
+    const eStopMat = new THREE.MeshStandardMaterial({ color: 0xDF2020, roughness: 0.3, metalness: 0.2 });
 
     const robotMasterGroup = new THREE.Group();
     robotScene.add(robotMasterGroup);
 
     const layers = {};
 
-    // LAYER 1: Chassis
+    // LAYER 1: GoBu 6061 Aluminum Tub Chassis with Chamfered Bumpers & LED Guide Headlights
     const layer1 = new THREE.Group();
-    const chassisBase = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.12, 1.6), chassisMat);
+    // Main tub chassis
+    const chassisBase = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.14, 1.65), chassisMat);
     layer1.add(chassisBase);
+    // Front impact bumper
+    const frontBumper = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.16, 0.25), bumperMat);
+    frontBumper.position.set(0, 0.02, 0.9);
+    layer1.add(frontBumper);
+    // Rear bumper
+    const rearBumper = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.16, 0.25), bumperMat);
+    rearBumper.position.set(0, 0.02, -0.9);
+    layer1.add(rearBumper);
+    // Twin Green Laser Guide Headlights on Front Bumper
+    const headlight1 = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.08, 16), laserHeadMat);
+    headlight1.rotateX(Math.PI / 2);
+    headlight1.position.set(-0.7, 0.02, 1.02);
+    layer1.add(headlight1);
+    const headlight2 = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.08, 16), laserHeadMat);
+    headlight2.rotateX(Math.PI / 2);
+    headlight2.position.set(0.7, 0.02, 1.02);
+    layer1.add(headlight2);
+    // Dual Safety E-Stop Switch on Chassis Deck
+    const eStop = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.08, 16), eStopMat);
+    eStop.position.set(-0.85, 0.12, -0.6);
+    layer1.add(eStop);
     layers[1] = layer1;
     robotMasterGroup.add(layer1);
 
-    // LAYER 2: 4 Geared Motors & Rubber Wheels
+    // LAYER 2: 4 Heavy-Duty Mecanum Drive Wheels with Rim Bolts & Hubs
     const layer2 = new THREE.Group();
-    const wheelGeo = new THREE.CylinderGeometry(0.32, 0.32, 0.18, 20);
-    wheelGeo.rotateZ(Math.PI / 2);
-    const w1 = new THREE.Mesh(wheelGeo, wheelRubberMat); w1.position.set(-1.18, 0, -0.6); layer2.add(w1);
-    const w2 = new THREE.Mesh(wheelGeo, wheelRubberMat); w2.position.set(1.18, 0, -0.6); layer2.add(w2);
-    const w3 = new THREE.Mesh(wheelGeo, wheelRubberMat); w3.position.set(-1.18, 0, 0.6); layer2.add(w3);
-    const w4 = new THREE.Mesh(wheelGeo, wheelRubberMat); w4.position.set(1.18, 0, 0.6); layer2.add(w4);
+    const wheelTireGeo = new THREE.CylinderGeometry(0.36, 0.36, 0.22, 24);
+    wheelTireGeo.rotateZ(Math.PI / 2);
+    const wheelHubGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.24, 16);
+    wheelHubGeo.rotateZ(Math.PI / 2);
+
+    function createGoBuWheel(x, z) {
+      const wheelGroup = new THREE.Group();
+      const tire = new THREE.Mesh(wheelTireGeo, wheelRubberMat);
+      const hub = new THREE.Mesh(wheelHubGeo, wheelHubMat);
+      wheelGroup.add(tire);
+      wheelGroup.add(hub);
+      wheelGroup.position.set(x, 0, z);
+      return wheelGroup;
+    }
+    const w1 = createGoBuWheel(-1.26, -0.65); layer2.add(w1);
+    const w2 = createGoBuWheel(1.26, -0.65); layer2.add(w2);
+    const w3 = createGoBuWheel(-1.26, 0.65); layer2.add(w3);
+    const w4 = createGoBuWheel(1.26, 0.65); layer2.add(w4);
     layers[2] = layer2;
     robotMasterGroup.add(layer2);
 
-    // LAYER 3: Dual H-Bridge Motor Driver
+    // LAYER 3: Dual Opto-isolated H-Bridge Motor Drivers & 24V LiFePO4 Battery Pack
     const layer3 = new THREE.Group();
-    const driverPcb = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.04, 0.9), pcbMat);
-    driverPcb.position.set(0, 0.15, -0.2);
+    const driverPcb = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.04, 0.95), pcbMat);
+    driverPcb.position.set(0, 0.16, -0.25);
     layer3.add(driverPcb);
-    const heatsink = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.18, 0.4), heatsinkMat);
-    heatsink.position.set(0, 0.24, -0.2);
-    layer3.add(heatsink);
+    // 2 Finned Heatsinks
+    const heatsink1 = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.18, 0.35), heatsinkMat);
+    heatsink1.position.set(-0.35, 0.26, -0.25);
+    layer3.add(heatsink1);
+    const heatsink2 = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.18, 0.35), heatsinkMat);
+    heatsink2.position.set(0.35, 0.26, -0.25);
+    layer3.add(heatsink2);
+    // 24V Battery Casing
+    const battery = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.2, 0.5), chassisMat);
+    battery.position.set(0, 0.22, 0.5);
+    layer3.add(battery);
     layers[3] = layer3;
     robotMasterGroup.add(layer3);
 
-    // LAYER 4: STM32F401 ARM Cortex Controller PCB
+    // LAYER 4: STM32F401 ARM Cortex-M4 Compute Core PCB
     const layer4 = new THREE.Group();
-    const stmPcb = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.04, 0.9), pcbMat);
-    stmPcb.position.set(0, 0.35, 0.2);
+    const stmPcb = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.04, 0.95), pcbMat);
+    stmPcb.position.set(0, 0.38, 0.1);
     layer4.add(stmPcb);
-    const stmChip = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.06, 0.35), new THREE.MeshStandardMaterial({ color: 0x050505 }));
-    stmChip.position.set(0, 0.4, 0.2);
+    // STM32 Microcontroller QFP chip
+    const stmChip = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.05, 0.38), new THREE.MeshStandardMaterial({ color: 0x050505, roughness: 0.2 }));
+    stmChip.position.set(0, 0.43, 0.1);
     layer4.add(stmChip);
+    // Header Pins
+    const pinHeader = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.06, 0.08), goldPinsMat);
+    pinHeader.position.set(0, 0.43, -0.3);
+    layer4.add(pinHeader);
     layers[4] = layer4;
     robotMasterGroup.add(layer4);
 
     // LAYER 5: ESP32-WROOM RF Telemetry Shield
     const layer5 = new THREE.Group();
-    const espShield = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.06, 0.4), heatsinkMat);
-    espShield.position.set(0.4, 0.52, 0.2);
+    const espShield = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.06, 0.45), heatsinkMat);
+    espShield.position.set(0.35, 0.55, 0.15);
     layer5.add(espShield);
-    const goldAntenna = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.02, 0.35), goldPinsMat);
-    goldAntenna.position.set(0.7, 0.52, 0.2);
+    const goldAntenna = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.02, 0.38), goldPinsMat);
+    goldAntenna.position.set(0.68, 0.55, 0.15);
     layer5.add(goldAntenna);
     layers[5] = layer5;
     robotMasterGroup.add(layer5);
 
-    // LAYER 6: 2D LiDAR Scanner Turret
+    // LAYER 6: GoBu 2D LiDAR Perception Mast & Scanner
     const layer6 = new THREE.Group();
-    const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.45, 16), chassisMat);
-    mast.position.set(0, 0.65, -0.2);
+    const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.5, 16), chassisMat);
+    mast.position.set(0, 0.7, -0.2);
     layer6.add(mast);
-    const lidarHead = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.18, 20), lidarHeadMat);
-    lidarHead.position.set(0, 0.92, -0.2);
+    const lidarHead = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.18, 24), laserHeadMat);
+    lidarHead.position.set(0, 0.98, -0.2);
     layer6.add(lidarHead);
+    // Optical laser emitter slot
+    const lidarEmitter = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.08, 0.35), new THREE.MeshStandardMaterial({ color: 0x070809 }));
+    lidarEmitter.position.set(0, 0.98, -0.2);
+    layer6.add(lidarEmitter);
     layers[6] = layer6;
     robotMasterGroup.add(layer6);
 
-    // Workbench Studio Lighting
-    const rKeyLight = new THREE.DirectionalLight(0xffffff, 2.2);
+    // Studio Lighting for GoBu Workbench
+    const rKeyLight = new THREE.DirectionalLight(0xffffff, 2.4);
     rKeyLight.position.set(4, 6, 4);
     robotScene.add(rKeyLight);
 
-    const rRimLight = new THREE.DirectionalLight(0xB7FF3C, 2.0);
+    const rRimLight = new THREE.DirectionalLight(0xB7FF3C, 2.2);
     rRimLight.position.set(-4, -2, -3);
     robotScene.add(rRimLight);
 
-    const rAmbient = new THREE.AmbientLight(0x282c30, 1.2);
+    const rAmbient = new THREE.AmbientLight(0x282c30, 1.3);
     robotScene.add(rAmbient);
 
-    // Exploded View State & Logic
+    // Exploded View State & Logic for GoBu
     let isCadExploded = false;
     const cadExplodeBtn = document.getElementById('cad-explode-btn');
     const cadStatusBadge = document.getElementById('cad-status-badge');
@@ -1556,12 +1624,12 @@
 
     cadExplodeBtn.addEventListener('click', () => {
       isCadExploded = !isCadExploded;
-      cadStatusBadge.innerText = isCadExploded ? "+320mm CAD EXPLODED" : "0mm ASSEMBLED";
+      cadStatusBadge.innerText = isCadExploded ? "GoBu: +320mm EXPLODED" : "GoBu: 0mm ASSEMBLED";
       cadStatusBadge.classList.toggle('text-accent', isCadExploded);
-      activeCadPart.innerText = isCadExploded ? "SUBASSEMBLIES ISOLATED ALONG Y-AXIS" : "ALL 6 LAYERS MOUNTED";
+      activeCadPart.innerText = isCadExploded ? "GoBu // 6 SUBASSEMBLIES ISOLATED ON Y-AXIS" : "GoBu // ALL 6 MECHATRONIC LAYERS INTEGRATED";
     });
 
-    // Robot Canvas Orbit Drag (Mouse & Phone Touch)
+    // Orbit Drag (Desktop Mouse & Phone Touch)
     let isRobotDragging = false;
     let rPrevX = 0;
     let rPrevY = 0;
@@ -1585,7 +1653,6 @@
       }
     });
 
-    // Mobile Phone Touch Orbit for 3D Robot
     robotContainer.addEventListener('touchstart', (e) => {
       if (e.touches.length === 1) {
         isRobotDragging = true;
@@ -1607,15 +1674,15 @@
       }
     }, { passive: true });
 
-    function animateRobot() {
-      requestAnimationFrame(animateRobot);
+    function animateGoBuRobot() {
+      requestAnimationFrame(animateGoBuRobot);
 
       const t1 = 0;
-      const t2 = isCadExploded ? -0.35 : 0;
-      const t3 = isCadExploded ? 0.35 : 0;
-      const t4 = isCadExploded ? 0.75 : 0;
-      const t5 = isCadExploded ? 1.15 : 0;
-      const t6 = isCadExploded ? 1.65 : 0;
+      const t2 = isCadExploded ? -0.38 : 0;
+      const t3 = isCadExploded ? 0.38 : 0;
+      const t4 = isCadExploded ? 0.82 : 0;
+      const t5 = isCadExploded ? 1.25 : 0;
+      const t6 = isCadExploded ? 1.75 : 0;
 
       layer1.position.y += (t1 - layer1.position.y) * 0.1;
       layer2.position.y += (t2 - layer2.position.y) * 0.1;
@@ -1624,7 +1691,8 @@
       layer5.position.y += (t5 - layer5.position.y) * 0.1;
       layer6.position.y += (t6 - layer6.position.y) * 0.1;
 
-      lidarHead.rotation.y += 0.06;
+      // GoBu LiDAR scanner continuous 360° spin
+      lidarHead.rotation.y += 0.065;
 
       if (!isRobotDragging) {
         robotMasterGroup.rotation.y += 0.003;
@@ -1632,7 +1700,7 @@
 
       robotRenderer.render(robotScene, robotCamera);
     }
-    animateRobot();
+    animateGoBuRobot();
 
     window.addEventListener('resize', () => {
       if (robotContainer.clientWidth > 0) {
