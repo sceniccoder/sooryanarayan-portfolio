@@ -34,7 +34,15 @@ Engineering documentation and systems portfolio of **M. Soorya Narayan** — Com
 
 ---
 
-## 04 — Quick Start
+## 04 — Links & Contact
+
+- **LinkedIn:** [M Soorya Narayan](https://www.linkedin.com/in/m-soorya-narayan-a1488a335/)
+- **GitHub:** [@sceniccoder](https://github.com/sceniccoder)
+- **Email:** [sooryanarayanmanoj@gmail.com](mailto:sooryanarayanmanoj@gmail.com)
+
+---
+
+## 05 — Quick Start
 
 Open `index.html` in any modern web browser, or serve locally with any static HTTP server:
 
