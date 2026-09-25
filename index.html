@@ -196,6 +196,74 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
     }
+
+    /* Tactical Radar Map & Geospatial Trajectory Styles */
+    @keyframes trajectoryFlow {
+      to {
+        stroke-dashoffset: -32;
+      }
+    }
+    .radar-trajectory-active {
+      stroke-dasharray: 6 6;
+      animation: trajectoryFlow 1.8s linear infinite;
+    }
+    @keyframes radarBeamRotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .radar-sweep-beam {
+      transform-origin: 185.7px 442.6px;
+      animation: radarBeamRotate 9s linear infinite;
+      pointer-events: none;
+    }
+    .radar-sweep-fast {
+      animation: radarBeamRotate 2.2s linear infinite !important;
+    }
+    @keyframes radarPingAnim {
+      0% {
+        r: 6px;
+        opacity: 0.9;
+      }
+      70% {
+        r: 22px;
+        opacity: 0;
+      }
+      100% {
+        r: 24px;
+        opacity: 0;
+      }
+    }
+    .radar-ping-ring {
+      animation: radarPingAnim 2.4s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+    }
+    .milestone-card {
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .milestone-card.card-active {
+      border-color: #B7FF3C !important;
+      background: rgba(183, 255, 60, 0.05) !important;
+      transform: translateX(4px);
+    }
+    .map-node {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .map-node:hover .node-halo,
+    .map-node.active-node .node-halo {
+      stroke: #B7FF3C !important;
+      stroke-width: 2px !important;
+      r: 16px !important;
+      opacity: 1 !important;
+    }
+    .map-node:hover .node-core,
+    .map-node.active-node .node-core {
+      fill: #B7FF3C !important;
+      filter: drop-shadow(0 0 8px #B7FF3C);
+    }
   </style>
 </head>
 <body class="bg-base text-primary antialiased bg-grid selection:bg-accent selection:text-base">
@@ -983,80 +1051,457 @@
     </div>
   </section>
 
-  <!-- 25 — PROOF OF WORK & VERIFIED MILESTONES -->
-  <section id="proof" class="relative z-20 px-4 sm:px-8 md:px-14 py-20 sm:py-28 border-t border-border bg-base">
-    <div class="max-w-7xl mx-auto">
+  <!-- 25 — PROOF OF WORK & GEOSPATIAL RADAR -->
+  <section id="proof" class="relative z-20 px-4 sm:px-8 md:px-14 py-20 sm:py-28 border-t border-border bg-base overflow-hidden">
+    <!-- Subtle Background Ambient Radial Glow -->
+    <div class="absolute top-1/4 left-1/3 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+
+    <div class="max-w-7xl mx-auto space-y-8">
       
-      <!-- 25 — Proof of Work Ledger -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-start">
-        
-        <div class="lg:col-span-4">
-          <div class="flex items-center gap-3 font-mono text-xs text-accent tracking-widest uppercase mb-4">
+      <!-- Section Header & Filter Controls -->
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-white/10">
+        <div>
+          <div class="flex items-center gap-3 font-mono text-xs text-accent tracking-widest uppercase mb-3">
             <span>06 // PROOF OF WORK</span>
             <div class="h-[1px] w-12 bg-accent/30"></div>
+            <span class="text-[10px] text-muted tracking-widest hidden sm:inline">NATIONAL RESEARCH TRAJECTORY</span>
           </div>
-          <div class="font-mono text-xs text-muted uppercase tracking-widest mb-1">VERIFIED MILESTONES</div>
-          <h2 class="font-display font-bold text-2xl sm:text-4xl text-primary mb-2 sm:mb-4">PROOF OF WORK</h2>
-          <p class="font-mono text-xs text-secondary leading-relaxed font-light">
-            No manufactured awards or participation certificates. Documented national engineering engagements and first-place titles.
+          <div class="font-mono text-xs text-muted uppercase tracking-widest mb-1">VERIFIED MILESTONES &amp; FELLOWSHIPS</div>
+          <h2 class="font-display font-bold text-2xl sm:text-4xl text-primary mb-2">
+            GEOSPATIAL PROOF OF WORK
+          </h2>
+          <p class="font-mono text-xs text-secondary max-w-2xl leading-relaxed font-light">
+            Interactive tactical radar mapping verified engineering milestones, academic research fellowships, and competitive 1st-place titles radiating from the Kochi R&amp;D Base Lab across national research corridors.
           </p>
         </div>
 
-        <div class="lg:col-span-8 space-y-2.5 sm:space-y-3 font-mono text-xs">
+        <!-- Filter Tabs & Radar Sweep Trigger -->
+        <div class="flex flex-wrap items-center gap-2 font-mono text-[11px]">
+          <button id="proof-filter-all" class="proof-filter-btn px-3 py-1.5 rounded-lg border border-accent bg-accent/10 text-accent font-bold transition-all flex items-center gap-1.5" data-filter="all">
+            <span>ALL HUBS</span>
+            <span class="px-1.5 py-0.2 bg-accent/20 rounded text-[10px]">5</span>
+          </button>
+          <button id="proof-filter-fellowship" class="proof-filter-btn px-3 py-1.5 rounded-lg border border-white/10 bg-surface text-secondary hover:text-white hover:border-white/20 transition-all flex items-center gap-1.5" data-filter="fellowship">
+            <span>FELLOWSHIPS</span>
+            <span class="px-1.5 py-0.2 bg-white/5 rounded text-[10px]">2</span>
+          </button>
+          <button id="proof-filter-award" class="proof-filter-btn px-3 py-1.5 rounded-lg border border-white/10 bg-surface text-secondary hover:text-white hover:border-white/20 transition-all flex items-center gap-1.5" data-filter="award">
+            <span>AWARDS</span>
+            <span class="px-1.5 py-0.2 bg-white/5 rounded text-[10px]">1</span>
+          </button>
+          <button id="proof-filter-leadership" class="proof-filter-btn px-3 py-1.5 rounded-lg border border-white/10 bg-surface text-secondary hover:text-white hover:border-white/20 transition-all flex items-center gap-1.5" data-filter="leadership">
+            <span>LEADERSHIP</span>
+            <span class="px-1.5 py-0.2 bg-white/5 rounded text-[10px]">2</span>
+          </button>
+          <button id="btn-sweep-radar" title="Trigger a 360° radar sweep scan" class="ml-auto sm:ml-2 px-3 py-1.5 rounded-lg border border-white/15 bg-elevated text-primary hover:border-accent hover:text-accent font-mono text-[10px] uppercase flex items-center gap-1.5 transition-colors">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent animate-ping"></span>
+            SWEEP RADAR
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Interactive Grid: Radar Map + Ledger Cards -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+        
+        <!-- LEFT: Geospatial Tactical Radar Map & Telemetry HUD (7 cols) -->
+        <div class="lg:col-span-7 space-y-4">
           
-          <div class="p-3.5 sm:p-4 bg-surface border border-white/10 rounded-xl flex items-center justify-between hover:border-accent transition-colors">
-            <div class="flex items-center gap-3 sm:gap-4">
-              <span class="text-accent font-bold text-xs">2026</span>
-              <div>
-                <div class="font-display font-bold text-xs sm:text-sm text-primary">IIT GUWAHATI</div>
-                <div class="text-[10px] sm:text-[11px] text-secondary">National Campus Immersion & Research Collaboration</div>
+          <!-- Radar Container Card -->
+          <div class="bg-surface border border-white/10 rounded-2xl p-4 sm:p-6 relative overflow-hidden shadow-2xl backdrop-blur-sm group">
+            
+            <!-- Technical Corner Accents -->
+            <div class="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-accent/40 pointer-events-none"></div>
+            <div class="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-accent/40 pointer-events-none"></div>
+            <div class="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-accent/40 pointer-events-none"></div>
+            <div class="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-accent/40 pointer-events-none"></div>
+
+            <!-- Radar Header Status -->
+            <div class="flex items-center justify-between font-mono text-[10px] text-muted border-b border-white/10 pb-3 mb-3">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                <span class="text-primary font-bold tracking-wider">RADAR PROJECTION // INDIA CORRIDORS</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="hidden sm:inline text-secondary">AZIMUTH: 360° RANGE</span>
+                <span id="map-lock-status" class="px-2 py-0.5 rounded bg-accent/10 border border-accent/20 text-accent font-bold">ALL NODES LOCKED</span>
               </div>
             </div>
-            <span class="px-2 py-0.5 bg-elevated border border-white/10 rounded text-[9px] sm:text-[10px] text-accent">FELLOW</span>
+
+            <!-- SVG Radar Map Viewport -->
+            <div class="relative w-full aspect-[600/520] select-none bg-[#050607]/80 rounded-xl overflow-hidden border border-white/5 flex items-center justify-center">
+              
+              <svg id="india-radar-svg" viewBox="0 0 600 520" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <!-- Gradient for Landmass Silhouette -->
+                  <linearGradient id="landmass-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#14181A" stop-opacity="0.95" />
+                    <stop offset="100%" stop-color="#0B0D0E" stop-opacity="0.9" />
+                  </linearGradient>
+
+                  <!-- Radar Sweep Cone Gradient -->
+                  <radialGradient id="radar-sweep-cone" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#B7FF3C" stop-opacity="0.25" />
+                    <stop offset="40%" stop-color="#B7FF3C" stop-opacity="0.08" />
+                    <stop offset="100%" stop-color="#B7FF3C" stop-opacity="0" />
+                  </radialGradient>
+                </defs>
+
+                <!-- 1. Coordinate Grid Lines & Graticules -->
+                <g class="radar-grid" stroke="rgba(255,255,255,0.04)" stroke-width="1">
+                  <!-- Latitude lines -->
+                  <line x1="40" y1="100" x2="560" y2="100" />
+                  <line x1="40" y1="200" x2="560" y2="200" />
+                  <line x1="40" y1="300" x2="560" y2="300" />
+                  <line x1="40" y1="400" x2="560" y2="400" />
+                  <!-- Longitude lines -->
+                  <line x1="120" y1="30" x2="120" y2="490" />
+                  <line x1="220" y1="30" x2="220" y2="490" />
+                  <line x1="320" y1="30" x2="320" y2="490" />
+                  <line x1="420" y1="30" x2="420" y2="490" />
+                  <line x1="520" y1="30" x2="520" y2="490" />
+                </g>
+
+                <!-- Tropic of Cancer (23.5° N) approx Y=237 -->
+                <line x1="40" y1="237" x2="560" y2="237" stroke="rgba(183, 255, 60, 0.15)" stroke-width="1" stroke-dasharray="4 4" />
+                <text x="550" y="233" text-anchor="end" fill="rgba(183, 255, 60, 0.4)" font-family="JetBrains Mono, monospace" font-size="8">TROPIC OF CANCER // 23.5° N</text>
+
+                <!-- Latitude Labels -->
+                <text x="45" y="104" fill="rgba(255,255,255,0.2)" font-family="JetBrains Mono, monospace" font-size="8">32° N</text>
+                <text x="45" y="204" fill="rgba(255,255,255,0.2)" font-family="JetBrains Mono, monospace" font-size="8">25° N</text>
+                <text x="45" y="304" fill="rgba(255,255,255,0.2)" font-family="JetBrains Mono, monospace" font-size="8">18° N</text>
+                <text x="45" y="404" fill="rgba(255,255,255,0.2)" font-family="JetBrains Mono, monospace" font-size="8">11° N</text>
+
+                <!-- Longitude Labels -->
+                <text x="120" y="508" fill="rgba(255,255,255,0.2)" font-family="JetBrains Mono, monospace" font-size="8">72° E</text>
+                <text x="220" y="508" fill="rgba(255,255,255,0.2)" font-family="JetBrains Mono, monospace" font-size="8">78° E</text>
+                <text x="320" y="508" fill="rgba(255,255,255,0.2)" font-family="JetBrains Mono, monospace" font-size="8">84° E</text>
+                <text x="420" y="508" fill="rgba(255,255,255,0.2)" font-family="JetBrains Mono, monospace" font-size="8">90° E</text>
+
+                <!-- 2. Concentric Range Rings centered at Kochi Base (185.7, 442.6) -->
+                <g class="radar-range-rings" stroke="rgba(183,255,60,0.12)" fill="none" stroke-width="1" stroke-dasharray="3 4">
+                  <!-- 500 km range ring (~72px) -->
+                  <circle cx="185.7" cy="442.6" r="72" />
+                  <text x="185.7" y="366" text-anchor="middle" fill="rgba(183,255,60,0.35)" font-family="JetBrains Mono, monospace" font-size="7">500 KM RANGE</text>
+
+                  <!-- 1000 km range ring (~144px) -->
+                  <circle cx="185.7" cy="442.6" r="144" />
+                  <text x="185.7" y="294" text-anchor="middle" fill="rgba(183,255,60,0.35)" font-family="JetBrains Mono, monospace" font-size="7">1,000 KM RANGE</text>
+
+                  <!-- 2000 km range ring (~288px) -->
+                  <circle cx="185.7" cy="442.6" r="288" />
+                  <text x="185.7" y="150" text-anchor="middle" fill="rgba(183,255,60,0.35)" font-family="JetBrains Mono, monospace" font-size="7">2,000 KM RANGE</text>
+                </g>
+
+                <!-- 3. Rotating Radar Sweep Beam radiating from Kochi -->
+                <g id="radar-sweep-group" class="radar-sweep-beam">
+                  <!-- Sweep line -->
+                  <line x1="185.7" y1="442.6" x2="185.7" y2="40" stroke="#B7FF3C" stroke-width="1.5" stroke-opacity="0.7" />
+                  <!-- Sweep fan cone -->
+                  <path d="M 185.7 442.6 L 120 50 A 420 420 0 0 1 185.7 40 Z" fill="url(#radar-sweep-cone)" opacity="0.4" />
+                </g>
+
+                <!-- 4. India Landmass Silhouette & Boundary Vector -->
+                <path id="india-landmass" d="M 159.9 55.7 L 163.4 33 L 174 34.5 L 198.6 55.7 L 225.1 70.9 L 233.9 93.6 L 230.4 116.3 L 260.3 131.4 L 255.1 154.1 L 286.8 161.6 L 339.7 176.8 L 392.5 187.4 L 397.8 173.8 L 404.9 169.2 L 408.4 182.8 L 424.3 187.4 L 454.2 179.8 L 464.8 187.4 L 489.5 172.2 L 507.1 161.6 L 533.6 151.1 L 551.2 166.2 L 542.4 184.3 L 519.5 199.5 L 507.1 222.2 L 486 237.3 L 480.7 260 L 466.6 260 L 450.7 232.8 L 459.5 217.6 L 427.8 211.6 L 401.4 214.6 L 396.1 199.5 L 392.5 217.6 L 410.2 257 L 374.9 267.6 L 353.8 293.3 L 322 317.5 L 292.1 335.7 L 269.2 350.8 L 255.1 381.1 L 248 411.3 L 248 441.6 L 237.4 453.7 L 207.5 470.3 L 196.9 464.3 L 185.6 442.6 L 177.5 423.4 L 166.9 411.3 L 159.9 396.2 L 151.1 373.5 L 142.2 358.4 L 133.4 335.7 L 124.6 305.4 L 122.8 290.3 L 122.8 275.1 L 89.4 278.2 L 57.6 257 L 48.8 244.9 L 54.1 229.7 L 92.9 222.2 L 96.4 214.6 L 84.1 191.9 L 101.7 172.2 L 128.1 146.5 L 154.6 116.3 L 149.3 101.1 L 145.8 78.4 L 159.9 55.7 Z" 
+                  fill="url(#landmass-grad)" 
+                  stroke="rgba(255, 255, 255, 0.2)" 
+                  stroke-width="1.2" 
+                  class="transition-colors duration-300" />
+
+                <!-- Secondary Sub-Divisions / Regional Guides -->
+                <path d="M 185.7 442.6 L 209.1 396.6 L 222.4 328.9 L 202.3 159.9" stroke="rgba(255,255,255,0.06)" stroke-width="0.8" stroke-dasharray="2 3" fill="none" />
+                <path d="M 222.4 328.9 L 399.0 251.3 L 457.6 196.6" stroke="rgba(255,255,255,0.06)" stroke-width="0.8" stroke-dasharray="2 3" fill="none" />
+
+                <!-- 5. Active Trajectory Curves -->
+                <!-- Trajectory 1: Kochi -> Hyderabad -->
+                <g id="traj-group-hyderabad">
+                  <!-- Base Track -->
+                  <path id="path-bg-hyderabad" d="M 185.7 442.6 Q 194 372 222.4 328.9" fill="none" stroke="rgba(183, 255, 60, 0.2)" stroke-width="2" />
+                  <!-- Animated Pulse Dash -->
+                  <path id="path-pulse-hyderabad" d="M 185.7 442.6 Q 194 372 222.4 328.9" fill="none" stroke="#B7FF3C" stroke-width="2" class="radar-trajectory-active" stroke-linecap="round" />
+                </g>
+
+                <!-- Trajectory 2: Kochi -> Guwahati -->
+                <g id="traj-group-guwahati">
+                  <!-- Base Track -->
+                  <path id="path-bg-guwahati" d="M 185.7 442.6 Q 295 330 457.6 196.6" fill="none" stroke="rgba(183, 255, 60, 0.2)" stroke-width="2" />
+                  <!-- Animated Pulse Dash -->
+                  <path id="path-pulse-guwahati" d="M 185.7 442.6 Q 295 330 457.6 196.6" fill="none" stroke="#B7FF3C" stroke-width="2" class="radar-trajectory-active" stroke-linecap="round" />
+                </g>
+
+                <!-- 6. Reference Geo Anchors (Dimmed dots for context) -->
+                <!-- New Delhi -->
+                <g opacity="0.45">
+                  <circle cx="202.3" cy="159.9" r="2.5" fill="#9A9F9D" />
+                  <text x="210" y="163" fill="#9A9F9D" font-family="JetBrains Mono, monospace" font-size="7">DELHI</text>
+                </g>
+                <!-- Mumbai -->
+                <g opacity="0.45">
+                  <circle cx="126.0" cy="304.2" r="2.5" fill="#9A9F9D" />
+                  <text x="75" y="307" fill="#9A9F9D" font-family="JetBrains Mono, monospace" font-size="7">MUMBAI</text>
+                </g>
+                <!-- Bengaluru -->
+                <g opacity="0.45">
+                  <circle cx="209.1" cy="396.6" r="2.5" fill="#9A9F9D" />
+                  <text x="216" y="399" fill="#9A9F9D" font-family="JetBrains Mono, monospace" font-size="7">BLR</text>
+                </g>
+                <!-- Kolkata -->
+                <g opacity="0.45">
+                  <circle cx="399.0" cy="251.3" r="2.5" fill="#9A9F9D" />
+                  <text x="406" y="254" fill="#9A9F9D" font-family="JetBrains Mono, monospace" font-size="7">KOLKATA</text>
+                </g>
+
+                <!-- 7. Primary Interactive Target Nodes -->
+                
+                <!-- NODE 01: IIT GUWAHATI (x: 457.6, y: 196.6) -->
+                <g id="map-node-guwahati" class="map-node" data-node="guwahati" transform="translate(457.6, 196.6)">
+                  <!-- Pulsing Radar Ping -->
+                  <circle class="radar-ping-ring" r="8" fill="none" stroke="#B7FF3C" stroke-width="1.5" />
+                  <!-- Target Outer Reticle Ring -->
+                  <circle class="node-halo" r="11" fill="none" stroke="rgba(183,255,60,0.5)" stroke-width="1.5" />
+                  <!-- Crosshair marks -->
+                  <line x1="-15" y1="0" x2="-8" y2="0" stroke="#B7FF3C" stroke-width="1" />
+                  <line x1="8" y1="0" x2="15" y2="0" stroke="#B7FF3C" stroke-width="1" />
+                  <line x1="0" y1="-15" x2="0" y2="-8" stroke="#B7FF3C" stroke-width="1" />
+                  <line x1="0" y1="8" x2="0" y2="15" stroke="#B7FF3C" stroke-width="1" />
+                  <!-- Node Core -->
+                  <circle class="node-core" r="4.5" fill="#B7FF3C" />
+                  <!-- Floating Label Tag -->
+                  <g class="node-label-group" transform="translate(18, -4)">
+                    <rect x="0" y="-12" width="105" height="26" rx="4" fill="#0D0F10" stroke="rgba(183, 255, 60, 0.4)" stroke-width="1" />
+                    <text x="6" y="0" fill="#F4F5F2" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="9">IIT GUWAHATI</text>
+                    <text x="6" y="10" fill="#B7FF3C" font-family="JetBrains Mono, monospace" font-size="7">NODE 01 • FELLOW</text>
+                  </g>
+                </g>
+
+                <!-- NODE 02: IIIT HYDERABAD (x: 222.4, y: 328.9) -->
+                <g id="map-node-hyderabad" class="map-node" data-node="hyderabad" transform="translate(222.4, 328.9)">
+                  <!-- Pulsing Radar Ping -->
+                  <circle class="radar-ping-ring" r="8" fill="none" stroke="#B7FF3C" stroke-width="1.5" />
+                  <!-- Target Outer Reticle Ring -->
+                  <circle class="node-halo" r="11" fill="none" stroke="rgba(183,255,60,0.5)" stroke-width="1.5" />
+                  <!-- Crosshair marks -->
+                  <line x1="-15" y1="0" x2="-8" y2="0" stroke="#B7FF3C" stroke-width="1" />
+                  <line x1="8" y1="0" x2="15" y2="0" stroke="#B7FF3C" stroke-width="1" />
+                  <line x1="0" y1="-15" x2="0" y2="-8" stroke="#B7FF3C" stroke-width="1" />
+                  <line x1="0" y1="8" x2="0" y2="15" stroke="#B7FF3C" stroke-width="1" />
+                  <!-- Node Core -->
+                  <circle class="node-core" r="4.5" fill="#B7FF3C" />
+                  <!-- Floating Label Tag -->
+                  <g class="node-label-group" transform="translate(18, -4)">
+                    <rect x="0" y="-12" width="112" height="26" rx="4" fill="#0D0F10" stroke="rgba(183, 255, 60, 0.4)" stroke-width="1" />
+                    <text x="6" y="0" fill="#F4F5F2" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="9">IIIT HYDERABAD</text>
+                    <text x="6" y="10" fill="#B7FF3C" font-family="JetBrains Mono, monospace" font-size="7">NODE 02 • AI FELLOW</text>
+                  </g>
+                </g>
+
+                <!-- NODE 00: KOCHI R&D BASE LAB (x: 185.7, y: 442.6) -->
+                <g id="map-node-kochi" class="map-node" data-node="kochi" transform="translate(185.7, 442.6)">
+                  <!-- Continuous Concentric Pings -->
+                  <circle class="radar-ping-ring" r="10" fill="none" stroke="#B7FF3C" stroke-width="2" />
+                  <circle class="radar-ping-ring" r="16" fill="none" stroke="#B7FF3C" stroke-width="1" style="animation-delay: 1.2s;" />
+                  <!-- Diamond Target Frame -->
+                  <polygon points="0,-12 12,0 0,12 -12,0" fill="none" stroke="#B7FF3C" stroke-width="1.5" />
+                  <!-- Node Core -->
+                  <circle class="node-core" r="5" fill="#B7FF3C" />
+                  <!-- Floating Base Label Tag -->
+                  <g class="node-label-group" transform="translate(-130, -8)">
+                    <rect x="0" y="-12" width="120" height="26" rx="4" fill="#0D0F10" stroke="#B7FF3C" stroke-width="1" />
+                    <text x="6" y="0" fill="#B7FF3C" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="9">KOCHI // BASE LAB</text>
+                    <text x="6" y="10" fill="#F4F5F2" font-family="JetBrains Mono, monospace" font-size="7">ORIGIN • 3 MILESTONES</text>
+                  </g>
+                </g>
+
+                <!-- Azimuth Compass Inset (Top Right) -->
+                <g transform="translate(540, 50)" opacity="0.6">
+                  <circle r="18" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+                  <line x1="0" y1="-18" x2="0" y2="18" stroke="rgba(255,255,255,0.2)" stroke-width="1" />
+                  <line x1="-18" y1="0" x2="18" y2="0" stroke="rgba(255,255,255,0.2)" stroke-width="1" />
+                  <polygon points="0,-16 -3,-8 3,-8" fill="#B7FF3C" />
+                  <text x="0" y="-21" text-anchor="middle" fill="#B7FF3C" font-family="JetBrains Mono, monospace" font-size="8" font-weight="bold">N</text>
+                </g>
+              </svg>
+
+            </div>
+
+            <!-- Interactive Map Status Footer -->
+            <div class="mt-3 pt-2.5 border-t border-white/5 flex flex-wrap items-center justify-between text-[10px] font-mono text-muted gap-2">
+              <span class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+                <span>ORIGIN: 09.9312° N, 76.2673° E</span>
+              </span>
+              <span class="text-secondary hidden sm:inline">HOVER OR CLICK ANY CITY PIN TO INSPECT DOSSIER</span>
+              <span class="text-accent font-bold">100% HARDWARE VERIFIED</span>
+            </div>
+
           </div>
 
-          <div class="p-3.5 sm:p-4 bg-surface border border-white/10 rounded-xl flex items-center justify-between hover:border-accent transition-colors">
-            <div class="flex items-center gap-3 sm:gap-4">
-              <span class="text-accent font-bold text-xs">2026</span>
-              <div>
-                <div class="font-display font-bold text-xs sm:text-sm text-primary">IIIT HYDERABAD</div>
-                <div class="text-[10px] sm:text-[11px] text-secondary">AI Summer School — Deep Learning & Computer Vision</div>
+          <!-- Live Telemetry HUD Panel -->
+          <div id="proof-telemetry-hud" class="bg-surface/90 border border-white/10 rounded-xl p-4 font-mono text-xs shadow-lg transition-all">
+            <div class="flex items-center justify-between pb-2.5 mb-3 border-b border-white/10 text-[10px]">
+              <span class="text-accent font-bold flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-accent animate-ping"></span>
+                TELEMETRY HUD // <span id="hud-node-name" class="text-primary font-bold">IIT GUWAHATI [NODE 01]</span>
+              </span>
+              <span id="hud-credential-badge" class="px-2 py-0.5 rounded bg-elevated border border-white/10 text-accent font-bold text-[9px]">
+                FELLOW
+              </span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-[11px] mb-2.5">
+              <div class="bg-elevated/70 p-2.5 rounded-lg border border-white/5">
+                <div class="text-[9px] text-muted uppercase">COORDINATES</div>
+                <div id="hud-coords" class="text-primary font-bold mt-0.5 font-mono">26.1878° N, 91.6916° E</div>
+              </div>
+              <div class="bg-elevated/70 p-2.5 rounded-lg border border-white/5">
+                <div class="text-[9px] text-muted uppercase">VECTOR RANGE</div>
+                <div id="hud-range" class="text-accent font-bold mt-0.5 font-mono">2,240 KM FROM BASE</div>
+              </div>
+              <div class="bg-elevated/70 p-2.5 rounded-lg border border-white/5">
+                <div class="text-[9px] text-muted uppercase">BEARING ANGLE</div>
+                <div id="hud-bearing" class="text-primary font-bold mt-0.5 font-mono">042° NE // ASSAM</div>
+              </div>
+              <div class="bg-elevated/70 p-2.5 rounded-lg border border-white/5">
+                <div class="text-[9px] text-muted uppercase">CLASSIFICATION</div>
+                <div id="hud-category" class="text-primary font-bold mt-0.5 font-mono">RESEARCH FELLOW</div>
               </div>
             </div>
-            <span class="px-2 py-0.5 bg-elevated border border-white/10 rounded text-[9px] sm:text-[10px] text-accent">FELLOW</span>
+
+            <div class="p-2.5 bg-base/60 rounded-lg border border-white/5 flex items-start gap-2">
+              <span class="text-accent text-[10px] mt-0.5">▶</span>
+              <p id="hud-scope" class="text-[11px] text-secondary leading-relaxed">
+                National Campus Immersion &amp; Research Collaboration focusing on autonomous mechatronics, deep robotics hardware, and system resilience.
+              </p>
+            </div>
           </div>
 
-          <div class="p-3.5 sm:p-4 bg-surface border border-white/10 rounded-xl flex items-center justify-between hover:border-accent transition-colors">
-            <div class="flex items-center gap-3 sm:gap-4">
-              <span class="text-accent font-bold text-xs">2026</span>
-              <div>
-                <div class="font-display font-bold text-xs sm:text-sm text-primary">TECHXCEL</div>
-                <div class="text-[10px] sm:text-[11px] text-secondary">1st Prize Winner — Autonomous Engineering Systems</div>
-              </div>
-            </div>
-            <span class="px-2 py-0.5 bg-accent text-base font-bold rounded text-[9px] sm:text-[10px]">1ST PRIZE</span>
+        </div>
+
+        <!-- RIGHT: Interactive Milestone Ledger Cards (5 cols) -->
+        <div class="lg:col-span-5 space-y-3 font-mono text-xs">
+          
+          <div class="text-[10px] font-mono text-muted uppercase tracking-wider px-1 flex items-center justify-between mb-1">
+            <span>VERIFIED LEDGER ENTRIES</span>
+            <span id="proof-visible-count" class="text-accent font-bold">5 / 5 SHOWING</span>
           </div>
 
-          <div class="p-3.5 sm:p-4 bg-surface border border-white/10 rounded-xl flex items-center justify-between hover:border-accent transition-colors">
-            <div class="flex items-center gap-3 sm:gap-4">
-              <span class="text-accent font-bold text-xs">2026</span>
-              <div>
-                <div class="font-display font-bold text-xs sm:text-sm text-primary">YI LEADERSHIP COUNCIL</div>
-                <div class="text-[10px] sm:text-[11px] text-secondary">Elected Member — Young Indians State Council</div>
+          <!-- Card 1: IIT GUWAHATI -->
+          <div id="card-guwahati" class="milestone-card p-4 bg-surface border border-white/10 rounded-xl cursor-pointer hover:border-accent group" data-node="guwahati" data-category="fellowship">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <span class="text-accent font-bold text-xs">2026</span>
+                <span class="text-[10px] text-muted">//</span>
+                <span class="text-[10px] text-muted font-bold">ASSAM CORRIDOR</span>
               </div>
+              <span class="px-2 py-0.5 bg-elevated border border-white/10 rounded text-[9px] sm:text-[10px] text-accent font-bold group-hover:border-accent">FELLOW</span>
             </div>
-            <span class="px-2 py-0.5 bg-elevated border border-white/10 rounded text-[9px] sm:text-[10px] text-primary">MEMBER</span>
+            <div class="font-display font-bold text-sm sm:text-base text-primary group-hover:text-accent transition-colors">
+              IIT GUWAHATI
+            </div>
+            <div class="text-[11px] text-secondary mt-1 leading-snug">
+              National Campus Immersion &amp; Research Collaboration
+            </div>
+            <div class="mt-3 pt-2.5 border-t border-white/5 flex flex-wrap items-center justify-between text-[10px] text-muted gap-2">
+              <span class="flex items-center gap-1 text-secondary">
+                <span class="text-accent">◈</span> 2,240 km • Bearing 042° NE
+              </span>
+              <span class="text-accent/80 font-bold group-hover:text-accent">LOCK TARGET ↗</span>
+            </div>
           </div>
 
-          <div class="p-3.5 sm:p-4 bg-surface border border-white/10 rounded-xl flex items-center justify-between hover:border-accent transition-colors">
-            <div class="flex items-center gap-3 sm:gap-4">
-              <span class="text-accent font-bold text-xs">2025</span>
-              <div>
-                <div class="font-display font-bold text-xs sm:text-sm text-primary">IEDC STARTUP INITIATIVES</div>
-                <div class="text-[10px] sm:text-[11px] text-secondary">Student Lead for Venture Creation & Pre-Incubation</div>
+          <!-- Card 2: IIIT HYDERABAD -->
+          <div id="card-hyderabad" class="milestone-card p-4 bg-surface border border-white/10 rounded-xl cursor-pointer hover:border-accent group" data-node="hyderabad" data-category="fellowship">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <span class="text-accent font-bold text-xs">2026</span>
+                <span class="text-[10px] text-muted">//</span>
+                <span class="text-[10px] text-muted font-bold">TELANGANA CORRIDOR</span>
               </div>
+              <span class="px-2 py-0.5 bg-elevated border border-white/10 rounded text-[9px] sm:text-[10px] text-accent font-bold group-hover:border-accent">FELLOW</span>
             </div>
-            <span class="px-2 py-0.5 bg-elevated border border-white/10 rounded text-[9px] sm:text-[10px] text-primary">LEAD</span>
+            <div class="font-display font-bold text-sm sm:text-base text-primary group-hover:text-accent transition-colors">
+              IIIT HYDERABAD
+            </div>
+            <div class="text-[11px] text-secondary mt-1 leading-snug">
+              AI Summer School — Deep Learning &amp; Computer Vision
+            </div>
+            <div class="mt-3 pt-2.5 border-t border-white/5 flex flex-wrap items-center justify-between text-[10px] text-muted gap-2">
+              <span class="flex items-center gap-1 text-secondary">
+                <span class="text-accent">◈</span> 860 km • Bearing 012° N
+              </span>
+              <span class="text-accent/80 font-bold group-hover:text-accent">LOCK TARGET ↗</span>
+            </div>
+          </div>
+
+          <!-- Card 3: TECHXCEL -->
+          <div id="card-techxcel" class="milestone-card p-4 bg-surface border border-white/10 rounded-xl cursor-pointer hover:border-accent group" data-node="kochi" data-category="award">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <span class="text-accent font-bold text-xs">2026</span>
+                <span class="text-[10px] text-muted">//</span>
+                <span class="text-[10px] text-muted font-bold">R&amp;D BASE LAB</span>
+              </div>
+              <span class="px-2.5 py-0.5 bg-accent text-base font-bold rounded text-[9px] sm:text-[10px]">1ST PRIZE</span>
+            </div>
+            <div class="font-display font-bold text-sm sm:text-base text-primary group-hover:text-accent transition-colors">
+              TECHXCEL
+            </div>
+            <div class="text-[11px] text-secondary mt-1 leading-snug">
+              1st Prize Winner — Autonomous Engineering Systems
+            </div>
+            <div class="mt-3 pt-2.5 border-t border-white/5 flex flex-wrap items-center justify-between text-[10px] text-muted gap-2">
+              <span class="flex items-center gap-1 text-secondary">
+                <span class="text-accent">◈</span> Kochi Base • Home Turf
+              </span>
+              <span class="text-accent/80 font-bold group-hover:text-accent">LOCK TARGET ↗</span>
+            </div>
+          </div>
+
+          <!-- Card 4: YI LEADERSHIP COUNCIL -->
+          <div id="card-yi" class="milestone-card p-4 bg-surface border border-white/10 rounded-xl cursor-pointer hover:border-accent group" data-node="kochi" data-category="leadership">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <span class="text-accent font-bold text-xs">2026</span>
+                <span class="text-[10px] text-muted">//</span>
+                <span class="text-[10px] text-muted font-bold">STATE CHAPTER</span>
+              </div>
+              <span class="px-2 py-0.5 bg-elevated border border-white/10 rounded text-[9px] sm:text-[10px] text-primary font-bold group-hover:border-accent">MEMBER</span>
+            </div>
+            <div class="font-display font-bold text-sm sm:text-base text-primary group-hover:text-accent transition-colors">
+              YI LEADERSHIP COUNCIL
+            </div>
+            <div class="text-[11px] text-secondary mt-1 leading-snug">
+              Elected Member — Young Indians State Council
+            </div>
+            <div class="mt-3 pt-2.5 border-t border-white/5 flex flex-wrap items-center justify-between text-[10px] text-muted gap-2">
+              <span class="flex items-center gap-1 text-secondary">
+                <span class="text-accent">◈</span> Kerala State Executive
+              </span>
+              <span class="text-accent/80 font-bold group-hover:text-accent">LOCK TARGET ↗</span>
+            </div>
+          </div>
+
+          <!-- Card 5: IEDC STARTUP INITIATIVES -->
+          <div id="card-iedc" class="milestone-card p-4 bg-surface border border-white/10 rounded-xl cursor-pointer hover:border-accent group" data-node="kochi" data-category="leadership">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <span class="text-accent font-bold text-xs">2025</span>
+                <span class="text-[10px] text-muted">//</span>
+                <span class="text-[10px] text-muted font-bold">INCUBATION HUB</span>
+              </div>
+              <span class="px-2 py-0.5 bg-elevated border border-white/10 rounded text-[9px] sm:text-[10px] text-primary font-bold group-hover:border-accent">LEAD</span>
+            </div>
+            <div class="font-display font-bold text-sm sm:text-base text-primary group-hover:text-accent transition-colors">
+              IEDC STARTUP INITIATIVES
+            </div>
+            <div class="text-[11px] text-secondary mt-1 leading-snug">
+              Student Lead for Venture Creation &amp; Pre-Incubation
+            </div>
+            <div class="mt-3 pt-2.5 border-t border-white/5 flex flex-wrap items-center justify-between text-[10px] text-muted gap-2">
+              <span class="flex items-center gap-1 text-secondary">
+                <span class="text-accent">◈</span> MITS Campus Hub
+              </span>
+              <span class="text-accent/80 font-bold group-hover:text-accent">LOCK TARGET ↗</span>
+            </div>
           </div>
 
         </div>
@@ -2396,6 +2841,191 @@
         robotCamera.updateProjectionMatrix();
         robotRenderer.setSize(robotContainer.clientWidth, robotContainer.clientHeight);
       }
+    });
+
+    // ==========================================
+    // 25 — GEOSPATIAL RADAR & PROOF OF WORK SYNC
+    // ==========================================
+    const nodeTelemetryData = {
+      guwahati: {
+        name: "IIT GUWAHATI [NODE 01]",
+        coords: "26.1878° N, 91.6916° E",
+        range: "2,240 KM FROM BASE",
+        bearing: "042° NE // ASSAM",
+        category: "RESEARCH FELLOW",
+        badge: "FELLOW",
+        scope: "National Campus Immersion & Research Collaboration focusing on autonomous mechatronics, deep robotics hardware, and system resilience."
+      },
+      hyderabad: {
+        name: "IIIT HYDERABAD [NODE 02]",
+        coords: "17.4455° N, 78.3489° E",
+        range: "860 KM FROM BASE",
+        bearing: "012° N // TELANGANA",
+        category: "ACADEMIC FELLOW",
+        badge: "FELLOW",
+        scope: "AI Summer School — Deep Learning architectures, Neural Pipelines & Embedded Computer Vision models optimized for edge deployment."
+      },
+      kochi: {
+        name: "KOCHI R&D BASE LAB [ORIGIN]",
+        coords: "09.9312° N, 76.2673° E",
+        range: "000 KM // GROUND ZERO",
+        bearing: "ORIGIN STATION // KERALA",
+        category: "BASE R&D & AWARDS",
+        badge: "1ST PRIZE & LEAD",
+        scope: "Home operations base: TechXcel 1st Prize Winner for autonomous engineering systems, Young Indians State Council, and IEDC Startup Pre-Incubation Lead."
+      }
+    };
+
+    const mapNodes = document.querySelectorAll('.map-node');
+    const milestoneCards = document.querySelectorAll('.milestone-card');
+    const hudNodeName = document.getElementById('hud-node-name');
+    const hudCoords = document.getElementById('hud-coords');
+    const hudRange = document.getElementById('hud-range');
+    const hudBearing = document.getElementById('hud-bearing');
+    const hudCategory = document.getElementById('hud-category');
+    const hudBadge = document.getElementById('hud-credential-badge');
+    const hudScope = document.getElementById('hud-scope');
+    const mapLockStatus = document.getElementById('map-lock-status');
+    const radarSweepGroup = document.getElementById('radar-sweep-group');
+    const btnSweepRadar = document.getElementById('btn-sweep-radar');
+    const filterBtns = document.querySelectorAll('.proof-filter-btn');
+    const proofCountElem = document.getElementById('proof-visible-count');
+    const trajGuwahati = document.getElementById('traj-group-guwahati');
+    const trajHyderabad = document.getElementById('traj-group-hyderabad');
+
+    function setActiveNode(nodeKey) {
+      if (!nodeTelemetryData[nodeKey]) return;
+      const data = nodeTelemetryData[nodeKey];
+
+      // Update HUD
+      if (hudNodeName) hudNodeName.textContent = data.name;
+      if (hudCoords) hudCoords.textContent = data.coords;
+      if (hudRange) hudRange.textContent = data.range;
+      if (hudBearing) hudBearing.textContent = data.bearing;
+      if (hudCategory) hudCategory.textContent = data.category;
+      if (hudBadge) hudBadge.textContent = data.badge;
+      if (hudScope) hudScope.textContent = data.scope;
+      if (mapLockStatus) mapLockStatus.textContent = `TARGET LOCKED: ${nodeKey.toUpperCase()}`;
+
+      // Update Map Nodes styling
+      mapNodes.forEach(n => {
+        if (n.dataset.node === nodeKey) {
+          n.classList.add('active-node');
+          n.style.opacity = '1';
+        } else {
+          n.classList.remove('active-node');
+          n.style.opacity = '0.5';
+        }
+      });
+
+      // Update Trajectory arcs
+      if (trajGuwahati && trajHyderabad) {
+        if (nodeKey === 'guwahati') {
+          trajGuwahati.style.opacity = '1';
+          trajHyderabad.style.opacity = '0.15';
+        } else if (nodeKey === 'hyderabad') {
+          trajHyderabad.style.opacity = '1';
+          trajGuwahati.style.opacity = '0.15';
+        } else {
+          trajGuwahati.style.opacity = '1';
+          trajHyderabad.style.opacity = '1';
+        }
+      }
+
+      // Update Cards styling
+      milestoneCards.forEach(card => {
+        if (card.dataset.node === nodeKey) {
+          card.classList.add('card-active');
+        } else {
+          card.classList.remove('card-active');
+        }
+      });
+    }
+
+    function resetNodeSelection() {
+      mapNodes.forEach(n => {
+        n.classList.remove('active-node');
+        n.style.opacity = '1';
+      });
+      milestoneCards.forEach(c => c.classList.remove('card-active'));
+      if (trajGuwahati) trajGuwahati.style.opacity = '1';
+      if (trajHyderabad) trajHyderabad.style.opacity = '1';
+      if (mapLockStatus) mapLockStatus.textContent = "ALL NODES LOCKED";
+    }
+
+    // Attach Map Node events
+    mapNodes.forEach(n => {
+      n.addEventListener('mouseenter', () => setActiveNode(n.dataset.node));
+      n.addEventListener('click', () => setActiveNode(n.dataset.node));
+    });
+
+    // Attach Card events
+    milestoneCards.forEach(c => {
+      c.addEventListener('mouseenter', () => setActiveNode(c.dataset.node));
+      c.addEventListener('click', () => setActiveNode(c.dataset.node));
+    });
+
+    // Sweep Radar Button
+    if (btnSweepRadar && radarSweepGroup) {
+      btnSweepRadar.addEventListener('click', () => {
+        radarSweepGroup.classList.add('radar-sweep-fast');
+        if (mapLockStatus) mapLockStatus.textContent = "SCANNING NATIONAL GRID...";
+        
+        setTimeout(() => setActiveNode('kochi'), 250);
+        setTimeout(() => setActiveNode('hyderabad'), 950);
+        setTimeout(() => setActiveNode('guwahati'), 1700);
+        setTimeout(() => {
+          radarSweepGroup.classList.remove('radar-sweep-fast');
+          resetNodeSelection();
+        }, 2600);
+      });
+    }
+
+    // Category Filtering
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+        
+        // Update button styles
+        filterBtns.forEach(b => {
+          b.classList.remove('border-accent', 'bg-accent/10', 'text-accent', 'font-bold');
+          b.classList.add('border-white/10', 'bg-surface', 'text-secondary');
+        });
+        btn.classList.add('border-accent', 'bg-accent/10', 'text-accent', 'font-bold');
+        btn.classList.remove('border-white/10', 'bg-surface', 'text-secondary');
+
+        let visibleCount = 0;
+        milestoneCards.forEach(card => {
+          const cat = card.dataset.category;
+          if (filter === 'all' || cat === filter) {
+            card.style.display = 'block';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (proofCountElem) proofCountElem.textContent = `${visibleCount} / 5 SHOWING`;
+
+        // Update map node highlight based on filter
+        const nodeKochi = document.getElementById('map-node-kochi');
+        const nodeHyd = document.getElementById('map-node-hyderabad');
+        const nodeGuw = document.getElementById('map-node-guwahati');
+
+        if (filter === 'fellowship') {
+          setActiveNode('guwahati');
+          if (nodeKochi) nodeKochi.style.opacity = '0.25';
+          if (nodeHyd) nodeHyd.style.opacity = '1';
+          if (nodeGuw) nodeGuw.style.opacity = '1';
+        } else if (filter === 'award' || filter === 'leadership') {
+          setActiveNode('kochi');
+          if (nodeGuw) nodeGuw.style.opacity = '0.25';
+          if (nodeHyd) nodeHyd.style.opacity = '0.25';
+          if (nodeKochi) nodeKochi.style.opacity = '1';
+        } else {
+          resetNodeSelection();
+        }
+      });
     });
 
     // 31 — CONTACT FORM HANDLER
