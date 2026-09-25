@@ -816,23 +816,28 @@
         <div>
           <div class="flex items-center gap-2 mb-1">
             <span class="px-2 py-0.5 bg-accent text-base font-mono text-[10px] font-bold rounded">AMR V2</span>
-            <span class="font-mono text-xs text-muted tracking-widest uppercase">HARDWARE LABS</span>
+            <span class="font-mono text-xs text-muted tracking-widest uppercase">MECHATRONICS LABS</span>
           </div>
           <h2 class="font-display font-bold text-3xl sm:text-5xl text-primary">
-            GoBu // AUTONOMOUS WAREHOUSE BUGGY
+            GoBu // AUTONOMOUS UTILITY BUGGY
           </h2>
-          <p class="font-mono text-xs text-secondary mt-1">
-            GoBu is an industrial Autonomous Mobile Robot (AMR) with FreeRTOS, 2D LiDAR SLAM, and dual-core telemetry.
+          <p class="font-mono text-xs text-secondary mt-1 max-w-2xl">
+            Dual-ESP32 differential RSSI beacon triangulation AMR engineered with STM32F446RE Nucleo central controller, L298N dual H-bridge motor driver, and 19.5×10.0cm modular cargo payload platform.
           </p>
         </div>
 
-        <!-- Exploded View Controls -->
-        <div class="flex items-center gap-2 sm:gap-3 font-mono text-xs bg-base p-1.5 sm:p-2 border border-white/10 rounded-xl w-max">
-          <button id="cad-explode-btn" class="px-3 py-1.5 bg-accent text-base font-bold text-[11px] rounded hover:bg-white transition-colors active:scale-95">
-            TOGGLE GoBu CAD EXPLODE
+        <!-- Exploded View & Blueprint Controls -->
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3 font-mono text-xs bg-base p-1.5 sm:p-2 border border-white/10 rounded-xl w-max">
+          <button id="cad-explode-btn" class="px-3 py-1.5 bg-accent text-base font-bold text-[11px] rounded hover:bg-white transition-colors active:scale-95 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-base"></span>
+            TOGGLE CAD EXPLODE
           </button>
-          <span id="cad-status-badge" class="text-[10px] text-accent px-2 py-1 bg-surface rounded border border-white/5">
-            GoBu: 0mm ASSEMBLED
+          <button id="view-blueprint-btn" class="px-3 py-1.5 bg-surface text-primary border border-white/10 font-bold text-[11px] rounded hover:border-accent hover:text-accent transition-colors flex items-center gap-1.5">
+            <span>SCHEMATIC BLUEPRINT</span>
+            <span class="text-accent">↗</span>
+          </button>
+          <span id="cad-status-badge" class="text-[10px] text-accent px-2 py-1 bg-surface rounded border border-white/5 font-mono">
+            GoBu: 0mm ASSEMBLED (11.5cm Height)
           </span>
         </div>
       </div>
@@ -841,52 +846,76 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-base border border-white/10 rounded-2xl p-3 sm:p-6 overflow-hidden">
         
         <!-- 3D Interactive WebGL Canvas -->
-        <div class="lg:col-span-8 relative h-[320px] sm:h-[400px] md:h-[480px] bg-[#0A0C0E] rounded-xl border border-white/10 overflow-hidden touch-none">
-          <div id="three-robot-container" class="w-full h-full"></div>
+        <div class="lg:col-span-8 relative h-[360px] sm:h-[440px] md:h-[500px] bg-[#0A0C0E] rounded-xl border border-white/10 overflow-hidden touch-none flex flex-col justify-between">
           
-          <div class="absolute top-3 left-3 font-mono text-[9px] sm:text-[10px] bg-base/85 backdrop-blur px-2 py-1 border border-white/10 rounded text-primary flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-accent animate-ping"></span>
-            <span>GoBu 3D CAD WORKBENCH • TOUCH & DRAG TO ROTATE</span>
+          <!-- Top Telemetry & View Preset Buttons -->
+          <div class="z-10 flex flex-wrap justify-between items-center p-3 gap-2 pointer-events-none">
+            <div class="font-mono text-[9px] sm:text-[10px] bg-base/85 backdrop-blur px-2.5 py-1 border border-white/10 rounded text-primary flex items-center gap-1.5 pointer-events-auto">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent animate-ping"></span>
+              <span>GoBu 3D CAD // 19.5×10.0×11.5 cm</span>
+            </div>
+
+            <!-- View Angle Presets -->
+            <div class="flex items-center gap-1 font-mono text-[9px] bg-base/80 backdrop-blur p-1 rounded-lg border border-white/10 pointer-events-auto">
+              <button class="cam-preset-btn px-2 py-1 rounded bg-white/10 text-accent transition-colors" data-view="iso">ISO 3D</button>
+              <button class="cam-preset-btn px-2 py-1 rounded hover:bg-white/10 text-muted hover:text-primary transition-colors" data-view="top">TOP (PCB)</button>
+              <button class="cam-preset-btn px-2 py-1 rounded hover:bg-white/10 text-muted hover:text-primary transition-colors" data-view="side">SIDE (LAYERS)</button>
+              <button class="cam-preset-btn px-2 py-1 rounded hover:bg-white/10 text-muted hover:text-primary transition-colors" data-view="front">FRONT</button>
+            </div>
           </div>
 
+          <!-- Canvas Container -->
+          <div id="three-robot-container" class="absolute inset-0 w-full h-full"></div>
+          
           <!-- Bottom Live Component Callout -->
-          <div class="absolute bottom-3 left-3 right-3 bg-base/90 backdrop-blur p-2.5 sm:p-3 rounded-lg border border-white/10 flex justify-between items-center font-mono text-[10px] sm:text-[11px]">
-            <span id="active-cad-part" class="text-accent font-bold truncate">GoBu // ALL 6 MECHATRONIC LAYERS INTEGRATED</span>
-            <span class="text-muted text-[9px] hidden sm:inline">6061 CHASSIS • STM32F4 • LIDAR • ESP32</span>
+          <div class="z-10 m-3 bg-base/90 backdrop-blur p-2.5 sm:p-3 rounded-lg border border-white/10 flex justify-between items-center font-mono text-[10px] sm:text-[11px] pointer-events-none">
+            <span id="active-cad-part" class="text-accent font-bold truncate">GoBu // ALL 4 PHYSICAL LAYERS ASSEMBLED (11.5cm)</span>
+            <span class="text-muted text-[9px] hidden sm:inline">STM32F446RE • DUAL ESP32 RSSI • L298N • 3mm CHASSIS</span>
           </div>
         </div>
 
         <!-- Technical Telemetry & Layer Specs for GoBu -->
         <div class="lg:col-span-4 flex flex-col justify-between space-y-3 sm:space-y-4">
           <div class="space-y-2 font-mono text-xs">
-            <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 6 // PERCEPTION</span>
-              <span class="text-accent font-bold">2D 360° LiDAR Dome (12m SLAM)</span>
+            <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded group hover:border-accent/40 transition-colors">
+              <div class="flex justify-between items-center text-muted text-[9px] sm:text-[10px] mb-0.5">
+                <span>GoBu LAYER 4 // PAYLOAD</span>
+                <span class="text-accent font-bold">19.5 × 10.0 cm</span>
+              </div>
+              <span class="text-accent font-bold block text-sm">Ventilated Cargo Basket &amp; Parcel</span>
+              <span class="text-secondary text-[11px] block mt-0.5 font-sans">Perforated slotted polymer utility container carrying parcel box payload.</span>
             </div>
-            <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 5 // MESH TELEMETRY</span>
-              <span class="text-primary font-bold">ESP32-WROOM BLE/WiFi Mesh Node</span>
+
+            <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded group hover:border-accent/40 transition-colors">
+              <div class="flex justify-between items-center text-muted text-[9px] sm:text-[10px] mb-0.5">
+                <span>GoBu LAYER 3 // ELECTRONICS</span>
+                <span class="text-primary font-bold">DUAL-BAND RSSI</span>
+              </div>
+              <span class="text-primary font-bold block text-sm">STM32F446RE Nucleo + Dual ESP32</span>
+              <span class="text-secondary text-[11px] block mt-0.5 font-sans">Central ARM Cortex-M4 (180MHz) with symmetrical ESP32-L &amp; ESP32-R beacon triangulation.</span>
             </div>
-            <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 4 // COMPUTE CORE</span>
-              <span class="text-accent font-bold">STM32F401 ARM Cortex-M4 (84MHz)</span>
+
+            <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded group hover:border-accent/40 transition-colors">
+              <div class="flex justify-between items-center text-muted text-[9px] sm:text-[10px] mb-0.5">
+                <span>GoBu LAYER 2 // HARDWARE</span>
+                <span class="text-accent font-bold">M3 BRASS</span>
+              </div>
+              <span class="text-accent font-bold block text-sm">L298N Motor Driver &amp; Standoffs</span>
+              <span class="text-secondary text-[11px] block mt-0.5 font-sans">Dual H-bridge heatsinked driver with M3 vibration isolation standoffs.</span>
             </div>
-            <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 3 // POWER DISTRIBUTION</span>
-              <span class="text-primary font-bold">Dual Opto-isolated H-Bridge 24V PWM</span>
-            </div>
-            <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 2 // DRIVETRAIN</span>
-              <span class="text-primary font-bold">4× High-Torque Mecanum Drive Hubs</span>
-            </div>
-            <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded">
-              <span class="text-muted text-[9px] sm:text-[10px] block">GoBu LAYER 1 // TUB CHASSIS</span>
-              <span class="text-primary font-bold">Waterjet CNC 6061 Aluminium Tub</span>
+
+            <div class="p-2.5 sm:p-3 bg-surface border border-white/10 rounded group hover:border-accent/40 transition-colors">
+              <div class="flex justify-between items-center text-muted text-[9px] sm:text-[10px] mb-0.5">
+                <span>GoBu LAYER 1 // CHASSIS</span>
+                <span class="text-primary font-bold">3mm CNC PLATE</span>
+              </div>
+              <span class="text-primary font-bold block text-sm">Twin TT Motors • Wheels • Caster</span>
+              <span class="text-secondary text-[11px] block mt-0.5 font-sans">Yellow DC gearmotors, yellow 5-spoke wheels, and omnidirectional front swivel caster.</span>
             </div>
           </div>
 
           <div class="p-3 bg-elevated border border-accent/20 rounded-xl font-mono text-[10px] sm:text-[11px] text-secondary">
-            <span class="text-accent font-bold">GoBu SPECS:</span> 25kg payload • 1.4m/s velocity • 42ms emergency braking • &lt;±1.8mm odometry drift.
+            <span class="text-accent font-bold">CAD BLUEPRINT SPECS:</span> 19.5 × 10.0 × 11.5 cm • 3mm base plate • 3.0cm ground clearance • Dual-ESP32 RSSI tracking • STM32F446RE compute.
           </div>
         </div>
 
@@ -1806,159 +1835,519 @@
 
     // =========================================================================
     // 18 — GoBu // MECHATRONIC 3D CAD ROBOT WORKBENCH (THREE.JS)
+    // Modeled faithfully to the 19.5 x 10.0 x 11.5 cm official CAD schematic
     // =========================================================================
     const robotContainer = document.getElementById('three-robot-container');
     const robotScene = new THREE.Scene();
     
-    const getRobotCameraZ = () => window.innerWidth < 768 ? 6.2 : 4.4;
+    // Camera & View presets
+    const camPresets = {
+      iso:   { pos: new THREE.Vector3(2.6, 2.3, 3.1), look: new THREE.Vector3(0, 0.48, 0) },
+      top:   { pos: new THREE.Vector3(0, 4.6, 0.01),  look: new THREE.Vector3(0, 0.48, 0) },
+      side:  { pos: new THREE.Vector3(3.8, 0.75, 0),  look: new THREE.Vector3(0, 0.48, 0) },
+      front: { pos: new THREE.Vector3(0, 0.75, 3.8),  look: new THREE.Vector3(0, 0.48, 0) }
+    };
+
+    let activeCamTarget = { ...camPresets.iso };
     const robotCamera = new THREE.PerspectiveCamera(38, robotContainer.clientWidth / robotContainer.clientHeight, 0.1, 100);
-    robotCamera.position.set(0, 2.2, getRobotCameraZ());
-    robotCamera.lookAt(0, 0.25, 0);
+    robotCamera.position.copy(activeCamTarget.pos);
+    robotCamera.lookAt(activeCamTarget.look);
 
     const robotRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
     robotRenderer.setSize(robotContainer.clientWidth, robotContainer.clientHeight);
     robotRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     robotContainer.appendChild(robotRenderer.domElement);
 
-    // Advanced Mechatronic CAD Materials for GoBu
-    const chassisMat = new THREE.MeshStandardMaterial({ color: 0x181B1D, metalness: 0.92, roughness: 0.25 });
-    const bumperMat = new THREE.MeshStandardMaterial({ color: 0x0E1012, metalness: 0.85, roughness: 0.35 });
-    const pcbMat = new THREE.MeshStandardMaterial({ color: 0x0B2615, metalness: 0.25, roughness: 0.45 });
-    const goldPinsMat = new THREE.MeshStandardMaterial({ color: 0xD4AF37, metalness: 0.95, roughness: 0.15 });
-    const heatsinkMat = new THREE.MeshStandardMaterial({ color: 0x7E888E, metalness: 0.88, roughness: 0.25 });
-    const wheelRubberMat = new THREE.MeshStandardMaterial({ color: 0x111214, roughness: 0.88, metalness: 0.08 });
-    const wheelHubMat = new THREE.MeshStandardMaterial({ color: 0x3A4045, metalness: 0.9, roughness: 0.2 });
-    const laserHeadMat = new THREE.MeshStandardMaterial({ color: 0xB7FF3C, emissive: 0xB7FF3C, emissiveIntensity: 0.75 });
-    const eStopMat = new THREE.MeshStandardMaterial({ color: 0xDF2020, roughness: 0.3, metalness: 0.2 });
+    // Realistic PBR Materials matching physical GoBu hardware
+    const acrylicPlateMat = new THREE.MeshStandardMaterial({ color: 0x17191B, roughness: 0.35, metalness: 0.1 });
+    const ttMotorYellowMat = new THREE.MeshStandardMaterial({ color: 0xF5B400, roughness: 0.3, metalness: 0.05 });
+    const ttMotorMetalMat = new THREE.MeshStandardMaterial({ color: 0xC5CCD4, roughness: 0.25, metalness: 0.92 });
+    const wheelYellowMat = new THREE.MeshStandardMaterial({ color: 0xF5C000, roughness: 0.28, metalness: 0.05 });
+    const wheelTireMat = new THREE.MeshStandardMaterial({ color: 0x141517, roughness: 0.85, metalness: 0.08 });
+    const casterNylonMat = new THREE.MeshStandardMaterial({ color: 0xF4F6F9, roughness: 0.3, metalness: 0.05 });
+    const metalHardwareMat = new THREE.MeshStandardMaterial({ color: 0x98A0A8, roughness: 0.3, metalness: 0.88 });
+    const brassStandoffMat = new THREE.MeshStandardMaterial({ color: 0xD4AF37, roughness: 0.22, metalness: 0.9 });
+    const stm32PcbMat = new THREE.MeshStandardMaterial({ color: 0xF5F7FA, roughness: 0.4, metalness: 0.05 });
+    const stm32HeaderBlueMat = new THREE.MeshStandardMaterial({ color: 0x0066B3, roughness: 0.3, metalness: 0.1 });
+    const icBlackMat = new THREE.MeshStandardMaterial({ color: 0x111214, roughness: 0.25, metalness: 0.15 });
+    const esp32PcbMat = new THREE.MeshStandardMaterial({ color: 0x121416, roughness: 0.45, metalness: 0.1 });
+    const rfShieldMat = new THREE.MeshStandardMaterial({ color: 0xC6CED6, roughness: 0.2, metalness: 0.92 });
+    const antennaGoldMat = new THREE.MeshStandardMaterial({ color: 0xD4AF37, roughness: 0.25, metalness: 0.9 });
+    const l298nPcbMat = new THREE.MeshStandardMaterial({ color: 0xB81A1A, roughness: 0.35, metalness: 0.08 });
+    const l298nHeatsinkMat = new THREE.MeshStandardMaterial({ color: 0x1E2023, roughness: 0.3, metalness: 0.85 });
+    const terminalBlueMat = new THREE.MeshStandardMaterial({ color: 0x1856BD, roughness: 0.35, metalness: 0.1 });
+    const cargoBasketMat = new THREE.MeshStandardMaterial({ color: 0x6E767E, roughness: 0.45, metalness: 0.12 });
+    const cardboardMat = new THREE.MeshStandardMaterial({ color: 0xBD915D, roughness: 0.8, metalness: 0.02 });
+    const packingTapeMat = new THREE.MeshStandardMaterial({ color: 0x8C6339, roughness: 0.4, metalness: 0.1 });
+    const wireRedMat = new THREE.MeshStandardMaterial({ color: 0xDF2525, roughness: 0.4 });
+    const wireBlueMat = new THREE.MeshStandardMaterial({ color: 0x2277EE, roughness: 0.4 });
+    const wireCyanMat = new THREE.MeshStandardMaterial({ color: 0x00D0FF, roughness: 0.4 });
+    const wireBlackMat = new THREE.MeshStandardMaterial({ color: 0x16181A, roughness: 0.4 });
+    const ledPulseMat = new THREE.MeshStandardMaterial({ color: 0xB7FF3C, emissive: 0xB7FF3C, emissiveIntensity: 1.0 });
+    const rssiLedLMat = new THREE.MeshStandardMaterial({ color: 0x00E5FF, emissive: 0x00E5FF, emissiveIntensity: 0.85 });
+    const rssiLedRMat = new THREE.MeshStandardMaterial({ color: 0xFF2255, emissive: 0xFF2255, emissiveIntensity: 0.85 });
 
     const robotMasterGroup = new THREE.Group();
     robotScene.add(robotMasterGroup);
 
-    const layers = {};
-
-    // LAYER 1: GoBu 6061 Aluminum Tub Chassis with Chamfered Bumpers & LED Guide Headlights
+    // =========================================================================
+    // LAYER 1: CHASSIS BASE (3mm Acrylic/MDF), DUAL TT GEAR MOTORS, WHEELS, CASTER
+    // Dimensions: 19.5 cm (Z) x 10.0 cm (X) x 0.3 cm thickness
+    // =========================================================================
     const layer1 = new THREE.Group();
-    // Main tub chassis
-    const chassisBase = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.14, 1.65), chassisMat);
-    layer1.add(chassisBase);
-    // Front impact bumper
-    const frontBumper = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.16, 0.25), bumperMat);
-    frontBumper.position.set(0, 0.02, 0.9);
-    layer1.add(frontBumper);
-    // Rear bumper
-    const rearBumper = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.16, 0.25), bumperMat);
-    rearBumper.position.set(0, 0.02, -0.9);
-    layer1.add(rearBumper);
-    // Twin Green Laser Guide Headlights on Front Bumper
-    const headlight1 = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.08, 16), laserHeadMat);
-    headlight1.rotateX(Math.PI / 2);
-    headlight1.position.set(-0.7, 0.02, 1.02);
-    layer1.add(headlight1);
-    const headlight2 = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.08, 16), laserHeadMat);
-    headlight2.rotateX(Math.PI / 2);
-    headlight2.position.set(0.7, 0.02, 1.02);
-    layer1.add(headlight2);
-    // Dual Safety E-Stop Switch on Chassis Deck
-    const eStop = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.08, 16), eStopMat);
-    eStop.position.set(-0.85, 0.12, -0.6);
-    layer1.add(eStop);
-    layers[1] = layer1;
+
+    // 1. Chassis Base Plate (19.5 x 10.0 x 0.03 in scale)
+    const basePlate = new THREE.Mesh(new THREE.BoxGeometry(1.00, 0.03, 1.95), acrylicPlateMat);
+    basePlate.position.set(0, 0.32, 0);
+    layer1.add(basePlate);
+
+    // Mounting holes pattern on base plate matching drawing
+    const holeGeo = new THREE.CylinderGeometry(0.015, 0.015, 0.032, 8);
+    const holePositions = [
+      [-0.42, 0.85], [0.42, 0.85], [-0.42, -0.85], [0.42, -0.85],
+      [-0.42, 0], [0.42, 0], [0, 0.65], [-0.25, -0.32], [0.25, -0.32]
+    ];
+    holePositions.forEach(([hx, hz]) => {
+      const hole = new THREE.Mesh(holeGeo, metalHardwareMat);
+      hole.position.set(hx, 0.32, hz);
+      layer1.add(hole);
+    });
+
+    // 2. Yellow DC TT Gear Motors (Left & Right)
+    function buildTTGearMotor(isRight) {
+      const motor = new THREE.Group();
+      // Yellow gearbox
+      const gBox = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.20, 0.38), ttMotorYellowMat);
+      motor.add(gBox);
+      // Silver cylindrical DC motor can protruding rearward (-Z)
+      const canGeo = new THREE.CylinderGeometry(0.065, 0.065, 0.20, 16);
+      canGeo.rotateX(Math.PI / 2);
+      const can = new THREE.Mesh(canGeo, ttMotorMetalMat);
+      can.position.set(0, 0, -0.28);
+      motor.add(can);
+      // Drive axle shaft extending outwards
+      const shaftGeo = new THREE.CylinderGeometry(0.028, 0.028, 0.16, 12);
+      shaftGeo.rotateZ(Math.PI / 2);
+      const shaft = new THREE.Mesh(shaftGeo, casterNylonMat);
+      shaft.position.set(isRight ? 0.16 : -0.16, 0, 0.05);
+      motor.add(shaft);
+      return motor;
+    }
+
+    const motorL = buildTTGearMotor(false);
+    motorL.position.set(-0.30, 0.22, -0.32);
+    layer1.add(motorL);
+
+    const motorR = buildTTGearMotor(true);
+    motorR.position.set(0.30, 0.22, -0.32);
+    layer1.add(motorR);
+
+    // 3. Drive Wheels (Yellow 5-Spoke Rims with Black Ribbed Tires)
+    let wheelLMesh, wheelRMesh;
+    function buildGoBuDriveWheel(isRight) {
+      const wheel = new THREE.Group();
+      // Black rubber tire
+      const tireGeo = new THREE.CylinderGeometry(0.32, 0.32, 0.16, 32);
+      tireGeo.rotateZ(Math.PI / 2);
+      const tire = new THREE.Mesh(tireGeo, wheelTireMat);
+      wheel.add(tire);
+      // Yellow rim ring
+      const rimGeo = new THREE.CylinderGeometry(0.24, 0.24, 0.165, 32);
+      rimGeo.rotateZ(Math.PI / 2);
+      const rim = new THREE.Mesh(rimGeo, wheelYellowMat);
+      wheel.add(rim);
+      // Center yellow hub
+      const hubGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.18, 16);
+      hubGeo.rotateZ(Math.PI / 2);
+      const hub = new THREE.Mesh(hubGeo, wheelYellowMat);
+      wheel.add(hub);
+      // 5 Yellow spokes
+      for (let i = 0; i < 5; i++) {
+        const ang = (i * Math.PI * 2) / 5;
+        const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.18, 0.035), wheelYellowMat);
+        spoke.position.set(0, Math.cos(ang) * 0.11, Math.sin(ang) * 0.11);
+        spoke.rotation.x = -ang;
+        wheel.add(spoke);
+      }
+      // Peripheral tire tread grooves
+      for (let j = 0; j < 14; j++) {
+        const tAng = (j * Math.PI * 2) / 14;
+        const tread = new THREE.Mesh(new THREE.BoxGeometry(0.162, 0.02, 0.035), wheelTireMat);
+        tread.position.set(0, Math.cos(tAng) * 0.315, Math.sin(tAng) * 0.315);
+        tread.rotation.x = -tAng;
+        wheel.add(tread);
+      }
+      return wheel;
+    }
+
+    wheelLMesh = buildGoBuDriveWheel(false);
+    wheelLMesh.position.set(-0.58, 0.32, -0.32);
+    layer1.add(wheelLMesh);
+
+    wheelRMesh = buildGoBuDriveWheel(true);
+    wheelRMesh.position.set(0.58, 0.32, -0.32);
+    layer1.add(wheelRMesh);
+
+    // 4. Front Free Wheel (White Swivel Caster)
+    const casterGroup = new THREE.Group();
+    // Swivel top plate
+    const cPlate = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.02, 0.18), metalHardwareMat);
+    cPlate.position.set(0, 0.30, 0.65);
+    casterGroup.add(cPlate);
+    // Swivel neck
+    const cNeck = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.06, 0.05, 16), metalHardwareMat);
+    cNeck.position.set(0, 0.27, 0.65);
+    casterGroup.add(cNeck);
+    // Metal fork arms
+    const forkL = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.16, 0.08), metalHardwareMat);
+    forkL.position.set(-0.055, 0.18, 0.65);
+    casterGroup.add(forkL);
+    const forkR = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.16, 0.08), metalHardwareMat);
+    forkR.position.set(0.055, 0.18, 0.65);
+    casterGroup.add(forkR);
+    // White nylon caster wheel
+    const cWheelGeo = new THREE.CylinderGeometry(0.11, 0.11, 0.08, 24);
+    cWheelGeo.rotateZ(Math.PI / 2);
+    const cWheel = new THREE.Mesh(cWheelGeo, casterNylonMat);
+    cWheel.position.set(0, 0.11, 0.65);
+    casterGroup.add(cWheel);
+    layer1.add(casterGroup);
+
     robotMasterGroup.add(layer1);
 
-    // LAYER 2: 4 Heavy-Duty Mecanum Drive Wheels with Rim Bolts & Hubs
+    // =========================================================================
+    // LAYER 2: M3 BRASS STANDOFFS (ISOLATION HARDWARE)
+    // 6 Hexagonal/Cylindrical Brass Standoffs connecting Base to Electronics Plate
+    // =========================================================================
     const layer2 = new THREE.Group();
-    const wheelTireGeo = new THREE.CylinderGeometry(0.36, 0.36, 0.22, 24);
-    wheelTireGeo.rotateZ(Math.PI / 2);
-    const wheelHubGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.24, 16);
-    wheelHubGeo.rotateZ(Math.PI / 2);
-
-    function createGoBuWheel(x, z) {
-      const wheelGroup = new THREE.Group();
-      const tire = new THREE.Mesh(wheelTireGeo, wheelRubberMat);
-      const hub = new THREE.Mesh(wheelHubGeo, wheelHubMat);
-      wheelGroup.add(tire);
-      wheelGroup.add(hub);
-      wheelGroup.position.set(x, 0, z);
-      return wheelGroup;
-    }
-    const w1 = createGoBuWheel(-1.26, -0.65); layer2.add(w1);
-    const w2 = createGoBuWheel(1.26, -0.65); layer2.add(w2);
-    const w3 = createGoBuWheel(-1.26, 0.65); layer2.add(w3);
-    const w4 = createGoBuWheel(1.26, 0.65); layer2.add(w4);
-    layers[2] = layer2;
+    const standoffPositions = [
+      [-0.44, 0.88], [0.44, 0.88],
+      [-0.44, 0], [0.44, 0],
+      [-0.44, -0.88], [0.44, -0.88]
+    ];
+    standoffPositions.forEach(([sx, sz]) => {
+      const standoff = new THREE.Mesh(new THREE.CylinderGeometry(0.024, 0.024, 0.28, 6), brassStandoffMat);
+      standoff.position.set(sx, 0.47, sz);
+      layer2.add(standoff);
+      // Standoff screw caps
+      const screw1 = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.02, 8), metalHardwareMat);
+      screw1.position.set(sx, 0.615, sz);
+      layer2.add(screw1);
+    });
     robotMasterGroup.add(layer2);
 
-    // LAYER 3: Dual Opto-isolated H-Bridge Motor Drivers & 24V LiFePO4 Battery Pack
+    // =========================================================================
+    // LAYER 3: ELECTRONICS PLATFORM (TOP INTERNAL VIEW LAYOUT)
+    // STM32 Nucleo (Center) + Dual ESP32 RSSI (L/R) + L298N Driver + Wiring
+    // =========================================================================
     const layer3 = new THREE.Group();
-    const driverPcb = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.04, 0.95), pcbMat);
-    driverPcb.position.set(0, 0.16, -0.25);
-    layer3.add(driverPcb);
-    // 2 Finned Heatsinks
-    const heatsink1 = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.18, 0.35), heatsinkMat);
-    heatsink1.position.set(-0.35, 0.26, -0.25);
-    layer3.add(heatsink1);
-    const heatsink2 = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.18, 0.35), heatsinkMat);
-    heatsink2.position.set(0.35, 0.26, -0.25);
-    layer3.add(heatsink2);
-    // 24V Battery Casing
-    const battery = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.2, 0.5), chassisMat);
-    battery.position.set(0, 0.22, 0.5);
-    layer3.add(battery);
-    layers[3] = layer3;
+
+    // 1. Electronics Acrylic Mounting Plate (19.5 x 10.0 x 0.025)
+    const elecPlate = new THREE.Mesh(new THREE.BoxGeometry(1.00, 0.025, 1.95), acrylicPlateMat);
+    elecPlate.position.set(0, 0.62, 0);
+    layer3.add(elecPlate);
+
+    // 2. STM32 Nucleo-F446RE (Main Controller) — Centrally Mounted
+    const nucleoGroup = new THREE.Group();
+    // Iconic White Nucleo PCB
+    const nucleoPcb = new THREE.Mesh(new THREE.BoxGeometry(0.54, 0.02, 0.82), stm32PcbMat);
+    nucleoPcb.position.set(0, 0.645, 0.05);
+    nucleoGroup.add(nucleoPcb);
+
+    // ST-LINK separation score line
+    const score = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.022, 0.01), acrylicPlateMat);
+    score.position.set(0, 0.655, 0.25);
+    nucleoGroup.add(score);
+
+    // STM Blue Morpho Header Rows (Left & Right double rows)
+    const hL1 = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.06, 0.56), stm32HeaderBlueMat);
+    hL1.position.set(-0.23, 0.68, -0.06);
+    nucleoGroup.add(hL1);
+    const hL2 = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.06, 0.56), stm32HeaderBlueMat);
+    hL2.position.set(-0.17, 0.68, -0.06);
+    nucleoGroup.add(hL2);
+
+    const hR1 = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.06, 0.56), stm32HeaderBlueMat);
+    hR1.position.set(0.23, 0.68, -0.06);
+    nucleoGroup.add(hR1);
+    const hR2 = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.06, 0.56), stm32HeaderBlueMat);
+    hR2.position.set(0.17, 0.68, -0.06);
+    nucleoGroup.add(hR2);
+
+    // STM32F446 MCU QFP chip (central black IC at 45°)
+    const mcuChip = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.016, 0.14), icBlackMat);
+    mcuChip.position.set(0, 0.66, -0.06);
+    mcuChip.rotation.y = Math.PI / 4;
+    nucleoGroup.add(mcuChip);
+
+    // ST-LINK Mini-USB socket
+    const usbStm = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.04, 0.10), metalHardwareMat);
+    usbStm.position.set(0, 0.67, 0.40);
+    nucleoGroup.add(usbStm);
+
+    // Push buttons (B1 Blue, Reset Black)
+    const b1Btn = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.04, 12), stm32HeaderBlueMat);
+    b1Btn.position.set(-0.08, 0.67, 0.32);
+    nucleoGroup.add(b1Btn);
+    const rstBtn = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.04, 12), icBlackMat);
+    rstBtn.position.set(0.08, 0.67, 0.32);
+    nucleoGroup.add(rstBtn);
+
+    // Heartbeat green LED
+    const stmLed = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.015, 0.02), ledPulseMat);
+    stmLed.position.set(0, 0.66, 0.14);
+    nucleoGroup.add(stmLed);
+
+    layer3.add(nucleoGroup);
+
+    // 3. ESP32-L (Left side — Left RSSI Triangulation Node)
+    function buildESP32Node(isLeft) {
+      const esp = new THREE.Group();
+      const pcb = new THREE.Mesh(new THREE.BoxGeometry(0.20, 0.016, 0.48), esp32PcbMat);
+      pcb.position.set(0, 0.645, 0);
+      esp.add(pcb);
+
+      const shield = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.022, 0.20), rfShieldMat);
+      shield.position.set(0, 0.66, -0.04);
+      esp.add(shield);
+
+      const ant = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.008, 0.10), antennaGoldMat);
+      ant.position.set(0, 0.655, 0.18);
+      esp.add(ant);
+
+      const led = new THREE.Mesh(new THREE.BoxGeometry(0.018, 0.015, 0.018), isLeft ? rssiLedLMat : rssiLedRMat);
+      led.position.set(0.05, 0.66, -0.16);
+      esp.add(led);
+
+      const usb = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.03, 0.06), metalHardwareMat);
+      usb.position.set(0, 0.66, -0.22);
+      esp.add(usb);
+
+      return esp;
+    }
+
+    const espL = buildESP32Node(true);
+    espL.position.set(-0.35, 0, 0.05);
+    layer3.add(espL);
+
+    const espR = buildESP32Node(false);
+    espR.position.set(0.35, 0, 0.05);
+    layer3.add(espR);
+
+    // 4. L298N Dual H-Bridge Motor Driver (Rear mounted behind Nucleo)
+    const l298nGroup = new THREE.Group();
+    const l298nPcb = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.018, 0.46), l298nPcbMat);
+    l298nPcb.position.set(0, 0.645, -0.62);
+    l298nGroup.add(l298nPcb);
+
+    // Finned Black Aluminum Heatsink
+    const hsBase = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.20, 0.06), l298nHeatsinkMat);
+    hsBase.position.set(0, 0.74, -0.62);
+    l298nGroup.add(hsBase);
+    for (let f = 0; f < 5; f++) {
+      const fx = -0.10 + f * 0.05;
+      const fin = new THREE.Mesh(new THREE.BoxGeometry(0.018, 0.20, 0.08), l298nHeatsinkMat);
+      fin.position.set(fx, 0.74, -0.57);
+      l298nGroup.add(fin);
+    }
+
+    // Blue screw terminal blocks (Motor L, Motor R, Power input)
+    const tL = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.11, 0.18), terminalBlueMat);
+    tL.position.set(-0.19, 0.70, -0.62);
+    l298nGroup.add(tL);
+    const tR = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.11, 0.18), terminalBlueMat);
+    tR.position.set(0.19, 0.70, -0.62);
+    l298nGroup.add(tR);
+    const tPwr = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.11, 0.08), terminalBlueMat);
+    tPwr.position.set(0, 0.70, -0.80);
+    l298nGroup.add(tPwr);
+
+    // Filter capacitors
+    const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.042, 0.042, 0.13, 16), icBlackMat);
+    cap.position.set(-0.10, 0.71, -0.73);
+    l298nGroup.add(cap);
+    const capTop = new THREE.Mesh(new THREE.CylinderGeometry(0.040, 0.040, 0.01, 16), metalHardwareMat);
+    capTop.position.set(-0.10, 0.78, -0.73);
+    l298nGroup.add(capTop);
+
+    layer3.add(l298nGroup);
+
+    // 5. Realistic Mechatronic Wiring Harnesses (3D Tube Geometries)
+    function buildWire(points, material, radius = 0.012) {
+      const curve = new THREE.CatmullRomCurve3(points);
+      const tube = new THREE.TubeGeometry(curve, 18, radius, 8, false);
+      return new THREE.Mesh(tube, material);
+    }
+
+    // ESP32-L to STM32 UART/SPI cable (cyan/blue)
+    const wireL = buildWire([
+      new THREE.Vector3(-0.25, 0.66, 0.15),
+      new THREE.Vector3(-0.20, 0.69, 0.10),
+      new THREE.Vector3(-0.16, 0.67, 0.02)
+    ], wireCyanMat);
+    layer3.add(wireL);
+
+    // ESP32-R to STM32 UART/SPI cable (red/magenta)
+    const wireR = buildWire([
+      new THREE.Vector3(0.25, 0.66, 0.15),
+      new THREE.Vector3(0.20, 0.69, 0.10),
+      new THREE.Vector3(0.16, 0.67, 0.02)
+    ], wireRedMat);
+    layer3.add(wireR);
+
+    // STM32 PWM Logic to L298N cable (blue ribbon)
+    const wirePwm = buildWire([
+      new THREE.Vector3(0, 0.67, -0.32),
+      new THREE.Vector3(0.05, 0.70, -0.45),
+      new THREE.Vector3(0.05, 0.68, -0.56)
+    ], wireBlueMat);
+    layer3.add(wirePwm);
+
+    // Power cables from L298N down toward TT motors
+    const wirePwrL = buildWire([
+      new THREE.Vector3(-0.19, 0.66, -0.62),
+      new THREE.Vector3(-0.28, 0.52, -0.50),
+      new THREE.Vector3(-0.30, 0.28, -0.32)
+    ], wireRedMat);
+    layer3.add(wirePwrL);
+
+    const wirePwrR = buildWire([
+      new THREE.Vector3(0.19, 0.66, -0.62),
+      new THREE.Vector3(0.28, 0.52, -0.50),
+      new THREE.Vector3(0.30, 0.28, -0.32)
+    ], wireBlackMat);
+    layer3.add(wirePwrR);
+
+    // 6. Upper M3 Standoffs (Connecting Electronics to Cargo Basket)
+    const upperStandoffPositions = [
+      [-0.44, 0.88], [0.44, 0.88],
+      [-0.44, -0.88], [0.44, -0.88]
+    ];
+    upperStandoffPositions.forEach(([ux, uz]) => {
+      const st = new THREE.Mesh(new THREE.CylinderGeometry(0.024, 0.024, 0.25, 6), brassStandoffMat);
+      st.position.set(ux, 0.755, uz);
+      layer3.add(st);
+    });
+
     robotMasterGroup.add(layer3);
 
-    // LAYER 4: STM32F401 ARM Cortex-M4 Compute Core PCB
+    // =========================================================================
+    // LAYER 4: CARGO BASKET (19.5 x 10.0 cm) & KRAFT CARDBOARD PARCEL PAYLOAD
+    // 3D Printed / Molded Grey Ventilated Basket with Rectangular Slots
+    // =========================================================================
     const layer4 = new THREE.Group();
-    const stmPcb = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.04, 0.95), pcbMat);
-    stmPcb.position.set(0, 0.38, 0.1);
-    layer4.add(stmPcb);
-    // STM32 Microcontroller QFP chip
-    const stmChip = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.05, 0.38), new THREE.MeshStandardMaterial({ color: 0x050505, roughness: 0.2 }));
-    stmChip.position.set(0, 0.43, 0.1);
-    layer4.add(stmChip);
-    // Header Pins
-    const pinHeader = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.06, 0.08), goldPinsMat);
-    pinHeader.position.set(0, 0.43, -0.3);
-    layer4.add(pinHeader);
-    layers[4] = layer4;
+
+    // 1. Cargo Basket Floor
+    const bFloor = new THREE.Mesh(new THREE.BoxGeometry(1.00, 0.03, 1.95), cargoBasketMat);
+    bFloor.position.set(0, 0.895, 0);
+    layer4.add(bFloor);
+
+    // 2. Ventilated Slotted Walls with Reinforced Top Perimeter Rim
+    const bH = 0.38;
+    const bY = 0.91 + bH / 2; // Center Y of walls
+
+    // Perimeter top rim
+    const topRimL1 = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.04, 1.95), cargoBasketMat);
+    topRimL1.position.set(-0.475, 0.91 + bH, 0);
+    layer4.add(topRimL1);
+    const topRimL2 = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.04, 1.95), cargoBasketMat);
+    topRimL2.position.set(0.475, 0.91 + bH, 0);
+    layer4.add(topRimL2);
+    const topRimS1 = new THREE.Mesh(new THREE.BoxGeometry(1.00, 0.04, 0.05), cargoBasketMat);
+    topRimS1.position.set(0, 0.91 + bH, 0.95);
+    layer4.add(topRimS1);
+    const topRimS2 = new THREE.Mesh(new THREE.BoxGeometry(1.00, 0.04, 0.05), cargoBasketMat);
+    topRimS2.position.set(0, 0.91 + bH, -0.95);
+    layer4.add(topRimS2);
+
+    // Corner Posts
+    const cPosts = [[-0.475, -0.95], [0.475, -0.95], [-0.475, 0.95], [0.475, 0.95]];
+    cPosts.forEach(([cx, cz]) => {
+      const cp = new THREE.Mesh(new THREE.BoxGeometry(0.05, bH, 0.05), cargoBasketMat);
+      cp.position.set(cx, bY, cz);
+      layer4.add(cp);
+    });
+
+    // Slotted side ventilation ribs along long sides (X = ±0.475)
+    for (let r = 1; r <= 8; r++) {
+      const rz = -0.95 + (r * 1.90) / 9;
+      const ribL = new THREE.Mesh(new THREE.BoxGeometry(0.035, bH, 0.04), cargoBasketMat);
+      ribL.position.set(-0.475, bY, rz);
+      layer4.add(ribL);
+      const ribR = new THREE.Mesh(new THREE.BoxGeometry(0.035, bH, 0.04), cargoBasketMat);
+      ribR.position.set(0.475, bY, rz);
+      layer4.add(ribR);
+    }
+    // Middle horizontal partition rib for 2-tier slots
+    const midRibL1 = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.035, 1.95), cargoBasketMat);
+    midRibL1.position.set(-0.475, bY, 0);
+    layer4.add(midRibL1);
+    const midRibL2 = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.035, 1.95), cargoBasketMat);
+    midRibL2.position.set(0.475, bY, 0);
+    layer4.add(midRibL2);
+
+    // Slotted end ventilation ribs (Z = ±0.95)
+    for (let r = 1; r <= 3; r++) {
+      const rx = -0.50 + (r * 1.00) / 4;
+      const ribF = new THREE.Mesh(new THREE.BoxGeometry(0.04, bH, 0.035), cargoBasketMat);
+      ribF.position.set(rx, bY, 0.95);
+      layer4.add(ribF);
+      const ribB = new THREE.Mesh(new THREE.BoxGeometry(0.04, bH, 0.035), cargoBasketMat);
+      ribB.position.set(rx, bY, -0.95);
+      layer4.add(ribB);
+    }
+    const midRibF = new THREE.Mesh(new THREE.BoxGeometry(1.00, 0.035, 0.035), cargoBasketMat);
+    midRibF.position.set(0, bY, 0.95);
+    layer4.add(midRibF);
+    const midRibB = new THREE.Mesh(new THREE.BoxGeometry(1.00, 0.035, 0.035), cargoBasketMat);
+    midRibB.position.set(0, bY, -0.95);
+    layer4.add(midRibB);
+
+    // 3. PAYLOAD: Kraft Cardboard Parcel Box inside Cargo Basket
+    const parcelGroup = new THREE.Group();
+    const pBox = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.28, 0.88), cardboardMat);
+    pBox.position.set(0, 1.06, 0.05);
+    parcelGroup.add(pBox);
+
+    // Packing tape across top center seam
+    const pTapeTop = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.005, 0.884), packingTapeMat);
+    pTapeTop.position.set(0, 1.203, 0.05);
+    parcelGroup.add(pTapeTop);
+
+    // Packing tape folding down parcel ends
+    const pTapeEnd1 = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.18, 0.005), packingTapeMat);
+    pTapeEnd1.position.set(0, 1.11, 0.493);
+    parcelGroup.add(pTapeEnd1);
+    const pTapeEnd2 = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.18, 0.005), packingTapeMat);
+    pTapeEnd2.position.set(0, 1.11, -0.393);
+    parcelGroup.add(pTapeEnd2);
+
+    // Shipping barcode label
+    const pLabel = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.006, 0.22), stm32PcbMat);
+    pLabel.position.set(0.18, 1.204, -0.12);
+    parcelGroup.add(pLabel);
+    const pBarcode = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.008, 0.14), acrylicPlateMat);
+    pBarcode.position.set(0.18, 1.206, -0.12);
+    parcelGroup.add(pBarcode);
+
+    layer4.add(parcelGroup);
+
     robotMasterGroup.add(layer4);
 
-    // LAYER 5: ESP32-WROOM RF Telemetry Shield
-    const layer5 = new THREE.Group();
-    const espShield = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.06, 0.45), heatsinkMat);
-    espShield.position.set(0.35, 0.55, 0.15);
-    layer5.add(espShield);
-    const goldAntenna = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.02, 0.38), goldPinsMat);
-    goldAntenna.position.set(0.68, 0.55, 0.15);
-    layer5.add(goldAntenna);
-    layers[5] = layer5;
-    robotMasterGroup.add(layer5);
-
-    // LAYER 6: GoBu 2D LiDAR Perception Mast & Scanner
-    const layer6 = new THREE.Group();
-    const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.5, 16), chassisMat);
-    mast.position.set(0, 0.7, -0.2);
-    layer6.add(mast);
-    const lidarHead = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.18, 24), laserHeadMat);
-    lidarHead.position.set(0, 0.98, -0.2);
-    layer6.add(lidarHead);
-    // Optical laser emitter slot
-    const lidarEmitter = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.08, 0.35), new THREE.MeshStandardMaterial({ color: 0x070809 }));
-    lidarEmitter.position.set(0, 0.98, -0.2);
-    layer6.add(lidarEmitter);
-    layers[6] = layer6;
-    robotMasterGroup.add(layer6);
-
     // Studio Lighting for GoBu Workbench
-    const rKeyLight = new THREE.DirectionalLight(0xffffff, 2.4);
-    rKeyLight.position.set(4, 6, 4);
+    const rKeyLight = new THREE.DirectionalLight(0xffffff, 2.6);
+    rKeyLight.position.set(5, 7, 5);
     robotScene.add(rKeyLight);
 
-    const rRimLight = new THREE.DirectionalLight(0xB7FF3C, 2.2);
-    rRimLight.position.set(-4, -2, -3);
+    const rRimLight = new THREE.DirectionalLight(0xB7FF3C, 2.4);
+    rRimLight.position.set(-5, -2, -4);
     robotScene.add(rRimLight);
 
-    const rAmbient = new THREE.AmbientLight(0x282c30, 1.3);
+    const rFillLight = new THREE.DirectionalLight(0xFFD700, 1.2);
+    rFillLight.position.set(3, 4, -4);
+    robotScene.add(rFillLight);
+
+    const rAmbient = new THREE.AmbientLight(0x282c32, 1.5);
     robotScene.add(rAmbient);
 
     // Exploded View State & Logic for GoBu
@@ -1967,14 +2356,67 @@
     const cadStatusBadge = document.getElementById('cad-status-badge');
     const activeCadPart = document.getElementById('active-cad-part');
 
-    cadExplodeBtn.addEventListener('click', () => {
-      isCadExploded = !isCadExploded;
-      cadStatusBadge.innerText = isCadExploded ? "GoBu: +320mm EXPLODED" : "GoBu: 0mm ASSEMBLED";
-      cadStatusBadge.classList.toggle('text-accent', isCadExploded);
-      activeCadPart.innerText = isCadExploded ? "GoBu // 6 SUBASSEMBLIES ISOLATED ON Y-AXIS" : "GoBu // ALL 6 MECHATRONIC LAYERS INTEGRATED";
+    if (cadExplodeBtn) {
+      cadExplodeBtn.addEventListener('click', () => {
+        isCadExploded = !isCadExploded;
+        if (cadStatusBadge) {
+          cadStatusBadge.innerText = isCadExploded ? "GoBu: +350mm EXPLODED (4 Layers)" : "GoBu: 0mm ASSEMBLED (11.5cm Height)";
+          cadStatusBadge.classList.toggle('text-accent', isCadExploded);
+        }
+        if (activeCadPart) {
+          activeCadPart.innerText = isCadExploded 
+            ? "GoBu // 4 PHYSICAL MECHATRONIC SUBASSEMBLIES ISOLATED" 
+            : "GoBu // ALL 4 PHYSICAL LAYERS ASSEMBLED (11.5cm)";
+        }
+      });
+    }
+
+    // Camera Preset Controls (ISO, TOP, SIDE, FRONT)
+    const camPresetButtons = document.querySelectorAll('.cam-preset-btn');
+    camPresetButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const view = btn.getAttribute('data-view');
+        if (camPresets[view]) {
+          activeCamTarget = { ...camPresets[view] };
+          if (view !== 'iso') {
+            robotMasterGroup.rotation.y = 0;
+            robotMasterGroup.rotation.x = 0;
+          }
+          camPresetButtons.forEach(b => {
+            b.classList.remove('bg-white/10', 'text-accent');
+            b.classList.add('text-muted');
+          });
+          btn.classList.add('bg-white/10', 'text-accent');
+          btn.classList.remove('text-muted');
+        }
+      });
     });
 
-    // Orbit Drag (Desktop Mouse & Phone Touch)
+    // 2D Blueprint Modal Open & Close Event Handlers
+    const viewBlueprintBtn = document.getElementById('view-blueprint-btn');
+    const gobuModal = document.getElementById('gobu-modal');
+    const closeGobuModal = document.getElementById('close-gobu-modal');
+
+    if (viewBlueprintBtn && gobuModal) {
+      viewBlueprintBtn.addEventListener('click', () => {
+        gobuModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+    if (closeGobuModal && gobuModal) {
+      closeGobuModal.addEventListener('click', () => {
+        gobuModal.classList.add('hidden');
+        document.body.style.overflow = '';
+      });
+      gobuModal.addEventListener('click', (e) => {
+        if (e.target === gobuModal) {
+          gobuModal.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+
+    // Orbit Drag (Desktop Mouse & Mobile Touch)
     let isRobotDragging = false;
     let rPrevX = 0;
     let rPrevY = 0;
@@ -2019,28 +2461,39 @@
       }
     }, { passive: true });
 
+    // Main 3D Animation Loop
     function animateGoBuRobot() {
       requestAnimationFrame(animateGoBuRobot);
 
-      const t1 = 0;
-      const t2 = isCadExploded ? -0.38 : 0;
-      const t3 = isCadExploded ? 0.38 : 0;
-      const t4 = isCadExploded ? 0.82 : 0;
-      const t5 = isCadExploded ? 1.25 : 0;
-      const t6 = isCadExploded ? 1.75 : 0;
+      // Smooth camera interpolation towards selected preset
+      robotCamera.position.x += (activeCamTarget.pos.x - robotCamera.position.x) * 0.08;
+      robotCamera.position.y += (activeCamTarget.pos.y - robotCamera.position.y) * 0.08;
+      robotCamera.position.z += (activeCamTarget.pos.z - robotCamera.position.z) * 0.08;
+      robotCamera.lookAt(activeCamTarget.look);
 
-      layer1.position.y += (t1 - layer1.position.y) * 0.1;
-      layer2.position.y += (t2 - layer2.position.y) * 0.1;
-      layer3.position.y += (t3 - layer3.position.y) * 0.1;
-      layer4.position.y += (t4 - layer4.position.y) * 0.1;
-      layer5.position.y += (t5 - layer5.position.y) * 0.1;
-      layer6.position.y += (t6 - layer6.position.y) * 0.1;
+      // Smooth vertical layer separation for Exploded CAD View
+      const t1 = isCadExploded ? -0.32 : 0;
+      const t2 = isCadExploded ? 0.08 : 0;
+      const t3 = isCadExploded ? 0.65 : 0;
+      const t4 = isCadExploded ? 1.45 : 0;
 
-      // GoBu LiDAR scanner continuous 360° spin
-      lidarHead.rotation.y += 0.065;
+      layer1.position.y += (t1 - layer1.position.y) * 0.08;
+      layer2.position.y += (t2 - layer2.position.y) * 0.08;
+      layer3.position.y += (t3 - layer3.position.y) * 0.08;
+      layer4.position.y += (t4 - layer4.position.y) * 0.08;
 
-      if (!isRobotDragging) {
-        robotMasterGroup.rotation.y += 0.003;
+      // Subtle drive wheel rotation & LED telemetry pulses
+      if (wheelLMesh) wheelLMesh.rotation.x += 0.018;
+      if (wheelRMesh) wheelRMesh.rotation.x += 0.018;
+
+      const pulse = 0.6 + Math.sin(Date.now() * 0.006) * 0.4;
+      ledPulseMat.emissiveIntensity = pulse;
+      rssiLedLMat.emissiveIntensity = 0.5 + Math.cos(Date.now() * 0.007) * 0.4;
+      rssiLedRMat.emissiveIntensity = 0.5 + Math.sin(Date.now() * 0.007) * 0.4;
+
+      // Gentle auto-rotation when user is not actively dragging
+      if (!isRobotDragging && activeCamTarget === camPresets.iso) {
+        robotMasterGroup.rotation.y += 0.0035;
       }
 
       robotRenderer.render(robotScene, robotCamera);
@@ -2050,7 +2503,6 @@
     window.addEventListener('resize', () => {
       if (robotContainer.clientWidth > 0) {
         robotCamera.aspect = robotContainer.clientWidth / robotContainer.clientHeight;
-        robotCamera.position.z = getRobotCameraZ();
         robotCamera.updateProjectionMatrix();
         robotRenderer.setSize(robotContainer.clientWidth, robotContainer.clientHeight);
       }
@@ -2102,5 +2554,28 @@
       }, 900);
     }
   </script>
+
+  <!-- GOBu 2D BLUEPRINT MODAL -->
+  <div id="gobu-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex-col justify-center items-center p-3 sm:p-6 md:p-8">
+    <div class="relative max-w-5xl w-full bg-surface border border-white/15 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
+      <div class="flex justify-between items-center px-4 sm:px-6 py-3.5 border-b border-white/10 bg-base">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+          <span class="font-mono text-xs sm:text-sm font-bold text-primary">GoBu // OFFICIAL CAD &amp; DIMENSIONAL BLUEPRINT</span>
+        </div>
+        <button id="close-gobu-modal" class="text-muted hover:text-white font-mono text-xs px-3 py-1 rounded border border-white/10 hover:border-accent hover:text-accent transition-colors">
+          ✕ CLOSE
+        </button>
+      </div>
+      <div class="overflow-auto p-2 sm:p-4 flex items-center justify-center bg-[#070809]">
+        <img src="gobu-schematic.jpg" alt="GoBu Dimensional Drawings &amp; Electronics Layout" class="max-w-full max-h-[75vh] object-contain rounded-lg border border-white/10 shadow-lg" />
+      </div>
+      <div class="px-4 sm:px-6 py-2.5 border-t border-white/10 bg-base flex flex-wrap justify-between items-center text-[10px] font-mono text-muted gap-2">
+        <span>DIMENSIONS: 19.5 cm × 10.0 cm × 11.5 cm</span>
+        <span class="text-accent">ELECTRONICS: STM32 NUCLEO • DUAL ESP32 RSSI • L298N</span>
+        <span>PLATE THICKNESS: 3 mm</span>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
