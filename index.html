@@ -409,17 +409,17 @@
     </div>
 
     <!-- Hero Content Layout: Crisp Planar Architectural Presentation -->
-    <div class="z-20 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-end my-auto">
+    <div class="z-20 w-full flex flex-col items-center lg:items-end justify-center my-auto">
       
-      <!-- Top on Mobile / Right on Desktop: Massive Kinetic Headline -->
-      <div class="order-1 lg:order-2 lg:col-span-8 lg:text-right">
+      <!-- Massive Kinetic Headline -->
+      <div class="w-full text-center lg:text-right">
         <h1 class="font-display font-bold text-[40px] leading-[0.92] xs:text-5xl sm:text-7xl md:text-8xl lg:text-[108px] xl:text-[124px] tracking-tighter text-primary">
           <span class="block">BUILDING</span>
           <span class="block text-secondary/60 hover:text-primary transition-colors">WHAT COMES NEXT.</span>
         </h1>
 
         <!-- Planar System Pipeline Ribbon -->
-        <div class="mt-6 flex flex-wrap lg:justify-end items-center gap-2 font-mono text-[10px] text-muted">
+        <div class="mt-6 flex flex-wrap justify-center lg:justify-end items-center gap-2 font-mono text-[10px] text-muted">
           <span class="px-2 py-1 bg-surface border border-white/10 rounded text-accent">01 IDEA</span>
           <span class="text-white/20">──→</span>
           <span class="px-2 py-1 bg-surface border border-white/10 rounded text-primary">02 SYSTEM</span>
@@ -427,38 +427,6 @@
           <span class="px-2 py-1 bg-surface border border-white/10 rounded text-primary">03 BUILD</span>
           <span class="text-white/20">──→</span>
           <span class="px-2 py-1 bg-surface border border-accent/40 rounded text-accent font-bold">04 IMPACT</span>
-        </div>
-      </div>
-
-      <!-- Spec Column: Below headline on mobile -->
-      <div class="order-2 lg:order-1 lg:col-span-4 flex flex-col justify-end space-y-3 sm:space-y-4">
-        <div class="inline-flex items-center gap-2 px-3 py-1 bg-elevated/80 backdrop-blur-md border border-accent/30 rounded-full font-mono text-[10px] text-accent w-max">
-          <span class="w-1.5 h-1.5 bg-accent rounded-full animate-ping"></span>
-          FOUNDER // SYSTEM ARCHITECT
-        </div>
-        
-        <div class="font-display font-bold text-xs sm:text-sm tracking-wider text-primary uppercase leading-relaxed">
-          COMPUTER SCIENCE &amp; MECHATRONICS
-        </div>
-
-        <div class="font-mono text-xs text-secondary leading-relaxed max-w-sm border-l-2 border-accent/40 pl-3 py-0.5 italic">
-          "We build physical systems that survive contact with the real world."
-        </div>
-
-        <p class="font-mono text-[11px] text-muted leading-relaxed max-w-sm">
-          Architecting autonomous agricultural robotics, sandboxed execution runtimes, and engineering ecosystems.
-        </p>
-
-        <!-- Micro Telemetry Chips -->
-        <div class="grid grid-cols-2 gap-2 font-mono text-[10px] pt-1 sm:pt-2">
-          <div class="p-2 bg-surface/75 border border-white/5 rounded backdrop-blur">
-            <span class="text-muted block text-[9px]">SPECIALTY</span>
-            <span class="text-primary font-bold">IoT • AI • EMBEDDED</span>
-          </div>
-          <div class="p-2 bg-surface/75 border border-white/5 rounded backdrop-blur">
-            <span class="text-muted block text-[9px]">CADENCE</span>
-            <span class="text-accent font-bold">SYSTEMS-FIRST</span>
-          </div>
         </div>
       </div>
 
@@ -924,65 +892,12 @@
     </div>
   </section>
 
-  <!-- 19 — INTERACTIVE TECHNICAL CONSTELLATION -->
-  <section class="relative z-20 px-4 sm:px-8 md:px-14 py-16 sm:py-24 border-t border-border bg-base">
-    <div class="max-w-7xl mx-auto">
-      
-      <div class="flex justify-between items-end mb-8">
-        <div>
-          <div class="font-mono text-xs text-accent tracking-widest uppercase mb-1">05 // TECHNICAL MATRIX</div>
-          <h2 class="font-display font-bold text-2xl sm:text-4xl text-primary">CORE CONSTELLATION</h2>
-        </div>
-        <div class="font-mono text-[10px] sm:text-xs text-muted">SYSTEM STACK</div>
-      </div>
-
-      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-3 font-mono text-center">
-        <div class="p-3 sm:p-4 bg-surface border border-white/10 rounded-xl hover:border-accent hover:bg-elevated transition-colors">
-          <i data-lucide="cpu" class="w-4 sm:w-5 h-4 sm:h-5 mx-auto mb-1.5 sm:mb-2 text-accent"></i>
-          <div class="font-bold text-xs text-primary">STM32</div>
-          <div class="text-[9px] text-muted">C / FreeRTOS</div>
-        </div>
-        <div class="p-3 sm:p-4 bg-surface border border-white/10 rounded-xl hover:border-accent hover:bg-elevated transition-colors">
-          <i data-lucide="wifi" class="w-4 sm:w-5 h-4 sm:h-5 mx-auto mb-1.5 sm:mb-2 text-accent"></i>
-          <div class="font-bold text-xs text-primary">ESP32</div>
-          <div class="text-[9px] text-muted">ESP-IDF / BLE</div>
-        </div>
-        <div class="p-3 sm:p-4 bg-surface border border-white/10 rounded-xl hover:border-accent hover:bg-elevated transition-colors">
-          <i data-lucide="radio" class="w-4 sm:w-5 h-4 sm:h-5 mx-auto mb-1.5 sm:mb-2 text-accent"></i>
-          <div class="font-bold text-xs text-primary">LoRa / IoT</div>
-          <div class="text-[9px] text-muted">868MHz Mesh</div>
-        </div>
-        <div class="p-3 sm:p-4 bg-surface border border-white/10 rounded-xl hover:border-accent hover:bg-elevated transition-colors">
-          <i data-lucide="brain" class="w-4 sm:w-5 h-4 sm:h-5 mx-auto mb-1.5 sm:mb-2 text-accent"></i>
-          <div class="font-bold text-xs text-primary">EDGE AI</div>
-          <div class="text-[9px] text-muted">Quantized NPU</div>
-        </div>
-        <div class="p-3 sm:p-4 bg-surface border border-white/10 rounded-xl hover:border-accent hover:bg-elevated transition-colors">
-          <i data-lucide="eye" class="w-4 sm:w-5 h-4 sm:h-5 mx-auto mb-1.5 sm:mb-2 text-accent"></i>
-          <div class="font-bold text-xs text-primary">VISION</div>
-          <div class="text-[9px] text-muted">OpenCV / SLAM</div>
-        </div>
-        <div class="p-3 sm:p-4 bg-surface border border-white/10 rounded-xl hover:border-accent hover:bg-elevated transition-colors">
-          <i data-lucide="cloud" class="w-4 sm:w-5 h-4 sm:h-5 mx-auto mb-1.5 sm:mb-2 text-accent"></i>
-          <div class="font-bold text-xs text-primary">CLOUD</div>
-          <div class="text-[9px] text-muted">MQTT / Timescale</div>
-        </div>
-        <div class="p-3 sm:p-4 bg-surface border border-white/10 rounded-xl hover:border-accent hover:bg-elevated transition-colors col-span-2 sm:col-span-1">
-          <i data-lucide="terminal" class="w-4 sm:w-5 h-4 sm:h-5 mx-auto mb-1.5 sm:mb-2 text-accent"></i>
-          <div class="font-bold text-xs text-primary">SYSTEMS</div>
-          <div class="text-[9px] text-muted">Python / Rust</div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- 21 & 23 — HUMAN SYSTEMS: LEADERSHIP & MOVEMENTS (NO RUBY) -->
+  <!-- 21 & 23 — HUMAN SYSTEMS: LEADERSHIP & MOVEMENTS -->
   <section id="people" class="relative z-20 px-4 sm:px-8 md:px-14 py-20 sm:py-28 border-t border-border bg-surface">
     <div class="max-w-7xl mx-auto">
       
       <div class="flex items-center gap-3 font-mono text-xs text-accent tracking-widest uppercase mb-4">
-        <span>06 // HUMAN INFRASTRUCTURE</span>
+        <span>05 // HUMAN INFRASTRUCTURE</span>
         <div class="h-[1px] w-12 bg-accent/30"></div>
       </div>
 
@@ -1068,44 +983,19 @@
     </div>
   </section>
 
-  <!-- 25 & 26 — PROOF OF WORK & VERIFIED METRICS (NO RUBY) -->
+  <!-- 25 — PROOF OF WORK & VERIFIED MILESTONES -->
   <section id="proof" class="relative z-20 px-4 sm:px-8 md:px-14 py-20 sm:py-28 border-t border-border bg-base">
     <div class="max-w-7xl mx-auto">
       
-      <!-- 26 — Viewport Count-up Metrics (Ruby replaced with Hardware Units) -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 mb-14 sm:mb-20 pb-8 sm:pb-12 border-b border-white/10 font-mono">
-        <div class="p-3.5 sm:p-4 bg-surface rounded-xl border border-white/5">
-          <div class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-accent count-up" data-target="75">00</div>
-          <div class="text-[11px] sm:text-xs text-primary font-semibold mt-1">STUDENTS PILOTED</div>
-          <div class="text-[9px] text-muted">SkillFi & Agriva</div>
-        </div>
-        <div class="p-3.5 sm:p-4 bg-surface rounded-xl border border-white/5">
-          <div class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-primary count-up" data-target="45">00</div>
-          <div class="text-[11px] sm:text-xs text-primary font-semibold mt-1">HARDWARE UNITS</div>
-          <div class="text-[9px] text-muted">GoBu & sensor nodes</div>
-        </div>
-        <div class="p-3.5 sm:p-4 bg-surface rounded-xl border border-white/5">
-          <div class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-primary count-up" data-target="70">00</div>
-          <div class="text-[11px] sm:text-xs text-primary font-semibold mt-1">GATEPREPX</div>
-          <div class="text-[9px] text-muted">Active engineers</div>
-        </div>
-        <div class="p-3.5 sm:p-4 bg-surface rounded-xl border border-white/5">
-          <div class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-accent count-up" data-target="6">00</div>
-          <div class="text-[11px] sm:text-xs text-primary font-semibold mt-1">CAMPUSES</div>
-          <div class="text-[9px] text-muted">2026 expansion scope</div>
-        </div>
-        <div class="p-3.5 sm:p-4 bg-surface rounded-xl border border-white/5 col-span-2 sm:col-span-1">
-          <div class="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-primary count-up" data-target="14">00</div>
-          <div class="text-[11px] sm:text-xs text-primary font-semibold mt-1">SYSTEMS SHIPPED</div>
-          <div class="text-[9px] text-muted">Hardware & software units</div>
-        </div>
-      </div>
-
       <!-- 25 — Proof of Work Ledger -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-start">
         
         <div class="lg:col-span-4">
-          <div class="font-mono text-xs text-accent tracking-widest uppercase mb-1">VERIFIED MILESTONES</div>
+          <div class="flex items-center gap-3 font-mono text-xs text-accent tracking-widest uppercase mb-4">
+            <span>06 // PROOF OF WORK</span>
+            <div class="h-[1px] w-12 bg-accent/30"></div>
+          </div>
+          <div class="font-mono text-xs text-muted uppercase tracking-widest mb-1">VERIFIED MILESTONES</div>
           <h2 class="font-display font-bold text-2xl sm:text-4xl text-primary mb-2 sm:mb-4">PROOF OF WORK</h2>
           <p class="font-mono text-xs text-secondary leading-relaxed font-light">
             No manufactured awards or participation certificates. Documented national engineering engagements and first-place titles.
@@ -2505,38 +2395,6 @@
         robotCamera.aspect = robotContainer.clientWidth / robotContainer.clientHeight;
         robotCamera.updateProjectionMatrix();
         robotRenderer.setSize(robotContainer.clientWidth, robotContainer.clientHeight);
-      }
-    });
-
-    // 26 — VIEWPORT TRIGGERED COUNT-UP
-    let metricsAnimated = false;
-    const countUpElements = document.querySelectorAll('.count-up');
-
-    function animateCountUp() {
-      countUpElements.forEach(el => {
-        const target = parseInt(el.getAttribute('data-target'));
-        let current = 0;
-        const step = Math.max(1, Math.floor(target / 25));
-        const timer = setInterval(() => {
-          current += step;
-          if (current >= target) {
-            el.innerText = target + "+";
-            clearInterval(timer);
-          } else {
-            el.innerText = current < 10 ? '0' + current : current;
-          }
-        }, 30);
-      });
-    }
-
-    window.addEventListener('scroll', () => {
-      const proofSec = document.getElementById('proof');
-      if (proofSec && !metricsAnimated) {
-        const rect = proofSec.getBoundingClientRect();
-        if (rect.top <= window.innerHeight * 0.88) {
-          metricsAnimated = true;
-          animateCountUp();
-        }
       }
     });
 
