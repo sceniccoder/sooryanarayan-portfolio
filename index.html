@@ -355,8 +355,8 @@
           </div>
         </div>
 
-        <div class="mt-6 font-mono text-xs text-secondary">
-          "We do not build speculative prototypes. We engineer deterministic systems for production deployment."
+        <div class="mt-6 font-mono text-xs text-secondary leading-relaxed border-l-2 border-accent/40 pl-3 py-0.5">
+          "We do not engineer for clean rooms. We build physical systems that survive contact with the real world."
         </div>
       </div>
     </div>
@@ -441,7 +441,11 @@
           COMPUTER SCIENCE &amp; MECHATRONICS
         </div>
 
-        <p class="font-mono text-xs text-muted leading-relaxed max-w-sm">
+        <div class="font-mono text-xs text-secondary leading-relaxed max-w-sm border-l-2 border-accent/40 pl-3 py-0.5 italic">
+          "We build physical systems that survive contact with the real world."
+        </div>
+
+        <p class="font-mono text-[11px] text-muted leading-relaxed max-w-sm">
           Architecting autonomous agricultural robotics, sandboxed execution runtimes, and engineering ecosystems.
         </p>
 
@@ -1260,13 +1264,14 @@
       const sigImg = new Image();
       sigImg.src = 'signature.png';
 
-      // 7 Natural Cursive Handwriting Phases (Letter after letter)
+      // 7 Natural Cursive Handwriting Phases (Letter after letter — 2.06s Total)
+      // S (0.55s) -> o (0.18s) -> o (0.18s) -> r (0.20s) -> y (0.30s) -> a (0.20s) -> underline (0.45s)
       const sigPhases = [
         {
           name: "S",
           displayText: "S",
           start: 0.0,
-          end: 0.28,
+          end: 550 / 2060, // 0.55s (~26.70%)
           points: [
             [205, 330], [240, 260], [285, 180], [340, 110], [410, 60], 
             [465, 65], [490, 95], [485, 140], [440, 185], [370, 235],
@@ -1277,8 +1282,8 @@
         {
           name: "o",
           displayText: "So",
-          start: 0.28,
-          end: 0.40,
+          start: 550 / 2060,
+          end: 730 / 2060, // 0.18s (~35.44%)
           points: [
             [320, 465], [330, 440], [350, 430], [368, 445], [370, 475],
             [355, 495], [335, 490], [325, 465], [345, 440], [370, 445]
@@ -1287,8 +1292,8 @@
         {
           name: "o",
           displayText: "Soo",
-          start: 0.40,
-          end: 0.52,
+          start: 730 / 2060,
+          end: 910 / 2060, // 0.18s (~44.17%)
           points: [
             [370, 445], [390, 430], [412, 438], [425, 465], [420, 492],
             [395, 495], [382, 470], [405, 445], [425, 448]
@@ -1297,8 +1302,8 @@
         {
           name: "r",
           displayText: "Soor",
-          start: 0.52,
-          end: 0.62,
+          start: 910 / 2060,
+          end: 1110 / 2060, // 0.20s (~53.88%)
           points: [
             [425, 448], [440, 428], [458, 422], [468, 440], [465, 462], [482, 452]
           ]
@@ -1306,8 +1311,8 @@
         {
           name: "y",
           displayText: "Soory",
-          start: 0.62,
-          end: 0.75,
+          start: 1110 / 2060,
+          end: 1410 / 2060, // 0.30s (~68.45%)
           points: [
             [482, 452], [498, 468], [515, 442],
             [515, 490], [516, 545], [518, 605], [525, 645],
@@ -1317,8 +1322,8 @@
         {
           name: "a",
           displayText: "Soorya",
-          start: 0.75,
-          end: 0.86,
+          start: 1410 / 2060,
+          end: 1610 / 2060, // 0.20s (~78.16%)
           points: [
             [568, 445], [585, 430], [612, 435], [626, 460], [612, 485],
             [585, 480], [575, 455], [615, 450], [642, 438], [670, 428]
@@ -1327,8 +1332,8 @@
         {
           name: "flourish",
           displayText: "Soorya ──",
-          start: 0.86,
-          end: 1.0,
+          start: 1610 / 2060,
+          end: 1.0, // 0.45s (~100.0%)
           points: [
             [160, 625], [260, 560], [390, 485], [530, 415],
             [680, 340], [830, 265], [940, 205], [995, 175]
@@ -1366,7 +1371,7 @@
       }
 
       let animStartTime = null;
-      const animDuration = 2700; // 2.7s total cinematic duration
+      const animDuration = 2060; // Exact 2.06s total duration per user specification
       let isCompleted = false;
 
       function renderFrame(timestamp) {
@@ -1490,14 +1495,22 @@
         if (bootProgress) bootProgress.style.width = pct + "%";
 
         if (bootStatus) {
-          if (progress < 0.28) bootStatus.innerText = "AUTHENTICATING LETTER: S";
-          else if (progress < 0.52) bootStatus.innerText = "AUTHENTICATING LETTER: O";
-          else if (progress < 0.62) bootStatus.innerText = "AUTHENTICATING LETTER: R";
-          else if (progress < 0.75) bootStatus.innerText = "AUTHENTICATING LETTER: Y";
-          else if (progress < 0.86) bootStatus.innerText = "AUTHENTICATING LETTER: A";
-          else if (progress < 1.0) bootStatus.innerText = "SYNCHRONIZING UNDERLINE FLOURISH";
-          else {
-            bootStatus.innerText = "SIGNATURE VERIFIED // SYSTEM READY";
+          if (progress < 550 / 2060) {
+            bootStatus.innerText = "STROKE 01: S — UPPER & SWEEPING LOOP (0.55s)";
+          } else if (progress < 730 / 2060) {
+            bootStatus.innerText = "STROKE 02: O — FIRST CURSIVE (0.18s)";
+          } else if (progress < 910 / 2060) {
+            bootStatus.innerText = "STROKE 03: O — SECOND CURSIVE (0.18s)";
+          } else if (progress < 1110 / 2060) {
+            bootStatus.innerText = "STROKE 04: R — CONNECTING STEM (0.20s)";
+          } else if (progress < 1410 / 2060) {
+            bootStatus.innerText = "STROKE 05: Y — DOWNWARD SWEEP LOOP (0.30s)";
+          } else if (progress < 1610 / 2060) {
+            bootStatus.innerText = "STROKE 06: A — FINAL LETTER (0.20s)";
+          } else if (progress < 1.0) {
+            bootStatus.innerText = "STROKE 07: FLOURISH — UNDERLINE SWEEP (0.45s)";
+          } else {
+            bootStatus.innerText = "SIGNATURE VERIFIED // SYSTEM READY [2.06s]";
             bootStatus.classList.add("text-accent");
           }
         }
